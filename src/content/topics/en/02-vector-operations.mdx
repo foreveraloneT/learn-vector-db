@@ -1,0 +1,47 @@
+---
+title: Vector operations
+slug: vector-operations
+group: math
+order: 2
+locale: en
+summary: Adding, subtracting, scaling, and the dot product — the four moves vector databases use behind every search.
+hasInteractive: true
+interactiveComponent: VectorOpsPlayground
+hasMath: false
+---
+
+import VectorOpsPlayground from '../../../components/islands/VectorOpsPlayground.svelte';
+import TryYourself from '../../../components/mdx/TryYourself.astro';
+import Takeaways from '../../../components/mdx/Takeaways.astro';
+import Takeaway from '../../../components/mdx/Takeaway.astro';
+
+## Intuition
+
+Once we have vectors, we want to combine them. Four operations come up over and over again in vector databases:
+
+- **Add** (`a + b`): walk along `a`, then along `b`. The result lands at a new point.
+- **Subtract** (`a − b`): the arrow that points from `b` to `a`. This is how we get a "direction of difference."
+- **Scale** (`k · a`): make the arrow longer or shorter by a factor `k`. Negative `k` flips it around.
+- **Dot product** (`a · b`): a single number that captures how much `a` and `b` "agree" in direction.
+
+The dot product is the secret ingredient. When two vectors point the same way, the dot product is large and positive. When they're at right angles, it's zero. When they point opposite ways, it's negative. That's the whole basis of cosine similarity, which is the search algorithm under most semantic search engines.
+
+## Try it
+
+<VectorOpsPlayground client:visible />
+
+Switch between operations. Notice how `a + b` lands at the same point regardless of which order you walk; how `a − b` is the same length whether you stand at `a` and look at `b`, or vice versa; and how the dot product becomes 0 the moment the two vectors are perpendicular.
+
+## In the real world
+
+Search engines compute dot products at a massive scale. To find "the 10 documents most similar to your query," the engine takes the query's vector and computes its dot product against every document vector, then sorts. Modern vector databases do this with optimized algorithms, but the operation underneath is still: dot product, sort, return top-k.
+
+<TryYourself>
+Set `a = (2, 0)` and `b = (0, 2)`. Switch to Dot product. What does it read? Now rotate `b` toward `a` and watch the number climb.
+</TryYourself>
+
+<Takeaways>
+  <Takeaway>Add and subtract walk you between vectors; scale makes them longer or shorter.</Takeaway>
+  <Takeaway>The dot product is a single number that says "how aligned are these two vectors."</Takeaway>
+  <Takeaway>Almost every vector-database search uses the dot product (or its cousin, cosine similarity).</Takeaway>
+</Takeaways>

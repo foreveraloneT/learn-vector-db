@@ -1,0 +1,47 @@
+---
+title: การคำนวณเวกเตอร์
+slug: vector-operations
+group: math
+order: 2
+locale: th
+summary: บวก ลบ คูณด้วยจำนวน และ dot product — สี่การคำนวณที่ฐานข้อมูลเวกเตอร์ใช้ตลอดเวลา
+hasInteractive: true
+interactiveComponent: VectorOpsPlayground
+hasMath: false
+---
+
+import VectorOpsPlayground from '../../../components/islands/VectorOpsPlayground.svelte';
+import TryYourself from '../../../components/mdx/TryYourself.astro';
+import Takeaways from '../../../components/mdx/Takeaways.astro';
+import Takeaway from '../../../components/mdx/Takeaway.astro';
+
+## ทำความเข้าใจ
+
+เมื่อมีเวกเตอร์แล้ว สิ่งที่อยากทำต่อคือเอามารวมกัน การคำนวณ 4 อย่างจะปรากฏบ่อยมากในงานฐานข้อมูลเวกเตอร์:
+
+- **บวก** (`a + b`): เดินตามทาง `a` แล้วต่อด้วย `b` ผลคือจุดใหม่
+- **ลบ** (`a − b`): ลูกศรที่ชี้จาก `b` ไป `a` ใช้สำหรับวัด "ความต่างของทิศทาง"
+- **คูณด้วยจำนวน** (`k · a`): ขยายหรือย่อเวกเตอร์ ถ้า `k` ติดลบ ลูกศรจะหันกลับด้าน
+- **Dot product** (`a · b`): ตัวเลขเดียวที่บอกว่า `a` และ `b` "ไปทางเดียวกันแค่ไหน"
+
+Dot product คือหัวใจของเรื่องนี้ ถ้าเวกเตอร์สองตัวชี้ไปทางเดียวกัน dot product จะเป็นบวกและมีค่ามาก ถ้าตั้งฉากกัน จะเป็น 0 ถ้าหันสวนทางกัน จะเป็นลบ ทั้งหมดนี้คือพื้นฐานของ cosine similarity ซึ่งเป็นอัลกอริทึมหลักของระบบค้นหาเชิงความหมาย
+
+## ลองเล่นดู
+
+<VectorOpsPlayground client:visible />
+
+ลองสลับระหว่าง operation ดู สังเกตว่า `a + b` ลงเอยที่จุดเดียวกันไม่ว่าเดินเรียงลำดับไหน, `a − b` ยาวเท่ากันไม่ว่าจะวัดจากฝั่งไหน, และ dot product จะเป็น 0 พอดีตอนที่เวกเตอร์ทั้งสองตั้งฉากกัน
+
+## ในโลกจริง
+
+ระบบค้นหาคำนวณ dot product จำนวนมหาศาลทุกวินาที เวลาค้นหา "เอกสาร 10 อันที่ใกล้เคียงกับคำค้นมากที่สุด" ระบบจะเอาเวกเตอร์ของคำค้นไป dot กับเวกเตอร์ของเอกสารทุกอันแล้วเรียงลำดับ แม้จะมีเทคนิคเร่งความเร็ว แต่หัวใจยังคือ dot product, sort, return top-k
+
+<TryYourself>
+ตั้ง `a = (2, 0)` และ `b = (0, 2)` แล้วเลือก Dot product ดูว่าได้เลขเท่าไร? ลองหมุน `b` ให้เข้าหา `a` แล้วสังเกตว่าเลขเปลี่ยนอย่างไร
+</TryYourself>
+
+<Takeaways>
+  <Takeaway>บวกและลบใช้เดินระหว่างเวกเตอร์ การคูณด้วยจำนวนใช้ขยายหรือย่อ</Takeaway>
+  <Takeaway>Dot product คือตัวเลขเดียวที่บอกว่าเวกเตอร์สองตัว "ไปทางเดียวกันแค่ไหน"</Takeaway>
+  <Takeaway>การค้นหาในฐานข้อมูลเวกเตอร์เกือบทุกวิธี ใช้ dot product (หรือ cosine similarity) อยู่เบื้องหลัง</Takeaway>
+</Takeaways>
