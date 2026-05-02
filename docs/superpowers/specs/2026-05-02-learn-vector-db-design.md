@@ -104,6 +104,7 @@ const topics = defineCollection({
     summary: z.string(),
     hasInteractive: z.boolean().default(false),
     interactiveComponent: z.string().optional(),
+    hasMath: z.boolean().default(false),
     updated: z.date().optional(),
   }),
 });
@@ -124,7 +125,7 @@ export const collections = { topics };
 
 ### Prev / Next
 
-- `PrevNext.astro` receives the current `order` + `locale`, queries the collection, resolves neighbors, wraps at boundaries (no Prev on order 1, no Next on order 11).
+- `PrevNext.astro` receives the current `order` + `locale`, queries the collection, and resolves neighbors. No wrap-around: order 1 renders no "Prev" link; order 11 renders no "Next" link.
 
 ### URL structure
 
@@ -134,7 +135,7 @@ export const collections = { topics };
 
 ### Translation parity check (build-time invariant)
 
-A small Node script (run as part of `astro build` via an integration hook, or as a `prebuild` step) asserts:
+A small Node script wired into the build via an Astro integration hook (`astro:build:start`) asserts:
 
 - Every `slug` exists in both `th` and `en` topic folders
 - `order` values are unique within each locale
@@ -175,7 +176,7 @@ Visual structure top → bottom:
 ### Typography
 
 - `@tailwindcss/typography` (`prose` class) tuned for our brand color and dark mode
-- KaTeX styles loaded only on pages that contain math (detected in the layout from MDX content)
+- KaTeX styles loaded only on pages that contain math, gated by a `hasMath: boolean` flag on the topic frontmatter (added to the schema in §5)
 
 ## 7. Interactive Svelte islands
 
