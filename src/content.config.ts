@@ -6,7 +6,11 @@ export const TOPIC_GROUPS = ['math', 'vector-db', 'real-world'] as const;
 export const LOCALES = ['th', 'en'] as const;
 
 const topics = defineCollection({
-  loader: glob({ pattern: '**/*.mdx', base: './src/content/topics' }),
+  loader: glob({
+    pattern: '**/*.mdx',
+    base: './src/content/topics',
+    generateId: ({ entry }) => entry.replace(/\.mdx$/, ''),
+  }),
   schema: z.object({
     title: z.string(),
     slug: z.string(),
