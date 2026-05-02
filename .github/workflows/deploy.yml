@@ -1,0 +1,56 @@
+# NOTE: Before this workflow deploys correctly, you must:
+# 1. Go to Repo Settings → Pages → Source → select "GitHub Actions"
+# 2. Update `site` and `base` in astro.config.mjs to match your Pages URL:
+#      site: 'https://<user>.github.io'
+#      base: '/learn-vector-db/'
+# 3. Push to main.
+# These values are intentionally left as placeholders in astro.config.mjs
+# and must be set by the repo owner in tandem with the GitHub Pages settings.
+
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
