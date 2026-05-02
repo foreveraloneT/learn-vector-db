@@ -1,2 +1,32 @@
 @import "tailwindcss";
 @import "katex/dist/katex.min.css";
+@plugin "@tailwindcss/typography";
+
+/* Selector-based dark mode: toggled by adding `class="dark"` to <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Brand palette — defaults; can be tuned in M5 polish */
+  --color-brand-50:  oklch(0.97 0.02 250);
+  --color-brand-100: oklch(0.93 0.05 250);
+  --color-brand-300: oklch(0.78 0.13 250);
+  --color-brand-500: oklch(0.55 0.18 250);
+  --color-brand-700: oklch(0.40 0.16 250);
+  --color-brand-900: oklch(0.22 0.10 250);
+
+  /* Font stack — system fonts (no web font download) */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Thai", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas, monospace;
+}
+
+/* Apply base typography defaults */
+:root {
+  color-scheme: light;
+}
+:root.dark {
+  color-scheme: dark;
+}
+
+html {
+  font-family: var(--font-sans);
+}
