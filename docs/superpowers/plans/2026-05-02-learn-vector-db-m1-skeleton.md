@@ -747,7 +747,7 @@ Expected: FAIL — module not found.
 - [ ] **Step 12.3:** Implement `src/lib/topics.ts`
 
 ```ts
-import { TOPIC_GROUPS } from '../content.config';
+import { TOPIC_GROUPS } from './constants';
 import type { Locale } from './i18n';
 
 export type TopicGroup = (typeof TOPIC_GROUPS)[number];
@@ -876,7 +876,7 @@ Expected: FAIL — module not found.
 - [ ] **Step 13.3:** Implement `src/lib/validate-topics.ts`
 
 ```ts
-import { LOCALES } from '../content.config';
+import { LOCALES } from './constants';
 import type { Locale } from './i18n';
 
 export interface ValidatableTopic {

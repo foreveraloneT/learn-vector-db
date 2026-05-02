@@ -52,4 +52,7 @@ describe('getOtherLocaleUrl', () => {
   it('flips the TH home to EN home', () => {
     expect(getOtherLocaleUrl('th', '')).toBe('/en/');
   });
+  it('flips the EN home to TH home', () => {
+    expect(getOtherLocaleUrl('en', '')).toBe('/');
+  });
 });
