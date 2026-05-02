@@ -1,17 +1,26 @@
 ---
+import { getCollection } from 'astro:content';
+import TopicLayout from '../layouts/TopicLayout.astro';
+import { buildTopicPath } from '../lib/i18n';
 
+const entries = await getCollection('topics', t => t.data.locale === 'th');
+const sorted = entries.sort((a, b) => a.data.order - b.data.order);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<TopicLayout
+  title="Learn Vector DB"
+  summary="เรียนรู้คณิตศาสตร์เบื้องหลังฐานข้อมูลเวกเตอร์ ผ่านตัวอย่างที่จับต้องได้"
+  locale="th"
+  slug=""
+  group="math"
+  order={0}
+>
+  <p>เริ่มต้นกับหัวข้อใดหัวข้อหนึ่ง:</p>
+  <ul>
+    {sorted.map(e => (
+      <li>
+        <a href={buildTopicPath('th', e.data.slug)}>{e.data.title}</a> — {e.data.summary}
+      </li>
+    ))}
+  </ul>
+</TopicLayout>
