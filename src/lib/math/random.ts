@@ -24,13 +24,17 @@ function gaussian(rng: () => number): number {
 
 /**
  * Uniform-on-sphere sample: draw n iid Gaussians, then normalize.
- * Falls back to e₀ = [1, 0, …] on the astronomically rare zero draw.
  */
 export function randomUnitVector(dim: number, rng: () => number): number[] {
   const raw: number[] = new Array(dim);
   for (let i = 0; i < dim; i++) raw[i] = gaussian(rng);
   const m = Math.sqrt(raw.reduce((s, x) => s + x * x, 0));
   if (m === 0) {
+    /**
+     * Defensive fallback: the EPSILON-clamped Gaussian above effectively
+     * prevents a true zero-magnitude draw, but this branch keeps the
+     * function total in case of float underflow at very low dimensions.
+     */
     const fallback = new Array(dim).fill(0);
     fallback[0] = 1;
     return fallback;
