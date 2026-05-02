@@ -1,0 +1,59 @@
+---
+title: Norms in plain English
+slug: norms
+group: math
+order: 4
+locale: en
+summary: L1 vs L2 — two ways to measure a vector's "size," and why your search engine cares.
+hasInteractive: true
+interactiveComponent: VectorPlayground
+hasMath: false
+---
+
+import VectorPlayground from '../../../components/islands/VectorPlayground.svelte';
+import TryYourself from '../../../components/mdx/TryYourself.astro';
+import Takeaways from '../../../components/mdx/Takeaways.astro';
+import Takeaway from '../../../components/mdx/Takeaway.astro';
+
+## Intuition
+
+We've been calling the length of a vector its "magnitude." There are actually multiple ways to measure that length, called **norms**. Two are common:
+
+- **L2 norm** (Euclidean): √(x₁² + x₂² + …). The familiar straight-line length.
+- **L1 norm** (Manhattan): |x₁| + |x₂| + …. Sum of the absolute values of each component.
+
+If you've already met Euclidean and Manhattan distances, these are the same idea, just measuring a single vector's length instead of the distance between two points.
+
+The math difference is small. The behavior difference is real:
+
+- **L2** rewards spreading the magnitude across many components evenly. A vector with many small components has a smaller L2 than a vector with one huge component, even if both have the same L1.
+- **L1** doesn't care how spread-out the components are — only their total absolute size.
+
+## Try it
+
+<VectorPlayground client:visible />
+
+Same playground as before, but now compare the two readouts. Set `(x, y) = (3, 0)`: both norms are 3. Set `(x, y) = (3, 3)`: L1 is 6, L2 is about 4.24. The bigger the spread, the bigger the gap between them.
+
+## In the real world
+
+Vector databases mostly use **L2** because it pairs naturally with cosine similarity (cosine is just the dot product divided by both vectors' L2 norms). But L1 shows up in:
+
+- **Compression / sparsity**: L1-based math tends to drive components to zero, which is useful for compressing high-dimensional vectors.
+- **Robustness**: L1 is less sensitive to outliers than L2, because it doesn't square the values.
+
+You'll see "L2-normalized embeddings" mentioned often. That just means: divide every embedding by its L2 norm so all of them have length 1. Cosine similarity on L2-normalized vectors equals their dot product — the cheapest possible similarity metric.
+
+<TryYourself>
+  Find a vector where L1 = L2. (Hint: at least one component must be exactly zero.)
+</TryYourself>
+
+<Takeaways>
+  <Takeaway>
+    A norm is a way to measure a vector's "size." L1 and L2 are the two everyday ones.
+  </Takeaway>
+  <Takeaway>L2 = straight-line length. L1 = sum of absolute components.</Takeaway>
+  <Takeaway>
+    L2-normalized embeddings + dot product = the standard recipe in production vector search.
+  </Takeaway>
+</Takeaways>

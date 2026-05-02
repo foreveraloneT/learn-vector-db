@@ -1,0 +1,55 @@
+---
+title: Norm แบบเข้าใจง่าย
+slug: norms
+group: math
+order: 4
+locale: th
+summary: L1 กับ L2 — สองวิธีวัด "ขนาด" ของเวกเตอร์ และเหตุผลที่ระบบค้นหาเลือกใช้แต่ละแบบ
+hasInteractive: true
+interactiveComponent: VectorPlayground
+hasMath: false
+---
+
+import VectorPlayground from '../../../components/islands/VectorPlayground.svelte';
+import TryYourself from '../../../components/mdx/TryYourself.astro';
+import Takeaways from '../../../components/mdx/Takeaways.astro';
+import Takeaway from '../../../components/mdx/Takeaway.astro';
+
+## ทำความเข้าใจ
+
+ที่ผ่านมาเราเรียกความยาวของเวกเตอร์ว่า "magnitude" ซึ่งจริงๆ แล้ววัดได้หลายแบบ เรียกว่า **norm** ที่พบบ่อยมีสองแบบ:
+
+- **L2 norm** (Euclidean): √(x₁² + x₂² + …) ความยาวเส้นตรงที่คุ้นเคย
+- **L1 norm** (Manhattan): |x₁| + |x₂| + … ผลรวมของค่าสัมบูรณ์ของแต่ละองค์ประกอบ
+
+ถ้าเคยเจอ Euclidean และ Manhattan distance มาแล้ว นี่คือแนวคิดเดียวกัน — แต่วัดความยาวของเวกเตอร์ตัวเดียวแทนที่จะวัดระยะระหว่างจุดสองจุด
+
+ความต่างทางคณิตศาสตร์เล็กน้อย แต่พฤติกรรมต่างกันจริง:
+
+- **L2** ชอบเวกเตอร์ที่กระจายขนาดเท่าๆ กันในหลายองค์ประกอบ เวกเตอร์ที่มีหลายๆ องค์ประกอบเล็กๆ จะมี L2 น้อยกว่าเวกเตอร์ที่มีองค์ประกอบเดียวใหญ่ๆ แม้ L1 จะเท่ากัน
+- **L1** ไม่สนเรื่องการกระจาย สนแต่ผลรวมของค่าสัมบูรณ์เท่านั้น
+
+## ลองเล่นดู
+
+<VectorPlayground client:visible />
+
+playground เดิม แต่ลองเทียบสองค่าในชาร์ทดู ตั้ง `(x, y) = (3, 0)`: ทั้งสอง norm เท่ากับ 3 ตั้ง `(x, y) = (3, 3)`: L1 เป็น 6, L2 ประมาณ 4.24 ยิ่งกระจายมาก ช่องว่างระหว่างสองค่าก็ยิ่งใหญ่
+
+## ในโลกจริง
+
+ฐานข้อมูลเวกเตอร์ส่วนใหญ่ใช้ **L2** เพราะเข้าคู่กับ cosine similarity ได้ลงตัว (cosine คือ dot product หารด้วย L2 norm ของทั้งสองตัว) แต่ L1 ยังถูกใช้ในงาน:
+
+- **การบีบอัด / sparsity**: คณิตศาสตร์ที่ใช้ L1 มักผลักให้องค์ประกอบหลายตัวเป็นศูนย์ ใช้บีบอัดเวกเตอร์มิติสูงได้ดี
+- **ความทนทานต่อค่าผิดปกติ**: L1 ไม่ยกกำลังสองค่า จึงไม่ถูกค่าผิดปกติเด่นๆ ดึงเฉ
+
+คำว่า "L2-normalized embeddings" เจอบ่อย หมายความว่า: หาร embedding ทุกตัวด้วย L2 norm ของมัน เพื่อให้ทุกตัวมีความยาว 1 พอดี เมื่อ embedding มี L2 = 1 แล้ว cosine similarity ก็เท่ากับ dot product ตรงๆ — เป็นวิธีคำนวณความคล้ายที่ถูกที่สุด
+
+<TryYourself>
+  ลองหาเวกเตอร์ที่ L1 = L2 ดูสิ (Hint: ต้องมีองค์ประกอบที่เป็น 0 อย่างน้อยหนึ่งตัว)
+</TryYourself>
+
+<Takeaways>
+  <Takeaway>Norm คือวิธีวัด "ขนาด" ของเวกเตอร์ L1 และ L2 เป็นสองตัวที่เจอบ่อย</Takeaway>
+  <Takeaway>L2 = ความยาวเส้นตรง, L1 = ผลรวมของค่าสัมบูรณ์</Takeaway>
+  <Takeaway>L2-normalized embeddings + dot product = สูตรมาตรฐานในระบบค้นหาเวกเตอร์</Takeaway>
+</Takeaways>
