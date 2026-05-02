@@ -1,10 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  getOtherLocale,
-  buildTopicPath,
-  getOtherLocaleUrl,
-  isLocale,
-} from './i18n';
+import { getOtherLocale, buildTopicPath, getOtherLocaleUrl, isLocale } from './i18n';
 
 describe('isLocale', () => {
   it('accepts th and en', () => {

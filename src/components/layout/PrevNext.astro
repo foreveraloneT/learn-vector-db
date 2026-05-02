@@ -10,8 +10,8 @@ interface Props {
 
 const { locale, currentOrder } = Astro.props;
 
-const entries = await getCollection('topics', t => t.data.locale === locale);
-const summaries: TopicSummary[] = entries.map(e => ({
+const entries = await getCollection('topics', (t) => t.data.locale === locale);
+const summaries: TopicSummary[] = entries.map((e) => ({
   slug: e.data.slug,
   title: e.data.title,
   group: e.data.group,
@@ -27,17 +27,28 @@ const labels = {
 } as const;
 ---
 
-<nav aria-label="Topic navigation" class="mt-12 flex justify-between border-t border-brand-100 pt-6 dark:border-brand-900">
-  {prev ? (
-    <a href={buildTopicPath(locale, prev.slug)} class="group">
-      <span class="block text-xs text-brand-500">← {labels[locale].prev}</span>
-      <span class="font-medium group-hover:underline">{prev.title}</span>
-    </a>
-  ) : <span />}
-  {next ? (
-    <a href={buildTopicPath(locale, next.slug)} class="group text-right">
-      <span class="block text-xs text-brand-500">{labels[locale].next} →</span>
-      <span class="font-medium group-hover:underline">{next.title}</span>
-    </a>
-  ) : <span />}
+<nav
+  aria-label="Topic navigation"
+  class="mt-12 flex justify-between border-t border-brand-100 pt-6 dark:border-brand-900"
+>
+  {
+    prev ? (
+      <a href={buildTopicPath(locale, prev.slug)} class="group">
+        <span class="block text-xs text-brand-500">← {labels[locale].prev}</span>
+        <span class="font-medium group-hover:underline">{prev.title}</span>
+      </a>
+    ) : (
+      <span />
+    )
+  }
+  {
+    next ? (
+      <a href={buildTopicPath(locale, next.slug)} class="group text-right">
+        <span class="block text-xs text-brand-500">{labels[locale].next} →</span>
+        <span class="font-medium group-hover:underline">{next.title}</span>
+      </a>
+    ) : (
+      <span />
+    )
+  }
 </nav>

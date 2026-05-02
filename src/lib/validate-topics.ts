@@ -24,11 +24,11 @@ export function validateTopicParity(
   for (const locale of LOCALES) slugsByLocale.set(locale, new Set());
   for (const t of topics) slugsByLocale.get(t.locale)?.add(t.slug);
 
-  const allSlugs = new Set(topics.map(t => t.slug));
+  const allSlugs = new Set(topics.map((t) => t.slug));
   for (const slug of allSlugs) {
     for (const locale of LOCALES) {
       if (!slugsByLocale.get(locale)?.has(slug)) {
-        const presentIn = LOCALES.find(l => slugsByLocale.get(l)?.has(slug));
+        const presentIn = LOCALES.find((l) => slugsByLocale.get(l)?.has(slug));
         errors.push(`Missing translation: slug "${slug}" exists in ${presentIn} but not ${locale}`);
       }
     }
@@ -37,7 +37,7 @@ export function validateTopicParity(
   // 2. Order uniqueness within locale
   for (const locale of LOCALES) {
     const seen = new Map<number, string>();
-    for (const t of topics.filter(x => x.locale === locale)) {
+    for (const t of topics.filter((x) => x.locale === locale)) {
       if (seen.has(t.order)) {
         errors.push(
           `Duplicate order ${t.order} in locale "${locale}": "${seen.get(t.order)}" and "${t.slug}"`,

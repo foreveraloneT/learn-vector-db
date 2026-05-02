@@ -9,9 +9,7 @@ async function listIslandComponents(srcRoot: URL): Promise<string[]> {
   const islandsDir = join(fileURLToPath(srcRoot), 'components', 'islands');
   try {
     const entries = await readdir(islandsDir);
-    return entries
-      .filter(f => f.endsWith('.svelte'))
-      .map(f => f.replace(/\.svelte$/, ''));
+    return entries.filter((f) => f.endsWith('.svelte')).map((f) => f.replace(/\.svelte$/, ''));
   } catch {
     return []; // no islands directory yet → empty allow-list
   }

@@ -19,9 +19,9 @@ interface Props {
 const { title, summary, locale, slug, group, order, hasMath = false } = Astro.props;
 
 const groupLabels = {
-  'math':       { th: 'พื้นฐานคณิตศาสตร์', en: 'Math foundations' },
-  'vector-db':  { th: 'ฐานข้อมูลเวกเตอร์',  en: 'Vector databases' },
-  'real-world': { th: 'ตัวอย่างจริง',       en: 'Real-world examples' },
+  math: { th: 'พื้นฐานคณิตศาสตร์', en: 'Math foundations' },
+  'vector-db': { th: 'ฐานข้อมูลเวกเตอร์', en: 'Vector databases' },
+  'real-world': { th: 'ตัวอย่างจริง', en: 'Real-world examples' },
 } as const;
 ---
 
@@ -37,17 +37,23 @@ const groupLabels = {
       // Apply theme before paint to avoid flash
       (() => {
         const stored = localStorage.getItem('theme');
-        const dark = stored === 'dark' || (!stored && matchMedia('(prefers-color-scheme: dark)').matches);
+        const dark =
+          stored === 'dark' || (!stored && matchMedia('(prefers-color-scheme: dark)').matches);
         if (dark) document.documentElement.classList.add('dark');
       })();
     </script>
   </head>
   <body class="bg-white text-brand-900 antialiased dark:bg-brand-900 dark:text-brand-50">
-    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:rounded focus:bg-brand-500 focus:px-3 focus:py-1 focus:text-white">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:rounded focus:bg-brand-500 focus:px-3 focus:py-1 focus:text-white"
+    >
       {locale === 'th' ? 'ข้ามไปยังเนื้อหา' : 'Skip to content'}
     </a>
     <div class="mx-auto grid max-w-6xl gap-8 p-6 lg:grid-cols-[16rem_1fr]">
-      <header class="lg:col-span-2 flex items-center justify-between border-b border-brand-100 pb-4 dark:border-brand-900">
+      <header
+        class="lg:col-span-2 flex items-center justify-between border-b border-brand-100 pb-4 dark:border-brand-900"
+      >
         <a href={locale === 'th' ? '/' : '/en/'} class="font-semibold">Learn Vector DB</a>
         <div class="flex items-center gap-3">
           <LangSwitch locale={locale} slug={slug} />
@@ -68,14 +74,18 @@ const groupLabels = {
       <main id="main">
         <p class="text-sm text-brand-500">{groupLabels[group][locale]}</p>
         <h1 class="mt-1 text-3xl font-bold">{title}</h1>
-        <p class="mt-2 rounded-md bg-brand-50 px-4 py-3 text-brand-700 dark:bg-brand-900 dark:text-brand-100">
+        <p
+          class="mt-2 rounded-md bg-brand-50 px-4 py-3 text-brand-700 dark:bg-brand-900 dark:text-brand-100"
+        >
           {summary}
         </p>
         <article class="prose prose-brand mt-8 max-w-none dark:prose-invert">
           <slot />
         </article>
         <PrevNext locale={locale} currentOrder={order} />
-        <footer class="mt-12 border-t border-brand-100 pt-4 text-xs text-brand-500 dark:border-brand-900">
+        <footer
+          class="mt-12 border-t border-brand-100 pt-4 text-xs text-brand-500 dark:border-brand-900"
+        >
           <a href="https://github.com/" class="hover:underline">
             {locale === 'th' ? 'ดู source code' : 'View source'}
           </a>

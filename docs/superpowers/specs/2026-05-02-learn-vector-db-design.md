@@ -16,19 +16,19 @@ An interactive, beginner-friendly learning site that teaches vector databases an
 
 ### Topic set (11 topics, 3 groups)
 
-| order | group        | slug                  | title (en)                   |
-|------:|--------------|-----------------------|------------------------------|
-| 1     | math         | vector                | Vector                       |
-| 2     | math         | vector-operations     | Vector operations            |
-| 3     | math         | distance-similarity   | Distance & similarity        |
-| 4     | math         | norms                 | Norms in plain English       |
-| 5     | math         | high-dimensional      | High-dimensional intuition   |
-| 6     | vector-db    | embeddings            | What is an embedding?        |
-| 7     | vector-db    | vector-database       | What is a vector database?   |
-| 8     | vector-db    | ann                   | Approximate nearest neighbor |
-| 9     | real-world   | semantic-search       | Semantic search              |
-| 10    | real-world   | rag                   | RAG                          |
-| 11    | real-world   | recommendations       | Recommendations              |
+| order | group      | slug                | title (en)                   |
+| ----: | ---------- | ------------------- | ---------------------------- |
+|     1 | math       | vector              | Vector                       |
+|     2 | math       | vector-operations   | Vector operations            |
+|     3 | math       | distance-similarity | Distance & similarity        |
+|     4 | math       | norms               | Norms in plain English       |
+|     5 | math       | high-dimensional    | High-dimensional intuition   |
+|     6 | vector-db  | embeddings          | What is an embedding?        |
+|     7 | vector-db  | vector-database     | What is a vector database?   |
+|     8 | vector-db  | ann                 | Approximate nearest neighbor |
+|     9 | real-world | semantic-search     | Semantic search              |
+|    10 | real-world | rag                 | RAG                          |
+|    11 | real-world | recommendations     | Recommendations              |
 
 ### Out of scope (v1)
 
@@ -184,17 +184,17 @@ Visual structure top → bottom:
 
 All islands are pure-client components in `src/components/islands/`. They take no server state. Math helpers live in `src/lib/math/` as pure functions.
 
-| # | Component                  | Used on topic                | Behavior summary                                                                                  |
-|---|----------------------------|------------------------------|---------------------------------------------------------------------------------------------------|
-| 1 | `VectorPlayground.svelte`  | 1 (Vector), 4 (Norms)        | Drag a 2D vector head; live-updates `(x, y)`, L2 magnitude, L1 norm. Optional second vector.     |
-| 2 | `VectorOpsPlayground.svelte` | 2 (Vector ops)             | Two draggable vectors `a`, `b`; tabs for Add / Subtract / Scale (slider) / Dot product.          |
-| 3 | `DistanceComparator.svelte` | 3 (Distance & similarity)   | Two draggable points; live Euclidean / Manhattan / Cosine values + visual overlays for each.     |
-| 4 | `HighDimIntuition.svelte`   | 5 (High-dim intuition)      | Slider `dim: 2..100`; histogram of pairwise cosine sims of 500 random unit vectors.              |
-| 5 | `EmbeddingMap.svelte`       | 6 (Embeddings)              | Pre-computed 2D PCA scatter of ~30 word embeddings. Hover to highlight neighbors and clusters.   |
-| 6 | `AnnVisualizer.svelte`      | 8 (ANN)                     | 200-point scatter; toggle Exact kNN vs simplified greedy graph search. Compares hops vs accuracy.|
-| 7 | `SemanticSearchDemo.svelte` | 9 (Semantic search)         | ~50 pre-embedded sentences; user query matched to the closest canned query, top-5 results shown. |
-| 8 | `RagFlow.svelte`            | 10 (RAG)                    | Animated step-through: question → embed → retrieve → LLM → answer (canned).                      |
-| 9 | `RecommendationsDemo.svelte`| 11 (Recommendations)        | 20 fake users × 30 fake items with 4-dim taste vectors; pick a user, see top-5 recs by cosine.   |
+| #   | Component                    | Used on topic             | Behavior summary                                                                                  |
+| --- | ---------------------------- | ------------------------- | ------------------------------------------------------------------------------------------------- |
+| 1   | `VectorPlayground.svelte`    | 1 (Vector), 4 (Norms)     | Drag a 2D vector head; live-updates `(x, y)`, L2 magnitude, L1 norm. Optional second vector.      |
+| 2   | `VectorOpsPlayground.svelte` | 2 (Vector ops)            | Two draggable vectors `a`, `b`; tabs for Add / Subtract / Scale (slider) / Dot product.           |
+| 3   | `DistanceComparator.svelte`  | 3 (Distance & similarity) | Two draggable points; live Euclidean / Manhattan / Cosine values + visual overlays for each.      |
+| 4   | `HighDimIntuition.svelte`    | 5 (High-dim intuition)    | Slider `dim: 2..100`; histogram of pairwise cosine sims of 500 random unit vectors.               |
+| 5   | `EmbeddingMap.svelte`        | 6 (Embeddings)            | Pre-computed 2D PCA scatter of ~30 word embeddings. Hover to highlight neighbors and clusters.    |
+| 6   | `AnnVisualizer.svelte`       | 8 (ANN)                   | 200-point scatter; toggle Exact kNN vs simplified greedy graph search. Compares hops vs accuracy. |
+| 7   | `SemanticSearchDemo.svelte`  | 9 (Semantic search)       | ~50 pre-embedded sentences; user query matched to the closest canned query, top-5 results shown.  |
+| 8   | `RagFlow.svelte`             | 10 (RAG)                  | Animated step-through: question → embed → retrieve → LLM → answer (canned).                       |
+| 9   | `RecommendationsDemo.svelte` | 11 (Recommendations)      | 20 fake users × 30 fake items with 4-dim taste vectors; pick a user, see top-5 recs by cosine.    |
 
 ### Semantic search behavior
 
@@ -282,17 +282,17 @@ This is a static educational site, so "errors" mostly mean authoring mistakes an
 
 **Scripts (`package.json`):**
 
-| script             | command                                  |
-|--------------------|------------------------------------------|
-| `dev`              | `astro dev`                              |
-| `build`            | `astro build`                            |
-| `preview`          | `astro preview`                          |
-| `build:fixtures`   | `tsx scripts/build-fixtures.ts`          |
-| `test`             | `vitest run`                             |
-| `test:watch`       | `vitest`                                 |
-| `typecheck`        | `astro check && tsc --noEmit`            |
-| `lint`             | `eslint . && prettier --check .`         |
-| `format`           | `prettier --write .`                     |
+| script           | command                          |
+| ---------------- | -------------------------------- |
+| `dev`            | `astro dev`                      |
+| `build`          | `astro build`                    |
+| `preview`        | `astro preview`                  |
+| `build:fixtures` | `tsx scripts/build-fixtures.ts`  |
+| `test`           | `vitest run`                     |
+| `test:watch`     | `vitest`                         |
+| `typecheck`      | `astro check && tsc --noEmit`    |
+| `lint`           | `eslint . && prettier --check .` |
+| `format`         | `prettier --write .`             |
 
 **CI (`.github/workflows/`):**
 

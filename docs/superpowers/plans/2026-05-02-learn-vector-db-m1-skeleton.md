@@ -101,12 +101,15 @@ Expected: prints a version (≥ 9). If missing: `npm i -g pnpm`.
 - [ ] **Step 1.2:** Run the Astro create wizard non-interactively
 
 Run from repo root:
+
 ```bash
 pnpm create astro@latest . -- --template minimal --typescript strict --install --no-git --skip-houston --yes
 ```
+
 Expected: Astro initializes in the current directory, installs deps. The `--no-git` flag prevents reinitializing the existing repo. The `--yes` flag auto-confirms "directory not empty" since we already have `CLAUDE.md` and `docs/`.
 
 If the wizard refuses because the directory contains files, run instead in a temp directory and copy the generated files in:
+
 ```bash
 mkdir -p /tmp/astro-bootstrap
 cd /tmp/astro-bootstrap && pnpm create astro@latest . -- --template minimal --typescript strict --install --no-git --skip-houston --yes
@@ -202,9 +205,11 @@ git commit -m "chore: add MDX integration"
 - [ ] **Step 5.1:** Install KaTeX dependencies
 
 Run:
+
 ```bash
 pnpm add remark-math rehype-katex katex
 ```
+
 Expected: three packages added under `dependencies`.
 
 - [ ] **Step 5.2:** Edit `astro.config.mjs` to register the math plugins
@@ -248,8 +253,8 @@ export default defineConfig({
 Append at the end of the file (we will overwrite this whole file in Task 8 — for now, just the import):
 
 ```css
-@import "tailwindcss";
-@import "katex/dist/katex.min.css";
+@import 'tailwindcss';
+@import 'katex/dist/katex.min.css';
 ```
 
 - [ ] **Step 5.4:** Verify the build still passes
@@ -273,6 +278,7 @@ git commit -m "feat: wire remark-math + rehype-katex + KaTeX CSS into MDX"
 - [ ] **Step 6.1:** Install dev dependencies
 
 Run:
+
 ```bash
 pnpm add -D vitest @vitest/ui jsdom @testing-library/svelte @testing-library/jest-dom @testing-library/user-event @sveltejs/vite-plugin-svelte
 ```
@@ -341,8 +347,8 @@ Run: `pnpm add -D @tailwindcss/typography`
 - [ ] **Step 7.2:** Replace `src/styles/global.css` with the full theme
 
 ```css
-@import "tailwindcss";
-@import "katex/dist/katex.min.css";
+@import 'tailwindcss';
+@import 'katex/dist/katex.min.css';
 @plugin "@tailwindcss/typography";
 
 /* Selector-based dark mode: toggled by adding `class="dark"` to <html> */
@@ -350,16 +356,17 @@ Run: `pnpm add -D @tailwindcss/typography`
 
 @theme {
   /* Brand palette — defaults; can be tuned in M5 polish */
-  --color-brand-50:  oklch(0.97 0.02 250);
+  --color-brand-50: oklch(0.97 0.02 250);
   --color-brand-100: oklch(0.93 0.05 250);
   --color-brand-300: oklch(0.78 0.13 250);
   --color-brand-500: oklch(0.55 0.18 250);
-  --color-brand-700: oklch(0.40 0.16 250);
-  --color-brand-900: oklch(0.22 0.10 250);
+  --color-brand-700: oklch(0.4 0.16 250);
+  --color-brand-900: oklch(0.22 0.1 250);
 
   /* Font stack — system fonts (no web font download) */
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Thai", sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas, monospace;
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans Thai', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'JetBrains Mono', Consolas, monospace;
 }
 
 /* Apply base typography defaults */
@@ -565,12 +572,7 @@ git commit -m "feat: add placeholder Vector topic in TH and EN"
 
 ```ts
 import { describe, it, expect } from 'vitest';
-import {
-  getOtherLocale,
-  buildTopicPath,
-  getOtherLocaleUrl,
-  isLocale,
-} from './i18n';
+import { getOtherLocale, buildTopicPath, getOtherLocaleUrl, isLocale } from './i18n';
 
 describe('isLocale', () => {
   it('accepts th and en', () => {
@@ -679,11 +681,11 @@ import { describe, it, expect } from 'vitest';
 import { getNeighbors, groupTopicsForSidebar, type TopicSummary } from './topics';
 
 const sample: TopicSummary[] = [
-  { slug: 'vector',              title: 'Vector',         group: 'math',       order: 1, locale: 'en' },
-  { slug: 'vector-operations',   title: 'Vector ops',     group: 'math',       order: 2, locale: 'en' },
-  { slug: 'distance-similarity', title: 'Distance',       group: 'math',       order: 3, locale: 'en' },
-  { slug: 'embeddings',          title: 'Embeddings',     group: 'vector-db',  order: 6, locale: 'en' },
-  { slug: 'semantic-search',     title: 'Semantic',       group: 'real-world', order: 9, locale: 'en' },
+  { slug: 'vector', title: 'Vector', group: 'math', order: 1, locale: 'en' },
+  { slug: 'vector-operations', title: 'Vector ops', group: 'math', order: 2, locale: 'en' },
+  { slug: 'distance-similarity', title: 'Distance', group: 'math', order: 3, locale: 'en' },
+  { slug: 'embeddings', title: 'Embeddings', group: 'vector-db', order: 6, locale: 'en' },
+  { slug: 'semantic-search', title: 'Semantic', group: 'real-world', order: 9, locale: 'en' },
 ];
 
 describe('getNeighbors', () => {
@@ -717,8 +719,10 @@ describe('groupTopicsForSidebar', () => {
     const groups = groupTopicsForSidebar(sample);
     expect(groups).toHaveLength(3);
     expect(groups[0].group).toBe('math');
-    expect(groups[0].topics.map(t => t.slug)).toEqual([
-      'vector', 'vector-operations', 'distance-similarity',
+    expect(groups[0].topics.map((t) => t.slug)).toEqual([
+      'vector',
+      'vector-operations',
+      'distance-similarity',
     ]);
     expect(groups[1].group).toBe('vector-db');
     expect(groups[2].group).toBe('real-world');
@@ -727,11 +731,11 @@ describe('groupTopicsForSidebar', () => {
   it('preserves the canonical group order even if input is shuffled', () => {
     const shuffled = [...sample].reverse();
     const groups = groupTopicsForSidebar(shuffled);
-    expect(groups.map(g => g.group)).toEqual(['math', 'vector-db', 'real-world']);
+    expect(groups.map((g) => g.group)).toEqual(['math', 'vector-db', 'real-world']);
   });
 
   it('omits groups with no topics', () => {
-    const onlyMath = sample.filter(t => t.group === 'math');
+    const onlyMath = sample.filter((t) => t.group === 'math');
     const groups = groupTopicsForSidebar(onlyMath);
     expect(groups).toHaveLength(1);
     expect(groups[0].group).toBe('math');
@@ -770,20 +774,16 @@ export function getNeighbors(
   currentOrder: number,
 ): { prev: TopicSummary | null; next: TopicSummary | null } {
   const sorted = [...topics].sort((a, b) => a.order - b.order);
-  const prev = [...sorted].reverse().find(t => t.order < currentOrder) ?? null;
-  const next = sorted.find(t => t.order > currentOrder) ?? null;
+  const prev = [...sorted].reverse().find((t) => t.order < currentOrder) ?? null;
+  const next = sorted.find((t) => t.order > currentOrder) ?? null;
   return { prev, next };
 }
 
 export function groupTopicsForSidebar(topics: TopicSummary[]): SidebarGroup[] {
-  return TOPIC_GROUPS
-    .map(group => ({
-      group,
-      topics: topics
-        .filter(t => t.group === group)
-        .sort((a, b) => a.order - b.order),
-    }))
-    .filter(g => g.topics.length > 0);
+  return TOPIC_GROUPS.map((group) => ({
+    group,
+    topics: topics.filter((t) => t.group === group).sort((a, b) => a.order - b.order),
+  })).filter((g) => g.topics.length > 0);
 }
 ```
 
@@ -837,14 +837,14 @@ describe('validateTopicParity', () => {
 
   it('fails on duplicate order within a locale', () => {
     const topics: ValidatableTopic[] = [
-      { slug: 'vector',             locale: 'th', order: 1 },
-      { slug: 'vector-operations',  locale: 'th', order: 1 },
-      { slug: 'vector',             locale: 'en', order: 1 },
-      { slug: 'vector-operations',  locale: 'en', order: 2 },
+      { slug: 'vector', locale: 'th', order: 1 },
+      { slug: 'vector-operations', locale: 'th', order: 1 },
+      { slug: 'vector', locale: 'en', order: 1 },
+      { slug: 'vector-operations', locale: 'en', order: 2 },
     ];
     const result = validateTopicParity(topics, []);
     expect(result.ok).toBe(false);
-    expect(result.errors.some(e => e.includes('Duplicate order 1 in locale "th"'))).toBe(true);
+    expect(result.errors.some((e) => e.includes('Duplicate order 1 in locale "th"'))).toBe(true);
   });
 
   it('fails when interactiveComponent name is not in the registry', () => {
@@ -854,7 +854,9 @@ describe('validateTopicParity', () => {
     ];
     const result = validateTopicParity(topics, ['VectorPlayground']);
     expect(result.ok).toBe(false);
-    expect(result.errors.some(e => e.includes('Unknown interactiveComponent "NopeComponent"'))).toBe(true);
+    expect(
+      result.errors.some((e) => e.includes('Unknown interactiveComponent "NopeComponent"')),
+    ).toBe(true);
   });
 
   it('passes when interactiveComponent name is in the registry', () => {
@@ -902,11 +904,11 @@ export function validateTopicParity(
   for (const locale of LOCALES) slugsByLocale.set(locale, new Set());
   for (const t of topics) slugsByLocale.get(t.locale)?.add(t.slug);
 
-  const allSlugs = new Set(topics.map(t => t.slug));
+  const allSlugs = new Set(topics.map((t) => t.slug));
   for (const slug of allSlugs) {
     for (const locale of LOCALES) {
       if (!slugsByLocale.get(locale)?.has(slug)) {
-        const presentIn = LOCALES.find(l => slugsByLocale.get(l)?.has(slug));
+        const presentIn = LOCALES.find((l) => slugsByLocale.get(l)?.has(slug));
         errors.push(`Missing translation: slug "${slug}" exists in ${presentIn} but not ${locale}`);
       }
     }
@@ -915,7 +917,7 @@ export function validateTopicParity(
   // 2. Order uniqueness within locale
   for (const locale of LOCALES) {
     const seen = new Map<number, string>();
-    for (const t of topics.filter(x => x.locale === locale)) {
+    for (const t of topics.filter((x) => x.locale === locale)) {
       if (seen.has(t.order)) {
         errors.push(
           `Duplicate order ${t.order} in locale "${locale}": "${seen.get(t.order)}" and "${t.slug}"`,
@@ -973,9 +975,7 @@ async function listIslandComponents(srcRoot: URL): Promise<string[]> {
   const islandsDir = join(fileURLToPath(srcRoot), 'components', 'islands');
   try {
     const entries = await readdir(islandsDir);
-    return entries
-      .filter(f => f.endsWith('.svelte'))
-      .map(f => f.replace(/\.svelte$/, ''));
+    return entries.filter((f) => f.endsWith('.svelte')).map((f) => f.replace(/\.svelte$/, ''));
   } catch {
     return []; // no islands directory yet → empty allow-list
   }
@@ -1195,8 +1195,8 @@ interface Props {
 
 const { locale, currentSlug } = Astro.props;
 
-const entries = await getCollection('topics', t => t.data.locale === locale);
-const summaries: TopicSummary[] = entries.map(e => ({
+const entries = await getCollection('topics', (t) => t.data.locale === locale);
+const summaries: TopicSummary[] = entries.map((e) => ({
   slug: e.data.slug,
   title: e.data.title,
   group: e.data.group,
@@ -1205,41 +1205,43 @@ const summaries: TopicSummary[] = entries.map(e => ({
 }));
 const groups = groupTopicsForSidebar(summaries);
 
-const groupLabels: Record<typeof groups[number]['group'], Record<Locale, string>> = {
-  'math':       { th: 'พื้นฐานคณิตศาสตร์', en: 'Math foundations' },
-  'vector-db':  { th: 'ฐานข้อมูลเวกเตอร์',  en: 'Vector databases' },
-  'real-world': { th: 'ตัวอย่างจริง',       en: 'Real-world examples' },
+const groupLabels: Record<(typeof groups)[number]['group'], Record<Locale, string>> = {
+  math: { th: 'พื้นฐานคณิตศาสตร์', en: 'Math foundations' },
+  'vector-db': { th: 'ฐานข้อมูลเวกเตอร์', en: 'Vector databases' },
+  'real-world': { th: 'ตัวอย่างจริง', en: 'Real-world examples' },
 };
 ---
 
 <nav aria-label="Topics" class="text-sm">
-  {groups.map(({ group, topics }) => (
-    <details open class="mb-4">
-      <summary class="cursor-pointer font-semibold text-brand-700 dark:text-brand-300">
-        {groupLabels[group][locale]}
-      </summary>
-      <ul class="mt-2 ml-2 space-y-1 border-l border-brand-100 pl-3 dark:border-brand-900">
-        {topics.map(t => {
-          const href = buildTopicPath(locale, t.slug);
-          const isCurrent = t.slug === currentSlug;
-          return (
-            <li>
-              <a
-                href={href}
-                aria-current={isCurrent ? 'page' : undefined}
-                class:list={[
-                  'block rounded px-2 py-1 hover:bg-brand-50 dark:hover:bg-brand-900',
-                  isCurrent && 'bg-brand-100 font-medium dark:bg-brand-700',
-                ]}
-              >
-                {t.title}
-              </a>
-            </li>
-          );
-        })}
-      </ul>
-    </details>
-  ))}
+  {
+    groups.map(({ group, topics }) => (
+      <details open class="mb-4">
+        <summary class="cursor-pointer font-semibold text-brand-700 dark:text-brand-300">
+          {groupLabels[group][locale]}
+        </summary>
+        <ul class="mt-2 ml-2 space-y-1 border-l border-brand-100 pl-3 dark:border-brand-900">
+          {topics.map((t) => {
+            const href = buildTopicPath(locale, t.slug);
+            const isCurrent = t.slug === currentSlug;
+            return (
+              <li>
+                <a
+                  href={href}
+                  aria-current={isCurrent ? 'page' : undefined}
+                  class:list={[
+                    'block rounded px-2 py-1 hover:bg-brand-50 dark:hover:bg-brand-900',
+                    isCurrent && 'bg-brand-100 font-medium dark:bg-brand-700',
+                  ]}
+                >
+                  {t.title}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </details>
+    ))
+  }
 </nav>
 ```
 
@@ -1276,8 +1278,8 @@ interface Props {
 
 const { locale, currentOrder } = Astro.props;
 
-const entries = await getCollection('topics', t => t.data.locale === locale);
-const summaries: TopicSummary[] = entries.map(e => ({
+const entries = await getCollection('topics', (t) => t.data.locale === locale);
+const summaries: TopicSummary[] = entries.map((e) => ({
   slug: e.data.slug,
   title: e.data.title,
   group: e.data.group,
@@ -1293,19 +1295,30 @@ const labels = {
 } as const;
 ---
 
-<nav aria-label="Topic navigation" class="mt-12 flex justify-between border-t border-brand-100 pt-6 dark:border-brand-900">
-  {prev ? (
-    <a href={buildTopicPath(locale, prev.slug)} class="group">
-      <span class="block text-xs text-brand-500">← {labels[locale].prev}</span>
-      <span class="font-medium group-hover:underline">{prev.title}</span>
-    </a>
-  ) : <span />}
-  {next ? (
-    <a href={buildTopicPath(locale, next.slug)} class="group text-right">
-      <span class="block text-xs text-brand-500">{labels[locale].next} →</span>
-      <span class="font-medium group-hover:underline">{next.title}</span>
-    </a>
-  ) : <span />}
+<nav
+  aria-label="Topic navigation"
+  class="mt-12 flex justify-between border-t border-brand-100 pt-6 dark:border-brand-900"
+>
+  {
+    prev ? (
+      <a href={buildTopicPath(locale, prev.slug)} class="group">
+        <span class="block text-xs text-brand-500">← {labels[locale].prev}</span>
+        <span class="font-medium group-hover:underline">{prev.title}</span>
+      </a>
+    ) : (
+      <span />
+    )
+  }
+  {
+    next ? (
+      <a href={buildTopicPath(locale, next.slug)} class="group text-right">
+        <span class="block text-xs text-brand-500">{labels[locale].next} →</span>
+        <span class="font-medium group-hover:underline">{next.title}</span>
+      </a>
+    ) : (
+      <span />
+    )
+  }
 </nav>
 ```
 
@@ -1378,14 +1391,17 @@ These are minimal styled wrappers — keep them small.
 
 ```astro
 ---
-interface Props { type?: 'info' | 'tip' | 'warning' }
+interface Props {
+  type?: 'info' | 'tip' | 'warning';
+}
 const { type = 'info' } = Astro.props;
 const styles = {
-  info:    'border-blue-300  bg-blue-50    dark:border-blue-700  dark:bg-blue-950',
-  tip:     'border-green-300 bg-green-50   dark:border-green-700 dark:bg-green-950',
+  info: 'border-blue-300  bg-blue-50    dark:border-blue-700  dark:bg-blue-950',
+  tip: 'border-green-300 bg-green-50   dark:border-green-700 dark:bg-green-950',
   warning: 'border-amber-300 bg-amber-50   dark:border-amber-700 dark:bg-amber-950',
 }[type];
 ---
+
 <aside class={`my-4 rounded-md border-l-4 px-4 py-3 ${styles}`}>
   <slot />
 </aside>
@@ -1395,9 +1411,12 @@ const styles = {
 
 ```astro
 ---
-interface Props { summary: string }
+interface Props {
+  summary: string;
+}
 const { summary } = Astro.props;
 ---
+
 <details class="my-4 rounded-md border border-brand-100 px-4 py-2 dark:border-brand-900">
   <summary class="cursor-pointer font-medium">{summary}</summary>
   <div class="mt-3 prose prose-sm dark:prose-invert">
@@ -1410,8 +1429,12 @@ const { summary } = Astro.props;
 
 ```astro
 ---
+
 ---
-<aside class="my-6 rounded-md border-2 border-dashed border-brand-300 bg-brand-50 px-4 py-3 dark:border-brand-700 dark:bg-brand-900">
+
+<aside
+  class="my-6 rounded-md border-2 border-dashed border-brand-300 bg-brand-50 px-4 py-3 dark:border-brand-700 dark:bg-brand-900"
+>
   <p class="mb-1 text-xs font-semibold uppercase tracking-wide text-brand-700 dark:text-brand-300">
     Try it yourself
   </p>
@@ -1423,9 +1446,13 @@ const { summary } = Astro.props;
 
 ```astro
 ---
+
 ---
+
 <section class="my-6 rounded-md bg-brand-50 px-4 py-3 dark:bg-brand-900">
-  <h3 class="m-0 mb-2 text-sm font-semibold uppercase tracking-wide text-brand-700 dark:text-brand-300">
+  <h3
+    class="m-0 mb-2 text-sm font-semibold uppercase tracking-wide text-brand-700 dark:text-brand-300"
+  >
     Key takeaways
   </h3>
   <ul class="m-0 list-disc pl-5">
@@ -1438,7 +1465,9 @@ const { summary } = Astro.props;
 
 ```astro
 ---
+
 ---
+
 <li><slot /></li>
 ```
 
@@ -1484,9 +1513,9 @@ interface Props {
 const { title, summary, locale, slug, group, order, hasMath = false } = Astro.props;
 
 const groupLabels = {
-  'math':       { th: 'พื้นฐานคณิตศาสตร์', en: 'Math foundations' },
-  'vector-db':  { th: 'ฐานข้อมูลเวกเตอร์',  en: 'Vector databases' },
-  'real-world': { th: 'ตัวอย่างจริง',       en: 'Real-world examples' },
+  math: { th: 'พื้นฐานคณิตศาสตร์', en: 'Math foundations' },
+  'vector-db': { th: 'ฐานข้อมูลเวกเตอร์', en: 'Vector databases' },
+  'real-world': { th: 'ตัวอย่างจริง', en: 'Real-world examples' },
 } as const;
 ---
 
@@ -1502,17 +1531,23 @@ const groupLabels = {
       // Apply theme before paint to avoid flash
       (() => {
         const stored = localStorage.getItem('theme');
-        const dark = stored === 'dark' || (!stored && matchMedia('(prefers-color-scheme: dark)').matches);
+        const dark =
+          stored === 'dark' || (!stored && matchMedia('(prefers-color-scheme: dark)').matches);
         if (dark) document.documentElement.classList.add('dark');
       })();
     </script>
   </head>
   <body class="bg-white text-brand-900 antialiased dark:bg-brand-900 dark:text-brand-50">
-    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:rounded focus:bg-brand-500 focus:px-3 focus:py-1 focus:text-white">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:rounded focus:bg-brand-500 focus:px-3 focus:py-1 focus:text-white"
+    >
       {locale === 'th' ? 'ข้ามไปยังเนื้อหา' : 'Skip to content'}
     </a>
     <div class="mx-auto grid max-w-6xl gap-8 p-6 lg:grid-cols-[16rem_1fr]">
-      <header class="lg:col-span-2 flex items-center justify-between border-b border-brand-100 pb-4 dark:border-brand-900">
+      <header
+        class="lg:col-span-2 flex items-center justify-between border-b border-brand-100 pb-4 dark:border-brand-900"
+      >
         <a href={locale === 'th' ? '/' : '/en/'} class="font-semibold">Learn Vector DB</a>
         <div class="flex items-center gap-3">
           <LangSwitch locale={locale} slug={slug} />
@@ -1533,14 +1568,18 @@ const groupLabels = {
       <main id="main">
         <p class="text-sm text-brand-500">{groupLabels[group][locale]}</p>
         <h1 class="mt-1 text-3xl font-bold">{title}</h1>
-        <p class="mt-2 rounded-md bg-brand-50 px-4 py-3 text-brand-700 dark:bg-brand-900 dark:text-brand-100">
+        <p
+          class="mt-2 rounded-md bg-brand-50 px-4 py-3 text-brand-700 dark:bg-brand-900 dark:text-brand-100"
+        >
           {summary}
         </p>
         <article class="prose prose-brand mt-8 max-w-none dark:prose-invert">
           <slot />
         </article>
         <PrevNext locale={locale} currentOrder={order} />
-        <footer class="mt-12 border-t border-brand-100 pt-4 text-xs text-brand-500 dark:border-brand-900">
+        <footer
+          class="mt-12 border-t border-brand-100 pt-4 text-xs text-brand-500 dark:border-brand-900"
+        >
           <a href="https://github.com/" class="hover:underline">
             {locale === 'th' ? 'ดู source code' : 'View source'}
           </a>
@@ -1579,8 +1618,8 @@ import { getCollection, render } from 'astro:content';
 import TopicLayout from '../layouts/TopicLayout.astro';
 
 export async function getStaticPaths() {
-  const entries = await getCollection('topics', t => t.data.locale === 'th');
-  return entries.map(entry => ({
+  const entries = await getCollection('topics', (t) => t.data.locale === 'th');
+  return entries.map((entry) => ({
     params: { slug: entry.data.slug },
     props: { entry },
   }));
@@ -1633,7 +1672,7 @@ import { getCollection } from 'astro:content';
 import TopicLayout from '../layouts/TopicLayout.astro';
 import { buildTopicPath } from '../lib/i18n';
 
-const entries = await getCollection('topics', t => t.data.locale === 'th');
+const entries = await getCollection('topics', (t) => t.data.locale === 'th');
 const sorted = entries.sort((a, b) => a.data.order - b.data.order);
 ---
 
@@ -1647,11 +1686,13 @@ const sorted = entries.sort((a, b) => a.data.order - b.data.order);
 >
   <p>เริ่มต้นกับหัวข้อใดหัวข้อหนึ่ง:</p>
   <ul>
-    {sorted.map(e => (
-      <li>
-        <a href={buildTopicPath('th', e.data.slug)}>{e.data.title}</a> — {e.data.summary}
-      </li>
-    ))}
+    {
+      sorted.map((e) => (
+        <li>
+          <a href={buildTopicPath('th', e.data.slug)}>{e.data.title}</a> — {e.data.summary}
+        </li>
+      ))
+    }
   </ul>
 </TopicLayout>
 ```
@@ -1682,8 +1723,8 @@ import { getCollection, render } from 'astro:content';
 import TopicLayout from '../../layouts/TopicLayout.astro';
 
 export async function getStaticPaths() {
-  const entries = await getCollection('topics', t => t.data.locale === 'en');
-  return entries.map(entry => ({
+  const entries = await getCollection('topics', (t) => t.data.locale === 'en');
+  return entries.map((entry) => ({
     params: { slug: entry.data.slug },
     props: { entry },
   }));
@@ -1714,7 +1755,7 @@ import { getCollection } from 'astro:content';
 import TopicLayout from '../../layouts/TopicLayout.astro';
 import { buildTopicPath } from '../../lib/i18n';
 
-const entries = await getCollection('topics', t => t.data.locale === 'en');
+const entries = await getCollection('topics', (t) => t.data.locale === 'en');
 const sorted = entries.sort((a, b) => a.data.order - b.data.order);
 ---
 
@@ -1728,11 +1769,13 @@ const sorted = entries.sort((a, b) => a.data.order - b.data.order);
 >
   <p>Start with any topic:</p>
   <ul>
-    {sorted.map(e => (
-      <li>
-        <a href={buildTopicPath('en', e.data.slug)}>{e.data.title}</a> — {e.data.summary}
-      </li>
-    ))}
+    {
+      sorted.map((e) => (
+        <li>
+          <a href={buildTopicPath('en', e.data.slug)}>{e.data.title}</a> — {e.data.summary}
+        </li>
+      ))
+    }
   </ul>
 </TopicLayout>
 ```
@@ -1761,17 +1804,22 @@ git commit -m "feat(pages): add EN index and dynamic topic pages"
 ---
 import '../styles/global.css';
 ---
+
 <!doctype html>
 <html lang="th">
   <head>
     <meta charset="utf-8" />
     <title>ไม่พบหน้าที่ต้องการ — Learn Vector DB</title>
   </head>
-  <body class="flex min-h-screen items-center justify-center bg-white text-brand-900 dark:bg-brand-900 dark:text-brand-50">
+  <body
+    class="flex min-h-screen items-center justify-center bg-white text-brand-900 dark:bg-brand-900 dark:text-brand-50"
+  >
     <div class="text-center">
       <p class="text-sm text-brand-500">404</p>
       <h1 class="mt-2 text-2xl font-semibold">ไม่พบหน้าที่ต้องการ</h1>
-      <a href="/" class="mt-4 inline-block text-brand-700 underline dark:text-brand-300">กลับหน้าแรก</a>
+      <a href="/" class="mt-4 inline-block text-brand-700 underline dark:text-brand-300"
+        >กลับหน้าแรก</a
+      >
     </div>
   </body>
 </html>
@@ -1783,17 +1831,22 @@ import '../styles/global.css';
 ---
 import '../../styles/global.css';
 ---
+
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <title>Not found — Learn Vector DB</title>
   </head>
-  <body class="flex min-h-screen items-center justify-center bg-white text-brand-900 dark:bg-brand-900 dark:text-brand-50">
+  <body
+    class="flex min-h-screen items-center justify-center bg-white text-brand-900 dark:bg-brand-900 dark:text-brand-50"
+  >
     <div class="text-center">
       <p class="text-sm text-brand-500">404</p>
       <h1 class="mt-2 text-2xl font-semibold">Page not found</h1>
-      <a href="/en/" class="mt-4 inline-block text-brand-700 underline dark:text-brand-300">Back home</a>
+      <a href="/en/" class="mt-4 inline-block text-brand-700 underline dark:text-brand-300"
+        >Back home</a
+      >
     </div>
   </body>
 </html>
@@ -1843,6 +1896,7 @@ Expected: all three pass with 0 errors.
 
 Run: `pnpm preview`
 Visit:
+
 - `http://localhost:4321/` (TH home)
 - `http://localhost:4321/vector` (TH topic)
 - `http://localhost:4321/en/` (EN home)
@@ -1862,6 +1916,7 @@ Stop preview server.
 - [ ] **Step 27.1:** Install Prettier and Astro/Svelte plugins
 
 Run:
+
 ```bash
 pnpm add -D prettier prettier-plugin-astro prettier-plugin-svelte
 ```
@@ -1876,7 +1931,7 @@ pnpm add -D prettier prettier-plugin-astro prettier-plugin-svelte
   "printWidth": 100,
   "plugins": ["prettier-plugin-astro", "prettier-plugin-svelte"],
   "overrides": [
-    { "files": "*.astro",  "options": { "parser": "astro" } },
+    { "files": "*.astro", "options": { "parser": "astro" } },
     { "files": "*.svelte", "options": { "parser": "svelte" } }
   ]
 }
@@ -1896,7 +1951,7 @@ pnpm-lock.yaml
 ```json
 {
   "scripts": {
-    "format":      "prettier --write .",
+    "format": "prettier --write .",
     "format:check": "prettier --check ."
   }
 }
@@ -2073,20 +2128,20 @@ Requires Node 20+ and pnpm 9+.
 
 \`\`\`bash
 pnpm install
-pnpm dev          # http://localhost:4321
+pnpm dev # http://localhost:4321
 \`\`\`
 
 ## Scripts
 
-| script              | what it does                            |
-|---------------------|-----------------------------------------|
-| \`pnpm dev\`         | start dev server                        |
-| \`pnpm build\`       | static build to \`dist/\`                |
-| \`pnpm preview\`     | preview the static build                |
-| \`pnpm test\`        | run Vitest suite                        |
-| \`pnpm typecheck\`   | astro check + tsc --noEmit              |
-| \`pnpm format\`      | format with Prettier                    |
-| \`pnpm format:check\`| Prettier check (used in CI)             |
+| script                | what it does                |
+| --------------------- | --------------------------- |
+| \`pnpm dev\`          | start dev server            |
+| \`pnpm build\`        | static build to \`dist/\`   |
+| \`pnpm preview\`      | preview the static build    |
+| \`pnpm test\`         | run Vitest suite            |
+| \`pnpm typecheck\`    | astro check + tsc --noEmit  |
+| \`pnpm format\`       | format with Prettier        |
+| \`pnpm format:check\` | Prettier check (used in CI) |
 
 ## Adding a topic
 

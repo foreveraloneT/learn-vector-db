@@ -3,8 +3,8 @@ import { getCollection, render } from 'astro:content';
 import TopicLayout from '../../layouts/TopicLayout.astro';
 
 export async function getStaticPaths() {
-  const entries = await getCollection('topics', t => t.data.locale === 'en');
-  return entries.map(entry => ({
+  const entries = await getCollection('topics', (t) => t.data.locale === 'en');
+  return entries.map((entry) => ({
     params: { slug: entry.data.slug },
     props: { entry },
   }));

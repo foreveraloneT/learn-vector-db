@@ -25,14 +25,14 @@ describe('validateTopicParity', () => {
 
   it('fails on duplicate order within a locale', () => {
     const topics: ValidatableTopic[] = [
-      { slug: 'vector',             locale: 'th', order: 1 },
-      { slug: 'vector-operations',  locale: 'th', order: 1 },
-      { slug: 'vector',             locale: 'en', order: 1 },
-      { slug: 'vector-operations',  locale: 'en', order: 2 },
+      { slug: 'vector', locale: 'th', order: 1 },
+      { slug: 'vector-operations', locale: 'th', order: 1 },
+      { slug: 'vector', locale: 'en', order: 1 },
+      { slug: 'vector-operations', locale: 'en', order: 2 },
     ];
     const result = validateTopicParity(topics, []);
     expect(result.ok).toBe(false);
-    expect(result.errors.some(e => e.includes('Duplicate order 1 in locale "th"'))).toBe(true);
+    expect(result.errors.some((e) => e.includes('Duplicate order 1 in locale "th"'))).toBe(true);
   });
 
   it('fails when interactiveComponent name is not in the registry', () => {
@@ -42,7 +42,9 @@ describe('validateTopicParity', () => {
     ];
     const result = validateTopicParity(topics, ['VectorPlayground']);
     expect(result.ok).toBe(false);
-    expect(result.errors.some(e => e.includes('Unknown interactiveComponent "NopeComponent"'))).toBe(true);
+    expect(
+      result.errors.some((e) => e.includes('Unknown interactiveComponent "NopeComponent"')),
+    ).toBe(true);
   });
 
   it('passes when interactiveComponent name is in the registry', () => {
