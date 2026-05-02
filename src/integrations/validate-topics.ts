@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import matter from 'gray-matter';
 import { validateTopicParity, type ValidatableTopic } from '../lib/validate-topics';
 
-async function listIslandComponents(srcRoot: URL): Promise<string[]> {
+export async function listIslandComponents(srcRoot: URL): Promise<string[]> {
   const islandsDir = join(fileURLToPath(srcRoot), 'components', 'islands');
   try {
     const entries = await readdir(islandsDir);
@@ -16,7 +16,7 @@ async function listIslandComponents(srcRoot: URL): Promise<string[]> {
   }
 }
 
-async function listTopicFrontmatter(srcRoot: URL): Promise<ValidatableTopic[]> {
+export async function listTopicFrontmatter(srcRoot: URL): Promise<ValidatableTopic[]> {
   const root = join(fileURLToPath(srcRoot), 'content', 'topics');
   const result: ValidatableTopic[] = [];
   for (const locale of ['th', 'en'] as const) {
