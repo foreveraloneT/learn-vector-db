@@ -52,20 +52,28 @@
         data-testid="histogram-bin"
       />
     {/each}
-    <line x1="0" y1={SVG_H - 1} x2={SVG_W} y2={SVG_H - 1} stroke="currentColor" stroke-opacity="0.4" />
-    <line x1={SVG_W / 2} y1="0" x2={SVG_W / 2} y2={SVG_H} stroke="currentColor" stroke-opacity="0.2" stroke-dasharray="2 3" />
+    <line
+      x1="0"
+      y1={SVG_H - 1}
+      x2={SVG_W}
+      y2={SVG_H - 1}
+      stroke="currentColor"
+      stroke-opacity="0.4"
+    />
+    <line
+      x1={SVG_W / 2}
+      y1="0"
+      x2={SVG_W / 2}
+      y2={SVG_H}
+      stroke="currentColor"
+      stroke-opacity="0.2"
+      stroke-dasharray="2 3"
+    />
   </svg>
 
   <div class="mt-4 grid grid-cols-[max-content_1fr_max-content] items-center gap-3 text-sm">
     <span aria-hidden="true">Dimension</span>
-    <input
-      type="range"
-      min="2"
-      max="100"
-      step="1"
-      bind:value={dim}
-      aria-label="Dimension slider"
-    />
+    <input type="range" min="2" max="100" step="1" bind:value={dim} aria-label="Dimension slider" />
     <input
       type="number"
       min="2"
@@ -83,6 +91,7 @@
   </dl>
 
   <p class="mt-2 text-xs text-brand-500">
-    {PAIRS} random pairs of unit vectors at this dimension. Watch the histogram concentrate around 0 as dimension rises.
+    {PAIRS} random pairs of unit vectors at this dimension. Watch the histogram concentrate around 0 as
+    dimension rises.
   </p>
 </div>
