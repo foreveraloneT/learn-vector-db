@@ -1,0 +1,22 @@
+---
+import { getOtherLocaleUrl, getOtherLocale, type Locale } from '../../lib/i18n';
+
+interface Props {
+  locale: Locale;
+  slug?: string;
+}
+
+const { locale, slug = '' } = Astro.props;
+const otherLocale = getOtherLocale(locale);
+const otherUrl = getOtherLocaleUrl(locale, slug);
+
+const labels: Record<Locale, string> = { th: 'ไทย', en: 'English' };
+---
+
+<a
+  href={otherUrl}
+  hreflang={otherLocale}
+  class="text-sm text-brand-700 hover:underline dark:text-brand-300"
+>
+  {labels[otherLocale]}
+</a>
