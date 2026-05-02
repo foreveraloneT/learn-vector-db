@@ -1,0 +1,55 @@
+---
+title: High-dimensional intuition
+slug: high-dimensional
+group: math
+order: 5
+locale: en
+summary: In 2D, "random pair of arrows" can point any way. In 768D, almost every pair is nearly perpendicular. That's the foundation of vector search.
+hasInteractive: true
+interactiveComponent: HighDimIntuition
+hasMath: false
+---
+
+import HighDimIntuition from '../../../components/islands/HighDimIntuition.svelte';
+import TryYourself from '../../../components/mdx/TryYourself.astro';
+import Takeaways from '../../../components/mdx/Takeaways.astro';
+import Takeaway from '../../../components/mdx/Takeaway.astro';
+
+## Intuition
+
+Up to now, we've been working in 2D — flat paper. Vector databases work in **hundreds or thousands of dimensions**. The math doesn't change, but our intuition completely fails.
+
+Here's the fact that breaks intuition: pick two random unit vectors in 2D. Their cosine similarity could be anything between −1 and 1, with a flat-ish distribution. Pick two random unit vectors in 768 dimensions. Their cosine similarity is almost certainly between −0.05 and 0.05. **Almost every pair of high-dimensional vectors is nearly perpendicular.**
+
+This is sometimes called the **curse of dimensionality**, but it's also a blessing for search. If random vectors are nearly perpendicular, then a vector that has a meaningful cosine similarity to your query — say 0.3 or 0.7 — is genuinely related, not a coincidence. That's what lets a vector database surface the right document out of millions: in high dimensions, real similarity stands out from noise.
+
+## Try it
+
+<HighDimIntuition client:visible />
+
+Slide the dimension up. At dim 2 the histogram is wide. By dim 10 it's already narrowing. By dim 100 it's a tight spike around zero.
+
+## In the real world
+
+Embedding models like OpenAI's `text-embedding-3-small` produce 1536-dimensional vectors. Sentence-Transformers' `all-MiniLM-L6-v2` produces 384-dim. Both rely on the same property you just observed: in those dimensions, two unrelated sentences will have cosine similarity essentially 0, while two paraphrases land at 0.7+. The signal-to-noise ratio is what makes search work.
+
+This is also why you can't intuitively "draw" a 768-dim space in 2D and expect anything meaningful. Projections compress, and most of the structure is lost. Always reason about high-dim spaces through their statistics, not their pictures.
+
+<TryYourself>
+  At dim = 100, the histogram is so concentrated that random vectors are essentially never
+  "similar." A cosine similarity of 0.5 would be extraordinary. What does this imply about how rare
+  a "good match" is in a real vector DB?
+</TryYourself>
+
+<Takeaways>
+  <Takeaway>
+    In high dimensions, random unit vectors are nearly perpendicular almost always.
+  </Takeaway>
+  <Takeaway>
+    That's why a cosine of 0.3+ in 768D is a strong signal: random vectors don't accidentally hit
+    it.
+  </Takeaway>
+  <Takeaway>
+    Don't trust your low-dim intuition for high-dim spaces. Reason in statistics, not in pictures.
+  </Takeaway>
+</Takeaways>
