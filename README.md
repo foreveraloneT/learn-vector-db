@@ -19,15 +19,15 @@ pnpm dev          # http://localhost:4321
 
 ## Scripts
 
-| script               | what it does                            |
-|----------------------|-----------------------------------------|
-| `pnpm dev`           | start dev server                        |
-| `pnpm build`         | static build to `dist/`                 |
-| `pnpm preview`       | preview the static build                |
-| `pnpm test`          | run Vitest suite                        |
-| `pnpm typecheck`     | astro check + tsc --noEmit              |
-| `pnpm format`        | format with Prettier                    |
-| `pnpm format:check`  | Prettier check (used in CI)             |
+| script              | what it does                |
+| ------------------- | --------------------------- |
+| `pnpm dev`          | start dev server            |
+| `pnpm build`        | static build to `dist/`     |
+| `pnpm preview`      | preview the static build    |
+| `pnpm test`         | run Vitest suite            |
+| `pnpm typecheck`    | astro check + tsc --noEmit  |
+| `pnpm format`       | format with Prettier        |
+| `pnpm format:check` | Prettier check (used in CI) |
 
 ## Adding a topic
 
