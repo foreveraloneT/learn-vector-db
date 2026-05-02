@@ -1,0 +1,49 @@
+---
+title: ระยะห่างและความคล้าย
+slug: distance-similarity
+group: math
+order: 3
+locale: th
+summary: สามวิธีในการถามว่า "สองสิ่งนี้อยู่ใกล้กันแค่ไหน" — และทำไมระบบค้นหาส่วนใหญ่เลือกใช้แค่วิธีเดียว
+hasInteractive: true
+interactiveComponent: DistanceComparator
+hasMath: false
+---
+
+import DistanceComparator from '../../../components/islands/DistanceComparator.svelte';
+import TryYourself from '../../../components/mdx/TryYourself.astro';
+import Takeaways from '../../../components/mdx/Takeaways.astro';
+import Takeaway from '../../../components/mdx/Takeaway.astro';
+
+## ทำความเข้าใจ
+
+มีหลายวิธีที่จะวัดว่าจุดสองจุดอยู่ห่างกันแค่ไหน วิธีที่พบบ่อยในฐานข้อมูลเวกเตอร์มี 3 แบบ:
+
+- **Euclidean distance** — ระยะห่างเส้นตรง วัดได้ด้วยไม้บรรทัด
+- **Manhattan distance** — ระยะที่ต้องเดินตามถนนในเมืองที่ตัดเป็นบล็อก เดินขึ้นลงซ้ายขวาเท่านั้น ไม่มีทางเฉียง
+- **Cosine similarity** — สองจุดชี้ไปทางเดียวกันแค่ไหน (มองเป็นลูกศรจากจุดกำเนิด) ค่า 1 = ทิศเดียวกันสนิท, 0 = ตั้งฉาก, −1 = สวนทาง
+
+สองตัวแรกวัด **ความห่าง** ส่วน Cosine วัด **ความตรงทิศกัน** เป็นคำถามคนละแบบ และเลือกใช้ตัวไหนขึ้นอยู่กับว่าข้อมูลของเราเป็นอะไร
+
+## ลองเล่นดู
+
+<DistanceComparator client:visible />
+
+ลองลากจุดไปมา จะเห็นว่า Euclidean และ Manhattan ไม่เถียงกันเรื่อง "ใกล้/ไกล" แต่ตัวเลขจะต่างกัน ลองให้สองจุดอยู่บนแนวเส้นตรงเดียวกันจากจุดกำเนิด: Euclidean และ Manhattan เพิ่มขึ้นเมื่อเลื่อนจุดออกไป แต่ cosine ยังเป็น 1 — เพราะยังชี้ไปทางเดียวกันอยู่
+
+## ในโลกจริง
+
+สำหรับข้อความ ฐานข้อมูลเวกเตอร์ในโปรดักชั่นเกือบทั้งหมดใช้ **cosine similarity** (หรือ normalized dot product ที่ค่าทางคณิตศาสตร์เท่ากัน) เหตุผล: เอกสารที่ยาวกว่าไม่ได้แปลว่า "คล้ายกว่า" สิ่งที่สำคัญคือเป็นเรื่องเดียวกันหรือเปล่า cosine ไม่สนเรื่องความยาว สนแค่ทิศทาง — ซึ่งคือสิ่งที่เราต้องการ
+
+ในโดเมนอื่นเลือกต่างกัน: การค้นหาทางภูมิศาสตร์ใช้ Euclidean (ระยะจริงบนแผนที่) ระบบเปรียบเทียบรูปบางตัวใช้ Manhattan เพราะเร็วกว่า ฐานข้อมูลเวกเตอร์ส่วนใหญ่ให้เราเลือกได้
+
+<TryYourself>
+  ตั้ง `p = (1, 1)` และ `q = (3, 3)` Euclidean และ Manhattan เพิ่มขึ้นเมื่อจุดห่างกันมากขึ้น แต่
+  cosine ยังเป็น 1 ทำไม?
+</TryYourself>
+
+<Takeaways>
+  <Takeaway>Euclidean และ Manhattan ตอบคำถาม "ห่างกันแค่ไหน"</Takeaway>
+  <Takeaway>Cosine similarity ตอบคำถาม "ตรงทิศกันแค่ไหน" โดยไม่สนความยาว</Takeaway>
+  <Takeaway>การค้นหาข้อความใช้ cosine เกือบทั้งหมด สำหรับโดเมนอื่นต้องเลือกอย่างมีเหตุผล</Takeaway>
+</Takeaways>

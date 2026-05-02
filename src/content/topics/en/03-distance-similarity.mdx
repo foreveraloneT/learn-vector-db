@@ -1,0 +1,51 @@
+---
+title: Distance & similarity
+slug: distance-similarity
+group: math
+order: 3
+locale: en
+summary: Three ways to ask "how close are these two things?" — and why most search engines pick one of them.
+hasInteractive: true
+interactiveComponent: DistanceComparator
+hasMath: false
+---
+
+import DistanceComparator from '../../../components/islands/DistanceComparator.svelte';
+import TryYourself from '../../../components/mdx/TryYourself.astro';
+import Takeaways from '../../../components/mdx/Takeaways.astro';
+import Takeaway from '../../../components/mdx/Takeaway.astro';
+
+## Intuition
+
+There's more than one way to measure how far apart two points are. Three show up everywhere in vector databases:
+
+- **Euclidean distance** — the straight-line distance, the one you'd measure with a ruler.
+- **Manhattan distance** — the distance if you have to walk along city blocks: only along the axes, no diagonals.
+- **Cosine similarity** — how much the two points point in the same direction (treating them as arrows from the origin). Returns 1 for identical direction, 0 for perpendicular, −1 for opposite.
+
+The first two measure **how far** two points are. Cosine similarity measures **how aligned** they are. They're answering different questions, and which one matters depends on what your data is.
+
+## Try it
+
+<DistanceComparator client:visible />
+
+Drag the points around. Notice that Euclidean and Manhattan agree about "near vs. far" but disagree about exactly how far. Now make the two points line up along a ray from the origin: Euclidean and Manhattan go up as one slides farther out, but cosine similarity stays at 1 — they're still pointing the same way.
+
+## In the real world
+
+For text, almost all production vector databases use **cosine similarity** (or its mathematically-equivalent normalized dot product). The reason: a longer document doesn't mean it's "more similar" — what matters is whether it's about the same topic. Cosine ignores length and asks only about direction, which is exactly what you want.
+
+For other domains, the answer differs. Geographic search uses Euclidean (literal distance on a map). Some image-similarity systems use Manhattan because it's faster. Most vector databases let you pick.
+
+<TryYourself>
+  Set `p = (1, 1)` and `q = (3, 3)`. Euclidean and Manhattan both grow as the points spread, but
+  cosine similarity stays at 1. Why?
+</TryYourself>
+
+<Takeaways>
+  <Takeaway>Euclidean and Manhattan ask "how far apart" — they care about distance.</Takeaway>
+  <Takeaway>Cosine similarity asks "how aligned" — it ignores length entirely.</Takeaway>
+  <Takeaway>
+    Text-search vector DBs almost always use cosine; pick deliberately for other domains.
+  </Takeaway>
+</Takeaways>
