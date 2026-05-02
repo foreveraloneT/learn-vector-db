@@ -1,43 +1,49 @@
-# Astro Starter Kit: Minimal
+# Learn Vector DB
 
-```sh
-pnpm create astro@latest -- --template minimal
+Interactive, beginner-friendly learning site for vector databases and the math behind them. Bilingual: Thai (default) and English. Built with Astro 6, Tailwind v4, Svelte 5, MDX.
+
+## Live site
+
+https://<user>.github.io/learn-vector-db/
+
+(Replace `<user>` once GitHub Pages is configured.)
+
+## Local development
+
+Requires Node 20+ and pnpm 9+.
+
+```bash
+pnpm install
+pnpm dev          # http://localhost:4321
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Scripts
 
-## 🚀 Project Structure
+| script               | what it does                            |
+|----------------------|-----------------------------------------|
+| `pnpm dev`           | start dev server                        |
+| `pnpm build`         | static build to `dist/`                 |
+| `pnpm preview`       | preview the static build                |
+| `pnpm test`          | run Vitest suite                        |
+| `pnpm typecheck`     | astro check + tsc --noEmit              |
+| `pnpm format`        | format with Prettier                    |
+| `pnpm format:check`  | Prettier check (used in CI)             |
 
-Inside of your Astro project, you'll see the following folders and files:
+## Adding a topic
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+1. Create two MDX files (one per locale): `src/content/topics/th/<order>-<slug>.mdx` and `src/content/topics/en/<order>-<slug>.mdx`.
+2. Frontmatter must include: `title`, `slug`, `group` (`math` | `vector-db` | `real-world`), `order` (unique per locale), `locale`, `summary`. See the schema in `src/content.config.ts`.
+3. Restart the dev server. The sidebar updates automatically.
+4. The build will fail if a slug exists in only one locale or if two topics share the same `order`.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Deployment
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Pushes to `main` deploy to GitHub Pages via `.github/workflows/deploy.yml`. To enable:
 
-Any static assets, like images, can be placed in the `public/` directory.
+1. Repo Settings → Pages → Source → "GitHub Actions"
+2. Update `site` and `base` in `astro.config.mjs` to match the Pages URL (e.g. `site: 'https://<user>.github.io'`, `base: '/learn-vector-db/'`)
+3. Push to `main`
 
-## 🧞 Commands
+## License
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                | Action                                           |
-| :--------------------- | :----------------------------------------------- |
-| `pnpm install`         | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+MIT.
