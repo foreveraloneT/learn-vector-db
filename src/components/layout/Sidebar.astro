@@ -1,0 +1,58 @@
+---
+import { getCollection } from 'astro:content';
+import { groupTopicsForSidebar, type TopicSummary } from '../../lib/topics';
+import { buildTopicPath, type Locale } from '../../lib/i18n';
+
+interface Props {
+  locale: Locale;
+  currentSlug?: string;
+}
+
+const { locale, currentSlug } = Astro.props;
+
+const entries = await getCollection('topics', t => t.data.locale === locale);
+const summaries: TopicSummary[] = entries.map(e => ({
+  slug: e.data.slug,
+  title: e.data.title,
+  group: e.data.group,
+  order: e.data.order,
+  locale: e.data.locale,
+}));
+const groups = groupTopicsForSidebar(summaries);
+
+const groupLabels: Record<typeof groups[number]['group'], Record<Locale, string>> = {
+  'math':       { th: 'พื้นฐานคณิตศาสตร์', en: 'Math foundations' },
+  'vector-db':  { th: 'ฐานข้อมูลเวกเตอร์',  en: 'Vector databases' },
+  'real-world': { th: 'ตัวอย่างจริง',       en: 'Real-world examples' },
+};
+---
+
+<nav aria-label="Topics" class="text-sm">
+  {groups.map(({ group, topics }) => (
+    <details open class="mb-4">
+      <summary class="cursor-pointer font-semibold text-brand-700 dark:text-brand-300">
+        {groupLabels[group][locale]}
+      </summary>
+      <ul class="mt-2 ml-2 space-y-1 border-l border-brand-100 pl-3 dark:border-brand-900">
+        {topics.map(t => {
+          const href = buildTopicPath(locale, t.slug);
+          const isCurrent = t.slug === currentSlug;
+          return (
+            <li>
+              <a
+                href={href}
+                aria-current={isCurrent ? 'page' : undefined}
+                class:list={[
+                  'block rounded px-2 py-1 hover:bg-brand-50 dark:hover:bg-brand-900',
+                  isCurrent && 'bg-brand-100 font-medium dark:bg-brand-700',
+                ]}
+              >
+                {t.title}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </details>
+  ))}
+</nav>
