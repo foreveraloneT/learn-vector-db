@@ -128,26 +128,24 @@
     >
     {#if op === 'scale'}
       <div class="col-span-2 flex items-center gap-2 text-sm">
-        <label for="k-number">k</label>
+        <span aria-hidden="true">k</span>
         <input
-          id="k-range"
           type="range"
           min="-3"
           max="3"
           step="0.1"
           bind:value={k}
           class="flex-1"
-          aria-hidden="true"
-          tabindex="-1"
+          aria-label="k slider"
         />
         <input
-          id="k-number"
           type="number"
           min="-3"
           max="3"
           step="0.1"
           bind:value={k}
           class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1"
+          aria-label="k"
         />
       </div>
     {/if}

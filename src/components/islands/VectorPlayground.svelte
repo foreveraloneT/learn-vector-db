@@ -24,14 +24,7 @@
   >
     <line x1={CENTER} y1="0" x2={CENTER} y2={SIZE} stroke="currentColor" stroke-opacity="0.15" />
     <line x1="0" y1={CENTER} x2={SIZE} y2={CENTER} stroke="currentColor" stroke-opacity="0.15" />
-    <line
-      x1={CENTER}
-      y1={CENTER}
-      x2={px}
-      y2={py}
-      stroke="oklch(0.55 0.18 250)"
-      stroke-width="2"
-    />
+    <line x1={CENTER} y1={CENTER} x2={px} y2={py} stroke="oklch(0.55 0.18 250)" stroke-width="2" />
     <circle cx={px} cy={py} r="6" fill="oklch(0.55 0.18 250)" />
   </svg>
 

@@ -40,7 +40,7 @@ describe('VectorOpsPlayground', () => {
     await user.click(screen.getByLabelText(/scale/i));
     // default k = 1, a = (2, 1) → (2, 1)
     expect(screen.getByTestId('result').textContent).toMatch(/2\.00.*1\.00/);
-    const kInput = screen.getByLabelText(/^k/i) as HTMLInputElement;
+    const kInput = screen.getByRole('spinbutton', { name: /^k$/i }) as HTMLInputElement;
     await user.clear(kInput);
     await user.type(kInput, '2');
     expect(screen.getByTestId('result').textContent).toMatch(/4\.00.*2\.00/);
