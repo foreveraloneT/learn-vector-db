@@ -2246,4 +2246,25 @@ Stop the dev server.
 
 ## Deferred follow-ups (for M3 / M5)
 
-If the final review surfaces issues, capture them at the bottom of this section, mirroring the M1 plan's pattern.
+The four "quick win" items from the M2 final review have been applied (commits `4f88f0f`, `9c6a384`, `e92a423`, `4ccaff9`). The items below are intentionally deferred. When picking up M3, scan this list and pull in the ones that intersect the new work.
+
+**For M3 (vector-DB topics + first embedding-pipeline island):**
+
+1. **`HighDimIntuition` perf — separate `vecs` and `sims` derivations.** Currently both are computed in a single `$derived.by` block, so dragging the dim slider regenerates 500 unit vectors per step (50k Gaussian draws at dim=100). M3 islands that follow the same "draw N samples and aggregate" shape should split the heavy work into a `vecs` derivation that re-runs only when its inputs change, and a lighter `sims`/`stats` derivation. Optionally debounce the slider via `requestAnimationFrame` if real use feels janky.
+2. **Add a content-collection schema test.** The build catches frontmatter violations late; a Vitest unit test on the Zod schema in `src/content.config.ts` catches them in dev. M3 will add 3 new topics, raising the value of fast feedback.
+3. **Add `cosineSimilarity([1, 1], [1, 1]) === 1` to the metrics test suite.** Identical-non-axis-aligned cosine is currently untested. Trivial addition.
+4. **Style consistency in `vec.ts`:** `add` and `sub` use `.map`, `dot` uses an explicit `for`. Pick one and apply throughout for symmetry. No behavior change.
+
+**For M5 (polish):**
+
+5. **Real drag affordance + arrow-key keyboard nudging on islands.** Spec §7 (drag the head of a 2D vector) and §8 (Tab focus + arrow-key nudge by 0.1 / Shift+arrow by 1.0) were not implemented in M2 — only the numeric-input fallback shipped. Topic 1 prose says "Drag the values up and down" but there's nothing to drag yet. Either update the prose to "type values" / "use the numeric inputs" until drag lands, or implement drag+keyboard now.
+6. **Tighter aria-labels on paired range+number inputs.** `aria-label="k"` and `aria-label="d"` are operable but terse for screen readers. Suggest `"k value"` / `"Dimension (numeric)"`.
+7. **Prettier override for inline LaTeX** when the first `hasMath: true` topic lands. Likely fix:
+   ```json
+   { "files": "*.mdx", "options": { "embeddedLanguageFormatting": "off" } }
+   ```
+   in `.prettierrc`. Don't add speculatively — wait until a real LaTeX topic forces the issue and test against real `$...$` content.
+
+**Cosmetic / optional:**
+
+8. **`HighDimIntuition` SCALE-vs-input-range invariant comment.** If anyone widens the input range without bumping SCALE, the SVG silently overflows. Worth a one-line comment near the constants noting `SCALE = SIZE/2 / inputMax`.
