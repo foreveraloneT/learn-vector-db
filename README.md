@@ -34,7 +34,8 @@ pnpm dev          # http://localhost:4321
 1. Create two MDX files (one per locale): `src/content/topics/th/<order>-<slug>.mdx` and `src/content/topics/en/<order>-<slug>.mdx`.
 2. Frontmatter must include: `title`, `slug`, `group` (`math` | `vector-db` | `real-world`), `order` (unique per locale), `locale`, `summary`. See the schema in `src/content.config.ts`.
 3. Restart the dev server. The sidebar updates automatically.
-4. The build will fail if a slug exists in only one locale or if two topics share the same `order`.
+4. If the topic embeds an interactive demo, set `interactiveComponent: <Name>` in the frontmatter. The component must live at `src/components/islands/<Name>.svelte` — that's the only directory the build-time validator searches. Anywhere else and the build will fail with `Unknown interactiveComponent`.
+5. The build will fail if a slug exists in only one locale or if two topics share the same `order`.
 
 ## Deployment
 
