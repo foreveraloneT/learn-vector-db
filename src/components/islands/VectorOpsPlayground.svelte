@@ -1,5 +1,6 @@
 <script lang="ts">
   import { add, sub, scale, dot } from '../../lib/math/vec';
+  import { svgCoords } from '../../lib/svg/coords';
 
   type Op = 'add' | 'sub' | 'scale' | 'dot';
 
@@ -26,37 +27,45 @@
     }
   });
 
-  const SIZE = 280;
-  const CENTER = SIZE / 2;
-  const SCALE = 25;
-  function px(v: number) {
-    return CENTER + v * SCALE;
-  }
-  function py(v: number) {
-    return CENTER - v * SCALE;
-  }
+  const coords = svgCoords();
+  const px = coords.x;
+  const py = coords.y;
 </script>
 
 <div class="not-prose my-6 rounded-md border border-brand-100 p-4 dark:border-brand-900">
   <svg
-    viewBox="0 0 {SIZE} {SIZE}"
+    viewBox="0 0 {coords.size} {coords.size}"
     role="img"
     aria-label="Vector operations playground"
     class="mx-auto block h-72 w-72"
   >
-    <line x1={CENTER} y1="0" x2={CENTER} y2={SIZE} stroke="currentColor" stroke-opacity="0.15" />
-    <line x1="0" y1={CENTER} x2={SIZE} y2={CENTER} stroke="currentColor" stroke-opacity="0.15" />
     <line
-      x1={CENTER}
-      y1={CENTER}
+      x1={coords.center}
+      y1="0"
+      x2={coords.center}
+      y2={coords.size}
+      stroke="currentColor"
+      stroke-opacity="0.15"
+    />
+    <line
+      x1="0"
+      y1={coords.center}
+      x2={coords.size}
+      y2={coords.center}
+      stroke="currentColor"
+      stroke-opacity="0.15"
+    />
+    <line
+      x1={coords.center}
+      y1={coords.center}
       x2={px(ax)}
       y2={py(ay)}
       stroke="oklch(0.55 0.18 250)"
       stroke-width="2"
     />
     <line
-      x1={CENTER}
-      y1={CENTER}
+      x1={coords.center}
+      y1={coords.center}
       x2={px(bx)}
       y2={py(by)}
       stroke="oklch(0.55 0.18 145)"
@@ -64,8 +73,8 @@
     />
     {#if result.kind === 'vec'}
       <line
-        x1={CENTER}
-        y1={CENTER}
+        x1={coords.center}
+        y1={coords.center}
         x2={px(result.value[0])}
         y2={py(result.value[1])}
         stroke="oklch(0.7 0.18 60)"

@@ -1,30 +1,50 @@
 <script lang="ts">
   import { magnitude, l1norm } from '../../lib/math/vec';
+  import { svgCoords } from '../../lib/svg/coords';
 
   let x = $state(3);
   let y = $state(2);
 
-  const SIZE = 280;
-  const CENTER = SIZE / 2;
-  const SCALE = 25;
+  const coords = svgCoords();
 
   const len = $derived(magnitude([x, y]));
   const l1 = $derived(l1norm([x, y]));
 
-  const px = $derived(CENTER + x * SCALE);
-  const py = $derived(CENTER - y * SCALE);
+  const px = $derived(coords.x(x));
+  const py = $derived(coords.y(y));
 </script>
 
 <div class="not-prose my-6 rounded-md border border-brand-100 p-4 dark:border-brand-900">
   <svg
-    viewBox="0 0 {SIZE} {SIZE}"
+    viewBox="0 0 {coords.size} {coords.size}"
     role="img"
     aria-label="2D vector playground"
     class="mx-auto block h-72 w-72"
   >
-    <line x1={CENTER} y1="0" x2={CENTER} y2={SIZE} stroke="currentColor" stroke-opacity="0.15" />
-    <line x1="0" y1={CENTER} x2={SIZE} y2={CENTER} stroke="currentColor" stroke-opacity="0.15" />
-    <line x1={CENTER} y1={CENTER} x2={px} y2={py} stroke="oklch(0.55 0.18 250)" stroke-width="2" />
+    <line
+      x1={coords.center}
+      y1="0"
+      x2={coords.center}
+      y2={coords.size}
+      stroke="currentColor"
+      stroke-opacity="0.15"
+    />
+    <line
+      x1="0"
+      y1={coords.center}
+      x2={coords.size}
+      y2={coords.center}
+      stroke="currentColor"
+      stroke-opacity="0.15"
+    />
+    <line
+      x1={coords.center}
+      y1={coords.center}
+      x2={px}
+      y2={py}
+      stroke="oklch(0.55 0.18 250)"
+      stroke-width="2"
+    />
     <circle cx={px} cy={py} r="6" fill="oklch(0.55 0.18 250)" />
   </svg>
 

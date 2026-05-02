@@ -1,5 +1,6 @@
 <script lang="ts">
   import { euclidean, manhattan, cosineSimilarity } from '../../lib/math/metrics';
+  import { svgCoords } from '../../lib/svg/coords';
 
   let pxv = $state(3);
   let pyv = $state(0);
@@ -13,26 +14,34 @@
   const mDist = $derived(manhattan(p, q));
   const cSim = $derived(cosineSimilarity(p, q));
 
-  const SIZE = 280;
-  const CENTER = SIZE / 2;
-  const SCALE = 25;
-  function sx(v: number) {
-    return CENTER + v * SCALE;
-  }
-  function sy(v: number) {
-    return CENTER - v * SCALE;
-  }
+  const coords = svgCoords();
+  const sx = coords.x;
+  const sy = coords.y;
 </script>
 
 <div class="not-prose my-6 rounded-md border border-brand-100 p-4 dark:border-brand-900">
   <svg
-    viewBox="0 0 {SIZE} {SIZE}"
+    viewBox="0 0 {coords.size} {coords.size}"
     role="img"
     aria-label="Distance metric comparator"
     class="mx-auto block h-72 w-72"
   >
-    <line x1={CENTER} y1="0" x2={CENTER} y2={SIZE} stroke="currentColor" stroke-opacity="0.15" />
-    <line x1="0" y1={CENTER} x2={SIZE} y2={CENTER} stroke="currentColor" stroke-opacity="0.15" />
+    <line
+      x1={coords.center}
+      y1="0"
+      x2={coords.center}
+      y2={coords.size}
+      stroke="currentColor"
+      stroke-opacity="0.15"
+    />
+    <line
+      x1="0"
+      y1={coords.center}
+      x2={coords.size}
+      y2={coords.center}
+      stroke="currentColor"
+      stroke-opacity="0.15"
+    />
     <polyline
       points="{sx(pxv)},{sy(pyv)} {sx(qxv)},{sy(pyv)} {sx(qxv)},{sy(qyv)}"
       fill="none"
