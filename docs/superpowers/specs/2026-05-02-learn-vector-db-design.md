@@ -59,8 +59,8 @@ src/
 ├─ components/
 │  ├─ layout/        # Sidebar.astro, ThemeToggle.svelte, LangSwitch.astro, PrevNext.astro
 │  └─ islands/       # VectorPlayground.svelte, DistanceComparator.svelte, ...
+├─ content.config.ts  # Content Collection schema (root, per Astro 5 convention)
 ├─ content/
-│  ├─ config.ts      # Content Collection schema
 │  └─ topics/
 │     ├─ th/01-vector.mdx ... 11-recommendations.mdx
 │     └─ en/01-vector.mdx ... 11-recommendations.mdx
@@ -88,13 +88,15 @@ scripts/
 
 ## 5. Content model
 
-### Content Collection schema (`src/content/config.ts`)
+### Content Collection schema (`src/content.config.ts`)
 
 ```ts
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
+import { glob } from 'astro/loaders';
 
 const topics = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/topics' }),
   schema: z.object({
     title: z.string(),
     slug: z.string(),
