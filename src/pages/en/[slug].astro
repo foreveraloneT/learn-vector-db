@@ -1,0 +1,27 @@
+---
+import { getCollection, render } from 'astro:content';
+import TopicLayout from '../../layouts/TopicLayout.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('topics', t => t.data.locale === 'en');
+  return entries.map(entry => ({
+    params: { slug: entry.data.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<TopicLayout
+  title={entry.data.title}
+  summary={entry.data.summary}
+  locale="en"
+  slug={entry.data.slug}
+  group={entry.data.group}
+  order={entry.data.order}
+  hasMath={entry.data.hasMath}
+>
+  <Content />
+</TopicLayout>
