@@ -1,17 +1,27 @@
-// @ts-check
+// astro.config.mjs
 import { defineConfig } from 'astro/config';
-
 import tailwindcss from '@tailwindcss/vite';
-
 import svelte from '@astrojs/svelte';
-
 import mdx from '@astrojs/mdx';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
-// https://astro.build/config
 export default defineConfig({
-  vite: {
-    plugins: [tailwindcss()]
+  site: 'https://example.github.io',
+  base: '/',
+  i18n: {
+    defaultLocale: 'th',
+    locales: ['th', 'en'],
+    routing: { prefixDefaultLocale: false },
   },
-
-  integrations: [svelte(), mdx()]
+  integrations: [
+    svelte(),
+    mdx({
+      remarkPlugins: [remarkMath],
+      rehypePlugins: [rehypeKatex],
+    }),
+  ],
+  vite: {
+    plugins: [tailwindcss()],
+  },
 });
