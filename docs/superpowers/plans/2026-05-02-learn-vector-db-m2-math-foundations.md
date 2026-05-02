@@ -312,7 +312,7 @@ export function sub(a: Vec, b: Vec): number[] {
 }
 
 export function scale(v: Vec, k: number): number[] {
-  return v.map(x => x * k);
+  return v.map((x) => x * k);
 }
 
 export function dot(a: Vec, b: Vec): number {
@@ -669,14 +669,7 @@ describe('VectorPlayground', () => {
   >
     <line x1={CENTER} y1="0" x2={CENTER} y2={SIZE} stroke="currentColor" stroke-opacity="0.15" />
     <line x1="0" y1={CENTER} x2={SIZE} y2={CENTER} stroke="currentColor" stroke-opacity="0.15" />
-    <line
-      x1={CENTER}
-      y1={CENTER}
-      x2={px}
-      y2={py}
-      stroke="oklch(0.55 0.18 250)"
-      stroke-width="2"
-    />
+    <line x1={CENTER} y1={CENTER} x2={px} y2={py} stroke="oklch(0.55 0.18 250)" stroke-width="2" />
     <circle cx={px} cy={py} r="6" fill="oklch(0.55 0.18 250)" />
   </svg>
 
@@ -764,14 +757,18 @@ Drag the values up and down. Watch what happens to the **magnitude** (the arrow'
 
 Vector databases store sentences, images, and audio as long lists of numbers — vectors with hundreds or thousands of components. Two pieces of content that "feel similar" become vectors that are close to each other; finding similar items is just finding nearby vectors. Everything else this site teaches builds on that one idea.
 
-<TryYourself>
-Set `x = 3` and `y = 4`. What's the magnitude? Why is it exactly 5?
-</TryYourself>
+<TryYourself>Set `x = 3` and `y = 4`. What's the magnitude? Why is it exactly 5?</TryYourself>
 
 <Takeaways>
-  <Takeaway>A vector is just a list of numbers — its length and direction fall out of those numbers.</Takeaway>
-  <Takeaway>Magnitude (L2 norm) is how far the vector reaches: $\sqrt{x^2 + y^2}$ in 2D.</Takeaway>
-  <Takeaway>In a vector database, every item — a sentence, an image — is one of these vectors.</Takeaway>
+  <Takeaway>
+    A vector is just a list of numbers — its length and direction fall out of those numbers.
+  </Takeaway>
+  <Takeaway>
+    Magnitude (L2 norm) is how far the vector reaches: $\sqrt{x ^ (2 + y) ^ 2}$ in 2D.
+  </Takeaway>
+  <Takeaway>
+    In a vector database, every item — a sentence, an image — is one of these vectors.
+  </Takeaway>
 </Takeaways>
 ```
 
@@ -809,12 +806,14 @@ import VectorPlayground from '../../../components/islands/VectorPlayground.svelt
 ฐานข้อมูลเวกเตอร์เก็บประโยค รูปภาพ และเสียงในรูปของรายการตัวเลขที่ยาว — เวกเตอร์ที่มีหลายร้อยหรือหลายพันมิติ สิ่งที่ "รู้สึกคล้ายกัน" จะกลายเป็นเวกเตอร์ที่อยู่ใกล้กัน การค้นหาสิ่งที่คล้ายกันก็คือการค้นหาเวกเตอร์ที่อยู่ใกล้กันนั่นเอง ทุกอย่างที่เราจะเรียนต่อจากนี้ ตั้งอยู่บนแนวคิดเดียวกันนี้
 
 <TryYourself>
-ตั้งค่า `x = 3` และ `y = 4` ดูสิ ขนาดของเวกเตอร์เป็นเท่าไร? ทำไมถึงเป็น 5 พอดี?
+  ตั้งค่า `x = 3` และ `y = 4` ดูสิ ขนาดของเวกเตอร์เป็นเท่าไร? ทำไมถึงเป็น 5 พอดี?
 </TryYourself>
 
 <Takeaways>
   <Takeaway>เวกเตอร์คือรายการของตัวเลข — ความยาวและทิศทางคำนวณได้จากตัวเลขเหล่านั้น</Takeaway>
-  <Takeaway>Magnitude (L2 norm) คือความยาวของเวกเตอร์ ในสองมิติเท่ากับ $\sqrt{x^2 + y^2}$</Takeaway>
+  <Takeaway>
+    Magnitude (L2 norm) คือความยาวของเวกเตอร์ ในสองมิติเท่ากับ $\sqrt{x ^ (2 + y) ^ 2}$
+  </Takeaway>
   <Takeaway>ในฐานข้อมูลเวกเตอร์ ทุกๆ ไอเทม — ทุกประโยค ทุกรูปภาพ — คือเวกเตอร์หนึ่งตัว</Takeaway>
 </Takeaways>
 ```
@@ -822,11 +821,13 @@ import VectorPlayground from '../../../components/islands/VectorPlayground.svelt
 > **Note about MDX import paths:** the path `../../../components/islands/VectorPlayground.svelte` is correct relative to `src/content/topics/{th|en}/01-vector.mdx`. Three levels up: `topics/{th|en}/` → `topics/` → `content/` → `src/`.
 >
 > **Note about MDX helper components:** `<TryYourself>` and `<Takeaways>` / `<Takeaway>` are not auto-imported by Astro — they need explicit imports if not auto-injected by the MDX configuration. If the build complains "Component is not defined", add at the top of the MDX file (right after the existing import line):
+>
 > ```mdx
 > import TryYourself from '../../../components/mdx/TryYourself.astro';
 > import Takeaways from '../../../components/mdx/Takeaways.astro';
 > import Takeaway from '../../../components/mdx/Takeaway.astro';
 > ```
+>
 > If the build passes without these explicit imports, the MDX integration is auto-resolving them somehow (via globals or shortcuts) — fine, leave the file as written. **The first MDX file we author after M1 is the source of truth here**: figure out which path works on this build, document the answer in the README's "Adding a topic" section, and use the same approach for all later topics in this plan.
 
 - [ ] **Step 8.3:** Run the build
@@ -945,18 +946,26 @@ describe('VectorOpsPlayground', () => {
 
   const result = $derived.by(() => {
     switch (op) {
-      case 'add':   return { kind: 'vec' as const, value: add(a, b) };
-      case 'sub':   return { kind: 'vec' as const, value: sub(a, b) };
-      case 'scale': return { kind: 'vec' as const, value: scale(a, k) };
-      case 'dot':   return { kind: 'scalar' as const, value: dot(a, b) };
+      case 'add':
+        return { kind: 'vec' as const, value: add(a, b) };
+      case 'sub':
+        return { kind: 'vec' as const, value: sub(a, b) };
+      case 'scale':
+        return { kind: 'vec' as const, value: scale(a, k) };
+      case 'dot':
+        return { kind: 'scalar' as const, value: dot(a, b) };
     }
   });
 
   const SIZE = 280;
   const CENTER = SIZE / 2;
   const SCALE = 25;
-  function px(v: number) { return CENTER + v * SCALE; }
-  function py(v: number) { return CENTER - v * SCALE; }
+  function px(v: number) {
+    return CENTER + v * SCALE;
+  }
+  function py(v: number) {
+    return CENTER - v * SCALE;
+  }
 </script>
 
 <div class="not-prose my-6 rounded-md border border-brand-100 p-4 dark:border-brand-900">
@@ -969,34 +978,101 @@ describe('VectorOpsPlayground', () => {
     <line x1={CENTER} y1="0" x2={CENTER} y2={SIZE} stroke="currentColor" stroke-opacity="0.15" />
     <line x1="0" y1={CENTER} x2={SIZE} y2={CENTER} stroke="currentColor" stroke-opacity="0.15" />
     <!-- a in blue -->
-    <line x1={CENTER} y1={CENTER} x2={px(ax)} y2={py(ay)} stroke="oklch(0.55 0.18 250)" stroke-width="2" />
+    <line
+      x1={CENTER}
+      y1={CENTER}
+      x2={px(ax)}
+      y2={py(ay)}
+      stroke="oklch(0.55 0.18 250)"
+      stroke-width="2"
+    />
     <!-- b in green -->
-    <line x1={CENTER} y1={CENTER} x2={px(bx)} y2={py(by)} stroke="oklch(0.55 0.18 145)" stroke-width="2" />
+    <line
+      x1={CENTER}
+      y1={CENTER}
+      x2={px(bx)}
+      y2={py(by)}
+      stroke="oklch(0.55 0.18 145)"
+      stroke-width="2"
+    />
     <!-- result vector in amber, only when result is a vector -->
     {#if result.kind === 'vec'}
-      <line x1={CENTER} y1={CENTER} x2={px(result.value[0])} y2={py(result.value[1])} stroke="oklch(0.7 0.18 60)" stroke-width="2" stroke-dasharray="4 3" />
+      <line
+        x1={CENTER}
+        y1={CENTER}
+        x2={px(result.value[0])}
+        y2={py(result.value[1])}
+        stroke="oklch(0.7 0.18 60)"
+        stroke-width="2"
+        stroke-dasharray="4 3"
+      />
     {/if}
   </svg>
 
   <fieldset class="mt-4">
     <legend class="text-sm text-brand-500">Operation</legend>
     <div class="mt-1 flex flex-wrap gap-3 text-sm">
-      <label><input type="radio" name="op" value="add"   bind:group={op} /> Add (a + b)</label>
-      <label><input type="radio" name="op" value="sub"   bind:group={op} /> Subtract (a − b)</label>
+      <label><input type="radio" name="op" value="add" bind:group={op} /> Add (a + b)</label>
+      <label><input type="radio" name="op" value="sub" bind:group={op} /> Subtract (a − b)</label>
       <label><input type="radio" name="op" value="scale" bind:group={op} /> Scale (k · a)</label>
-      <label><input type="radio" name="op" value="dot"   bind:group={op} /> Dot (a · b)</label>
+      <label><input type="radio" name="op" value="dot" bind:group={op} /> Dot (a · b)</label>
     </div>
   </fieldset>
 
   <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
-    <label class="flex items-center gap-2">a.x <input type="number" min="-5" max="5" step="0.1" bind:value={ax} class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1" /></label>
-    <label class="flex items-center gap-2">a.y <input type="number" min="-5" max="5" step="0.1" bind:value={ay} class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1" /></label>
-    <label class="flex items-center gap-2">b.x <input type="number" min="-5" max="5" step="0.1" bind:value={bx} class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1" /></label>
-    <label class="flex items-center gap-2">b.y <input type="number" min="-5" max="5" step="0.1" bind:value={by} class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1" /></label>
+    <label class="flex items-center gap-2"
+      >a.x <input
+        type="number"
+        min="-5"
+        max="5"
+        step="0.1"
+        bind:value={ax}
+        class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1"
+      /></label
+    >
+    <label class="flex items-center gap-2"
+      >a.y <input
+        type="number"
+        min="-5"
+        max="5"
+        step="0.1"
+        bind:value={ay}
+        class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1"
+      /></label
+    >
+    <label class="flex items-center gap-2"
+      >b.x <input
+        type="number"
+        min="-5"
+        max="5"
+        step="0.1"
+        bind:value={bx}
+        class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1"
+      /></label
+    >
+    <label class="flex items-center gap-2"
+      >b.y <input
+        type="number"
+        min="-5"
+        max="5"
+        step="0.1"
+        bind:value={by}
+        class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1"
+      /></label
+    >
     {#if op === 'scale'}
-      <label class="col-span-2 flex items-center gap-2">k
+      <label class="col-span-2 flex items-center gap-2"
+        >k
         <input type="range" min="-3" max="3" step="0.1" bind:value={k} class="flex-1" />
-        <input type="number" min="-3" max="3" step="0.1" bind:value={k} class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1" aria-label="k" />
+        <input
+          type="number"
+          min="-3"
+          max="3"
+          step="0.1"
+          bind:value={k}
+          class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1"
+          aria-label="k"
+        />
       </label>
     {/if}
   </div>
@@ -1004,7 +1080,9 @@ describe('VectorOpsPlayground', () => {
   <dl class="mt-4 text-sm" aria-live="polite">
     {#if result.kind === 'vec'}
       <dt class="text-brand-500">Result vector</dt>
-      <dd class="font-mono" data-testid="result">({result.value[0].toFixed(2)}, {result.value[1].toFixed(2)})</dd>
+      <dd class="font-mono" data-testid="result">
+        ({result.value[0].toFixed(2)}, {result.value[1].toFixed(2)})
+      </dd>
     {:else}
       <dt class="text-brand-500">Dot product</dt>
       <dd class="font-mono" data-testid="result-scalar">{result.value.toFixed(2)}</dd>
@@ -1067,13 +1145,20 @@ Switch between operations. Notice how `a + b` lands at the same point regardless
 Search engines compute dot products at a massive scale. To find "the 10 documents most similar to your query," the engine takes the query's vector and computes its dot product against every document vector, then sorts. Modern vector databases do this with optimized algorithms, but the operation underneath is still: dot product, sort, return top-k.
 
 <TryYourself>
-Set `a = (2, 0)` and `b = (0, 2)`. Switch to Dot product. What does it read? Now rotate `b` toward `a` and watch the number climb.
+  Set `a = (2, 0)` and `b = (0, 2)`. Switch to Dot product. What does it read? Now rotate `b` toward
+  `a` and watch the number climb.
 </TryYourself>
 
 <Takeaways>
-  <Takeaway>Add and subtract walk you between vectors; scale makes them longer or shorter.</Takeaway>
-  <Takeaway>The dot product is a single number that says "how aligned are these two vectors."</Takeaway>
-  <Takeaway>Almost every vector-database search uses the dot product (or its cousin, cosine similarity).</Takeaway>
+  <Takeaway>
+    Add and subtract walk you between vectors; scale makes them longer or shorter.
+  </Takeaway>
+  <Takeaway>
+    The dot product is a single number that says "how aligned are these two vectors."
+  </Takeaway>
+  <Takeaway>
+    Almost every vector-database search uses the dot product (or its cousin, cosine similarity).
+  </Takeaway>
 </Takeaways>
 ```
 
@@ -1116,13 +1201,16 @@ Dot product คือหัวใจของเรื่องนี้ ถ้�
 ระบบค้นหาคำนวณ dot product จำนวนมหาศาลทุกวินาที เวลาค้นหา "เอกสาร 10 อันที่ใกล้เคียงกับคำค้นมากที่สุด" ระบบจะเอาเวกเตอร์ของคำค้นไป dot กับเวกเตอร์ของเอกสารทุกอันแล้วเรียงลำดับ แม้จะมีเทคนิคเร่งความเร็ว แต่หัวใจยังคือ dot product, sort, return top-k
 
 <TryYourself>
-ตั้ง `a = (2, 0)` และ `b = (0, 2)` แล้วเลือก Dot product ดูว่าได้เลขเท่าไร? ลองหมุน `b` ให้เข้าหา `a` แล้วสังเกตว่าเลขเปลี่ยนอย่างไร
+  ตั้ง `a = (2, 0)` และ `b = (0, 2)` แล้วเลือก Dot product ดูว่าได้เลขเท่าไร? ลองหมุน `b` ให้เข้าหา
+  `a` แล้วสังเกตว่าเลขเปลี่ยนอย่างไร
 </TryYourself>
 
 <Takeaways>
   <Takeaway>บวกและลบใช้เดินระหว่างเวกเตอร์ การคูณด้วยจำนวนใช้ขยายหรือย่อ</Takeaway>
   <Takeaway>Dot product คือตัวเลขเดียวที่บอกว่าเวกเตอร์สองตัว "ไปทางเดียวกันแค่ไหน"</Takeaway>
-  <Takeaway>การค้นหาในฐานข้อมูลเวกเตอร์เกือบทุกวิธี ใช้ dot product (หรือ cosine similarity) อยู่เบื้องหลัง</Takeaway>
+  <Takeaway>
+    การค้นหาในฐานข้อมูลเวกเตอร์เกือบทุกวิธี ใช้ dot product (หรือ cosine similarity) อยู่เบื้องหลัง
+  </Takeaway>
 </Takeaways>
 ```
 
@@ -1219,8 +1307,12 @@ describe('DistanceComparator', () => {
   const SIZE = 280;
   const CENTER = SIZE / 2;
   const SCALE = 25;
-  function sx(v: number) { return CENTER + v * SCALE; }
-  function sy(v: number) { return CENTER - v * SCALE; }
+  function sx(v: number) {
+    return CENTER + v * SCALE;
+  }
+  function sy(v: number) {
+    return CENTER - v * SCALE;
+  }
 </script>
 
 <div class="not-prose my-6 rounded-md border border-brand-100 p-4 dark:border-brand-900">
@@ -1242,7 +1334,10 @@ describe('DistanceComparator', () => {
     />
     <!-- Euclidean line -->
     <line
-      x1={sx(px_)} y1={sy(py_)} x2={sx(qx_)} y2={sy(qy_)}
+      x1={sx(px_)}
+      y1={sy(py_)}
+      x2={sx(qx_)}
+      y2={sy(qy_)}
       stroke="oklch(0.55 0.18 250)"
       stroke-width="2"
     />
@@ -1252,10 +1347,46 @@ describe('DistanceComparator', () => {
   </svg>
 
   <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
-    <label class="flex items-center gap-2">p.x <input type="number" min="-5" max="5" step="0.1" bind:value={px_} class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1" /></label>
-    <label class="flex items-center gap-2">p.y <input type="number" min="-5" max="5" step="0.1" bind:value={py_} class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1" /></label>
-    <label class="flex items-center gap-2">q.x <input type="number" min="-5" max="5" step="0.1" bind:value={qx_} class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1" /></label>
-    <label class="flex items-center gap-2">q.y <input type="number" min="-5" max="5" step="0.1" bind:value={qy_} class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1" /></label>
+    <label class="flex items-center gap-2"
+      >p.x <input
+        type="number"
+        min="-5"
+        max="5"
+        step="0.1"
+        bind:value={px_}
+        class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1"
+      /></label
+    >
+    <label class="flex items-center gap-2"
+      >p.y <input
+        type="number"
+        min="-5"
+        max="5"
+        step="0.1"
+        bind:value={py_}
+        class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1"
+      /></label
+    >
+    <label class="flex items-center gap-2"
+      >q.x <input
+        type="number"
+        min="-5"
+        max="5"
+        step="0.1"
+        bind:value={qx_}
+        class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1"
+      /></label
+    >
+    <label class="flex items-center gap-2"
+      >q.y <input
+        type="number"
+        min="-5"
+        max="5"
+        step="0.1"
+        bind:value={qy_}
+        class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1"
+      /></label
+    >
   </div>
 
   <dl class="mt-4 grid grid-cols-[max-content_1fr] gap-x-4 gap-y-1 text-sm" aria-live="polite">
@@ -1324,13 +1455,16 @@ For text, almost all production vector databases use **cosine similarity** (or i
 For other domains, the answer differs. Geographic search uses Euclidean (literal distance on a map). Some image-similarity systems use Manhattan because it's faster. Most vector databases let you pick.
 
 <TryYourself>
-Set `p = (1, 1)` and `q = (3, 3)`. Euclidean and Manhattan both grow as the points spread, but cosine similarity stays at 1. Why?
+  Set `p = (1, 1)` and `q = (3, 3)`. Euclidean and Manhattan both grow as the points spread, but
+  cosine similarity stays at 1. Why?
 </TryYourself>
 
 <Takeaways>
   <Takeaway>Euclidean and Manhattan ask "how far apart" — they care about distance.</Takeaway>
   <Takeaway>Cosine similarity asks "how aligned" — it ignores length entirely.</Takeaway>
-  <Takeaway>Text-search vector DBs almost always use cosine; pick deliberately for other domains.</Takeaway>
+  <Takeaway>
+    Text-search vector DBs almost always use cosine; pick deliberately for other domains.
+  </Takeaway>
 </Takeaways>
 ```
 
@@ -1374,7 +1508,8 @@ import DistanceComparator from '../../../components/islands/DistanceComparator.s
 ในโดเมนอื่นเลือกต่างกัน: การค้นหาทางภูมิศาสตร์ใช้ Euclidean (ระยะจริงบนแผนที่) ระบบเปรียบเทียบรูปบางตัวใช้ Manhattan เพราะเร็วกว่า ฐานข้อมูลเวกเตอร์ส่วนใหญ่ให้เราเลือกได้
 
 <TryYourself>
-ตั้ง `p = (1, 1)` และ `q = (3, 3)` Euclidean และ Manhattan เพิ่มขึ้นเมื่อจุดห่างกันมากขึ้น แต่ cosine ยังเป็น 1 ทำไม?
+  ตั้ง `p = (1, 1)` และ `q = (3, 3)` Euclidean และ Manhattan เพิ่มขึ้นเมื่อจุดห่างกันมากขึ้น แต่
+  cosine ยังเป็น 1 ทำไม?
 </TryYourself>
 
 <Takeaways>
@@ -1452,13 +1587,17 @@ Vector databases mostly use **L2** because it pairs naturally with cosine simila
 You'll see "L2-normalized embeddings" mentioned often. That just means: divide every embedding by its L2 norm so all of them have length 1. Cosine similarity on L2-normalized vectors equals their dot product — the cheapest possible similarity metric.
 
 <TryYourself>
-Find a vector where L1 = L2. (Hint: at least one component must be exactly zero.)
+  Find a vector where L1 = L2. (Hint: at least one component must be exactly zero.)
 </TryYourself>
 
 <Takeaways>
-  <Takeaway>A norm is a way to measure a vector's "size." L1 and L2 are the two everyday ones.</Takeaway>
+  <Takeaway>
+    A norm is a way to measure a vector's "size." L1 and L2 are the two everyday ones.
+  </Takeaway>
   <Takeaway>L2 = straight-line length. L1 = sum of absolute components.</Takeaway>
-  <Takeaway>L2-normalized embeddings + dot product = the standard recipe in production vector search.</Takeaway>
+  <Takeaway>
+    L2-normalized embeddings + dot product = the standard recipe in production vector search.
+  </Takeaway>
 </Takeaways>
 ```
 
@@ -1511,7 +1650,7 @@ playground เดิม แต่ลองเทียบสองค่าใ�
 คำว่า "L2-normalized embeddings" เจอบ่อย หมายความว่า: หาร embedding ทุกตัวด้วย L2 norm ของมัน เพื่อให้ทุกตัวมีความยาว 1 พอดี เมื่อ embedding มี L2 = 1 แล้ว cosine similarity ก็เท่ากับ dot product ตรงๆ — เป็นวิธีคำนวณความคล้ายที่ถูกที่สุด
 
 <TryYourself>
-ลองหาเวกเตอร์ที่ L1 = L2 ดูสิ (Hint: ต้องมีองค์ประกอบที่เป็น 0 อย่างน้อยหนึ่งตัว)
+  ลองหาเวกเตอร์ที่ L1 = L2 ดูสิ (Hint: ต้องมีองค์ประกอบที่เป็น 0 อย่างน้อยหนึ่งตัว)
 </TryYourself>
 
 <Takeaways>
@@ -1576,7 +1715,9 @@ describe('HighDimIntuition', () => {
     await user.clear(numInput);
     await user.type(numInput, '100');
     // At dim=100, mean cosine similarity should be very close to 0.
-    const mean = parseFloat(screen.getByTestId('mean-cosine').textContent!.replace(/[^-0-9.]/g, ''));
+    const mean = parseFloat(
+      screen.getByTestId('mean-cosine').textContent!.replace(/[^-0-9.]/g, ''),
+    );
     expect(Math.abs(mean)).toBeLessThan(0.05);
   });
 });
@@ -1642,20 +1783,28 @@ describe('HighDimIntuition', () => {
         data-testid="histogram-bin"
       />
     {/each}
-    <line x1="0" y1={SVG_H - 1} x2={SVG_W} y2={SVG_H - 1} stroke="currentColor" stroke-opacity="0.4" />
-    <line x1={SVG_W / 2} y1="0" x2={SVG_W / 2} y2={SVG_H} stroke="currentColor" stroke-opacity="0.2" stroke-dasharray="2 3" />
+    <line
+      x1="0"
+      y1={SVG_H - 1}
+      x2={SVG_W}
+      y2={SVG_H - 1}
+      stroke="currentColor"
+      stroke-opacity="0.4"
+    />
+    <line
+      x1={SVG_W / 2}
+      y1="0"
+      x2={SVG_W / 2}
+      y2={SVG_H}
+      stroke="currentColor"
+      stroke-opacity="0.2"
+      stroke-dasharray="2 3"
+    />
   </svg>
 
   <div class="mt-4 grid grid-cols-[max-content_1fr_max-content] items-center gap-3 text-sm">
     <label for="dim-slider">Dimension</label>
-    <input
-      id="dim-slider"
-      type="range"
-      min="2"
-      max="100"
-      step="1"
-      bind:value={dim}
-    />
+    <input id="dim-slider" type="range" min="2" max="100" step="1" bind:value={dim} />
     <input
       type="number"
       min="2"
@@ -1673,7 +1822,8 @@ describe('HighDimIntuition', () => {
   </dl>
 
   <p class="mt-2 text-xs text-brand-500">
-    {PAIRS} random pairs of unit vectors at this dimension. Watch the histogram concentrate around 0 as dimension rises.
+    {PAIRS} random pairs of unit vectors at this dimension. Watch the histogram concentrate around 0 as
+    dimension rises.
   </p>
 </div>
 ```
@@ -1733,13 +1883,22 @@ Embedding models like OpenAI's `text-embedding-3-small` produce 1536-dimensional
 This is also why you can't intuitively "draw" a 768-dim space in 2D and expect anything meaningful. Projections compress, and most of the structure is lost. Always reason about high-dim spaces through their statistics, not their pictures.
 
 <TryYourself>
-At dim = 100, the histogram is so concentrated that random vectors are essentially never "similar." A cosine similarity of 0.5 would be extraordinary. What does this imply about how rare a "good match" is in a real vector DB?
+  At dim = 100, the histogram is so concentrated that random vectors are essentially never
+  "similar." A cosine similarity of 0.5 would be extraordinary. What does this imply about how rare
+  a "good match" is in a real vector DB?
 </TryYourself>
 
 <Takeaways>
-  <Takeaway>In high dimensions, random unit vectors are nearly perpendicular almost always.</Takeaway>
-  <Takeaway>That's why a cosine of 0.3+ in 768D is a strong signal: random vectors don't accidentally hit it.</Takeaway>
-  <Takeaway>Don't trust your low-dim intuition for high-dim spaces. Reason in statistics, not in pictures.</Takeaway>
+  <Takeaway>
+    In high dimensions, random unit vectors are nearly perpendicular almost always.
+  </Takeaway>
+  <Takeaway>
+    That's why a cosine of 0.3+ in 768D is a strong signal: random vectors don't accidentally hit
+    it.
+  </Takeaway>
+  <Takeaway>
+    Don't trust your low-dim intuition for high-dim spaces. Reason in statistics, not in pictures.
+  </Takeaway>
 </Takeaways>
 ```
 
@@ -1781,12 +1940,16 @@ import HighDimIntuition from '../../../components/islands/HighDimIntuition.svelt
 นี่คือเหตุผลที่เรา "วาด" 768 มิติบน 2 มิติ ไม่ได้แล้วได้อะไรที่มีความหมาย การฉายลงต่ำมิติทำลายโครงสร้างส่วนใหญ่ทิ้ง สำหรับมิติสูง ต้องคิดผ่านสถิติ ไม่ใช่ภาพ
 
 <TryYourself>
-ที่ dim = 100 histogram บีบแคบจนเวกเตอร์สุ่มแทบไม่มีทางใกล้กัน cosine = 0.5 ถือว่าผิดปกติมาก สิ่งนี้บอกเราว่าอะไรเกี่ยวกับ "match ที่ดี" ในฐานข้อมูลเวกเตอร์จริง?
+  ที่ dim = 100 histogram บีบแคบจนเวกเตอร์สุ่มแทบไม่มีทางใกล้กัน cosine = 0.5 ถือว่าผิดปกติมาก
+  สิ่งนี้บอกเราว่าอะไรเกี่ยวกับ "match ที่ดี" ในฐานข้อมูลเวกเตอร์จริง?
 </TryYourself>
 
 <Takeaways>
   <Takeaway>ในมิติสูง เวกเตอร์หน่วยสุ่มสองตัวเกือบจะตั้งฉากกันเสมอ</Takeaway>
-  <Takeaway>นั่นคือเหตุผลที่ cosine 0.3+ ใน 768 มิติคือสัญญาณที่หนักแน่น: ความบังเอิญไม่มีทางทำให้ได้ขนาดนั้น</Takeaway>
+  <Takeaway>
+    นั่นคือเหตุผลที่ cosine 0.3+ ใน 768 มิติคือสัญญาณที่หนักแน่น:
+    ความบังเอิญไม่มีทางทำให้ได้ขนาดนั้น
+  </Takeaway>
   <Takeaway>อย่าเชื่อสัญชาตญาณจากมิติต่ำในมิติสูง คิดผ่านสถิติ ไม่ใช่ภาพ</Takeaway>
 </Takeaways>
 ```
@@ -1957,11 +2120,19 @@ describe('listTopicFrontmatter', () => {
   });
 
   it('reads slug, locale, order, and interactiveComponent from frontmatter', async () => {
-    await writeTopic('th', '01-vector.mdx', { slug: 'vector', order: 1, interactiveComponent: 'VectorPlayground' });
-    await writeTopic('en', '01-vector.mdx', { slug: 'vector', order: 1, interactiveComponent: 'VectorPlayground' });
+    await writeTopic('th', '01-vector.mdx', {
+      slug: 'vector',
+      order: 1,
+      interactiveComponent: 'VectorPlayground',
+    });
+    await writeTopic('en', '01-vector.mdx', {
+      slug: 'vector',
+      order: 1,
+      interactiveComponent: 'VectorPlayground',
+    });
     const result = await listTopicFrontmatter(srcRoot());
     expect(result).toHaveLength(2);
-    expect(result.find(t => t.locale === 'th')).toMatchObject({
+    expect(result.find((t) => t.locale === 'th')).toMatchObject({
       slug: 'vector',
       order: 1,
       interactiveComponent: 'VectorPlayground',
@@ -2036,6 +2207,7 @@ pnpm format:check && pnpm typecheck && pnpm test && pnpm build
 ```
 
 Expected:
+
 - `format:check` clean
 - `typecheck` 0 errors
 - `test` — both projects (browser + node), all green. Approximate counts:
@@ -2050,6 +2222,7 @@ pnpm dev
 ```
 
 Visit each page in TH and EN. Confirm:
+
 - Sidebar shows all five Math foundations topics, current page highlighted
 - Each topic page renders its island below the "Try it" heading and the island responds to input
 - Prev/Next nav links between topics in order
