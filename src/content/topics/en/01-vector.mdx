@@ -4,20 +4,41 @@ slug: vector
 group: math
 order: 1
 locale: en
-summary: A vector is an arrow with both length and direction.
-hasInteractive: false
+summary: A vector is an arrow with both length and direction — and that's enough to make a search engine.
+hasInteractive: true
+interactiveComponent: VectorPlayground
 hasMath: false
 ---
 
+import VectorPlayground from '../../../components/islands/VectorPlayground.svelte';
+import TryYourself from '../../../components/mdx/TryYourself.astro';
+import Takeaways from '../../../components/mdx/Takeaways.astro';
+import Takeaway from '../../../components/mdx/Takeaway.astro';
+
 ## Intuition
 
-Imagine an arrow drawn on a piece of paper. The arrow has a starting point and an ending point — that is a vector in its simplest form.
+Imagine an arrow drawn on a piece of paper. The arrow has a starting point and an ending point. That arrow is a **vector** — at its simplest, it's just a length and a direction.
+
+We can describe the same arrow with two numbers: how far it goes sideways (`x`), and how far it goes up (`y`). The pair `(x, y)` is the vector's **components**.
+
+## Try it
+
+<VectorPlayground client:visible />
+
+Drag the values up and down. Watch what happens to the **magnitude** (the arrow's length) when you change `x` and `y`.
 
 ## In the real world
 
-Vector databases store sentences, images, or audio as high-dimensional vectors so that you can find things that are "close" to each other.
+Vector databases store sentences, images, and audio as long lists of numbers — vectors with hundreds or thousands of components. Two pieces of content that "feel similar" become vectors that are close to each other; finding similar items is just finding nearby vectors. Everything else this site teaches builds on that one idea.
 
-## Key takeaways
+<TryYourself>Set `x = 3` and `y = 4`. What's the magnitude? Why is it exactly 5?</TryYourself>
 
-- A vector has both length and direction.
-- In a vector database, everything is stored as a vector.
+<Takeaways>
+  <Takeaway>
+    A vector is just a list of numbers — its length and direction fall out of those numbers.
+  </Takeaway>
+  <Takeaway>Magnitude (L2 norm) is how far the vector reaches: sqrt(x² + y²) in 2D.</Takeaway>
+  <Takeaway>
+    In a vector database, every item — a sentence, an image — is one of these vectors.
+  </Takeaway>
+</Takeaways>
