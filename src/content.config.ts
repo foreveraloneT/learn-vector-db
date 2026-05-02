@@ -1,9 +1,9 @@
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
+import { TOPIC_GROUPS, LOCALES } from './lib/constants';
 
-export const TOPIC_GROUPS = ['math', 'vector-db', 'real-world'] as const;
-export const LOCALES = ['th', 'en'] as const;
+export { TOPIC_GROUPS, LOCALES };
 
 const topics = defineCollection({
   loader: glob({

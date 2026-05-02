@@ -1,4 +1,4 @@
-import { LOCALES } from '../content.config';
+import { LOCALES } from './constants';
 
 export type Locale = (typeof LOCALES)[number];
 
