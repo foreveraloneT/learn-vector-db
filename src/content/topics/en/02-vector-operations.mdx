@@ -37,11 +37,18 @@ Switch between operations. Notice how `a + b` lands at the same point regardless
 Search engines compute dot products at a massive scale. To find "the 10 documents most similar to your query," the engine takes the query's vector and computes its dot product against every document vector, then sorts. Modern vector databases do this with optimized algorithms, but the operation underneath is still: dot product, sort, return top-k.
 
 <TryYourself>
-Set `a = (2, 0)` and `b = (0, 2)`. Switch to Dot product. What does it read? Now rotate `b` toward `a` and watch the number climb.
+  Set `a = (2, 0)` and `b = (0, 2)`. Switch to Dot product. What does it read? Now rotate `b` toward
+  `a` and watch the number climb.
 </TryYourself>
 
 <Takeaways>
-  <Takeaway>Add and subtract walk you between vectors; scale makes them longer or shorter.</Takeaway>
-  <Takeaway>The dot product is a single number that says "how aligned are these two vectors."</Takeaway>
-  <Takeaway>Almost every vector-database search uses the dot product (or its cousin, cosine similarity).</Takeaway>
+  <Takeaway>
+    Add and subtract walk you between vectors; scale makes them longer or shorter.
+  </Takeaway>
+  <Takeaway>
+    The dot product is a single number that says "how aligned are these two vectors."
+  </Takeaway>
+  <Takeaway>
+    Almost every vector-database search uses the dot product (or its cousin, cosine similarity).
+  </Takeaway>
 </Takeaways>
