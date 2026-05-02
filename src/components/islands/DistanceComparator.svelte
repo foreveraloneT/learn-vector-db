@@ -16,8 +16,12 @@
   const SIZE = 280;
   const CENTER = SIZE / 2;
   const SCALE = 25;
-  function sx(v: number) { return CENTER + v * SCALE; }
-  function sy(v: number) { return CENTER - v * SCALE; }
+  function sx(v: number) {
+    return CENTER + v * SCALE;
+  }
+  function sy(v: number) {
+    return CENTER - v * SCALE;
+  }
 </script>
 
 <div class="not-prose my-6 rounded-md border border-brand-100 p-4 dark:border-brand-900">
@@ -37,7 +41,10 @@
       stroke-width="1.5"
     />
     <line
-      x1={sx(pxv)} y1={sy(pyv)} x2={sx(qxv)} y2={sy(qyv)}
+      x1={sx(pxv)}
+      y1={sy(pyv)}
+      x2={sx(qxv)}
+      y2={sy(qyv)}
       stroke="oklch(0.55 0.18 250)"
       stroke-width="2"
     />
@@ -46,10 +53,46 @@
   </svg>
 
   <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
-    <label class="flex items-center gap-2">p.x <input type="number" min="-5" max="5" step="0.1" bind:value={pxv} class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1" /></label>
-    <label class="flex items-center gap-2">p.y <input type="number" min="-5" max="5" step="0.1" bind:value={pyv} class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1" /></label>
-    <label class="flex items-center gap-2">q.x <input type="number" min="-5" max="5" step="0.1" bind:value={qxv} class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1" /></label>
-    <label class="flex items-center gap-2">q.y <input type="number" min="-5" max="5" step="0.1" bind:value={qyv} class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1" /></label>
+    <label class="flex items-center gap-2"
+      >p.x <input
+        type="number"
+        min="-5"
+        max="5"
+        step="0.1"
+        bind:value={pxv}
+        class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1"
+      /></label
+    >
+    <label class="flex items-center gap-2"
+      >p.y <input
+        type="number"
+        min="-5"
+        max="5"
+        step="0.1"
+        bind:value={pyv}
+        class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1"
+      /></label
+    >
+    <label class="flex items-center gap-2"
+      >q.x <input
+        type="number"
+        min="-5"
+        max="5"
+        step="0.1"
+        bind:value={qxv}
+        class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1"
+      /></label
+    >
+    <label class="flex items-center gap-2"
+      >q.y <input
+        type="number"
+        min="-5"
+        max="5"
+        step="0.1"
+        bind:value={qyv}
+        class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1"
+      /></label
+    >
   </div>
 
   <dl class="mt-4 grid grid-cols-[max-content_1fr] gap-x-4 gap-y-1 text-sm" aria-live="polite">
