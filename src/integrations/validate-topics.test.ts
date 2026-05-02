@@ -2,7 +2,11 @@ import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { mkdtemp, mkdir, writeFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { listTopicFrontmatter, listIslandComponents } from './validate-topics';
+import {
+  listTopicFrontmatter,
+  listIslandComponents,
+  checkMdxBodyMentions,
+} from './validate-topics';
 
 let workDir: string;
 
@@ -86,5 +90,25 @@ describe('listIslandComponents', () => {
     } finally {
       await rm(otherDir, { recursive: true, force: true });
     }
+  });
+});
+
+describe('checkMdxBodyMentions', () => {
+  it('returns true when the body contains the component JSX tag', () => {
+    expect(checkMdxBodyMentions('VectorPlayground', '<VectorPlayground client:visible />')).toBe(
+      true,
+    );
+  });
+
+  it('returns true with no whitespace before attributes', () => {
+    expect(checkMdxBodyMentions('Foo', '<Foo/>')).toBe(true);
+  });
+
+  it('returns false when the body does not mention the component', () => {
+    expect(checkMdxBodyMentions('VectorPlayground', '## Heading\n\nplain prose')).toBe(false);
+  });
+
+  it('does not match a substring of another component name', () => {
+    expect(checkMdxBodyMentions('Foo', '<FooBar />')).toBe(false);
   });
 });

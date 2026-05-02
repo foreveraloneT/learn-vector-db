@@ -16,9 +16,13 @@ export async function listIslandComponents(srcRoot: URL): Promise<string[]> {
   }
 }
 
-export async function listTopicFrontmatter(srcRoot: URL): Promise<ValidatableTopic[]> {
+export interface TopicFile extends ValidatableTopic {
+  body: string;
+}
+
+export async function listTopicFrontmatter(srcRoot: URL): Promise<TopicFile[]> {
   const root = join(fileURLToPath(srcRoot), 'content', 'topics');
-  const result: ValidatableTopic[] = [];
+  const result: TopicFile[] = [];
   for (const locale of ['th', 'en'] as const) {
     let files: string[] = [];
     try {
@@ -29,7 +33,7 @@ export async function listTopicFrontmatter(srcRoot: URL): Promise<ValidatableTop
     for (const file of files) {
       if (!file.endsWith('.mdx')) continue;
       const raw = await readFile(join(root, locale, file), 'utf-8');
-      const { data } = matter(raw);
+      const { data, content } = matter(raw);
       result.push({
         slug: String(data.slug),
         locale,
@@ -37,10 +41,19 @@ export async function listTopicFrontmatter(srcRoot: URL): Promise<ValidatableTop
         interactiveComponent: data.interactiveComponent
           ? String(data.interactiveComponent)
           : undefined,
+        body: content,
       });
     }
   }
   return result;
+}
+
+/**
+ * Returns true when the MDX body contains a JSX opening tag for `component`.
+ * Uses a word-boundary check so `<Foo>` does not falsely match `<FooBar />`.
+ */
+export function checkMdxBodyMentions(component: string, body: string): boolean {
+  return new RegExp(`<${component}\\b`).test(body);
 }
 
 export function validateTopicsIntegration(): AstroIntegration {
@@ -58,7 +71,27 @@ export function validateTopicsIntegration(): AstroIntegration {
           for (const err of result.errors) logger.error(err);
           throw new Error(`Topic validation failed with ${result.errors.length} error(s)`);
         }
-        logger.info(`Topic validation passed (${topics.length} topics, ${islands.length} islands)`);
+
+        // Check that every topic declaring an interactiveComponent actually uses it in the MDX body.
+        const bodyErrors: string[] = [];
+        for (const topic of topics) {
+          if (
+            topic.interactiveComponent &&
+            !checkMdxBodyMentions(topic.interactiveComponent, topic.body)
+          ) {
+            bodyErrors.push(
+              `Topic ${topic.locale}/${topic.slug} declares interactiveComponent ${topic.interactiveComponent} but body does not use it`,
+            );
+          }
+        }
+        if (bodyErrors.length > 0) {
+          for (const err of bodyErrors) logger.error(err);
+          throw new Error(`Topic validation failed with ${bodyErrors.length} MDX body error(s)`);
+        }
+
+        logger.info(
+          `Topic validation passed (${topics.length} topics, ${islands.length} islands, MDX usage verified)`,
+        );
       },
     },
   };
