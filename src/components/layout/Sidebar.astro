@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import { groupTopicsForSidebar, type TopicSummary } from '../../lib/topics';
 import { buildTopicPath, type Locale } from '../../lib/i18n';
+import { groupLabels } from '../../lib/labels';
 
 interface Props {
   locale: Locale;
@@ -19,12 +20,6 @@ const summaries: TopicSummary[] = entries.map((e) => ({
   locale: e.data.locale,
 }));
 const groups = groupTopicsForSidebar(summaries);
-
-const groupLabels: Record<(typeof groups)[number]['group'], Record<Locale, string>> = {
-  math: { th: 'พื้นฐานคณิตศาสตร์', en: 'Math foundations' },
-  'vector-db': { th: 'ฐานข้อมูลเวกเตอร์', en: 'Vector databases' },
-  'real-world': { th: 'ตัวอย่างจริง', en: 'Real-world examples' },
-};
 ---
 
 <nav aria-label="Topics" class="text-sm">

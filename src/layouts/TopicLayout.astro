@@ -5,6 +5,7 @@ import PrevNext from '../components/layout/PrevNext.astro';
 import LangSwitch from '../components/layout/LangSwitch.astro';
 import ThemeToggle from '../components/layout/ThemeToggle.svelte';
 import type { Locale } from '../lib/i18n';
+import { groupLabels } from '../lib/labels';
 
 interface Props {
   title: string;
@@ -13,16 +14,9 @@ interface Props {
   slug: string;
   group: 'math' | 'vector-db' | 'real-world';
   order: number;
-  hasMath?: boolean;
 }
 
-const { title, summary, locale, slug, group, order, hasMath = false } = Astro.props;
-
-const groupLabels = {
-  math: { th: 'พื้นฐานคณิตศาสตร์', en: 'Math foundations' },
-  'vector-db': { th: 'ฐานข้อมูลเวกเตอร์', en: 'Vector databases' },
-  'real-world': { th: 'ตัวอย่างจริง', en: 'Real-world examples' },
-} as const;
+const { title, summary, locale, slug, group, order } = Astro.props;
 ---
 
 <!doctype html>
