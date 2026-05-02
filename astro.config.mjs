@@ -5,6 +5,7 @@ import svelte from '@astrojs/svelte';
 import mdx from '@astrojs/mdx';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import { validateTopicsIntegration } from './src/integrations/validate-topics';
 
 export default defineConfig({
   site: 'https://example.github.io',
@@ -20,6 +21,7 @@ export default defineConfig({
       remarkPlugins: [remarkMath],
       rehypePlugins: [rehypeKatex],
     }),
+    validateTopicsIntegration(),
   ],
   vite: {
     plugins: [tailwindcss()],
