@@ -2179,3 +2179,30 @@ git commit -m "docs: add README"
 - [ ] `pnpm preview` → all four URLs work, sidebar renders, theme toggle persists, LangSwitch preserves slug, prev/next renders correctly
 - [ ] CI workflow green on the latest push to `main`
 - [ ] Deploy workflow green; site reachable at the GitHub Pages URL
+
+---
+
+## Deferred follow-ups from final M1 review
+
+These were surfaced by the final code review. The "quick win" subset has already been applied (commit `c792b9c`); the items below are intentionally deferred to later milestones. Capture these somewhere a future agent will see them — when picking up M2, scan this list and pull in the ones that intersect the new work.
+
+**For M2 (first interactive island lands):**
+
+1. **Pin the `src/components/islands/<Name>.svelte` convention.** The validator's `listIslandComponents` only inspects that directory. The README's "Adding a topic" section should mention this; pages with `interactiveComponent: "Foo"` will fail validation if `Foo.svelte` is anywhere else.
+2. **Add a fixture-based test for `listTopicFrontmatter`** in `src/integrations/validate-topics.test.ts` — exercises the file-system reading layer the unit tests currently skip. Use a tmp directory.
+3. **Split test resolution from app resolution.** `vitest.config.ts` currently sets `resolve.conditions: ['browser']` globally. When Node-side tests appear (e.g., for the integration), they'll either silently get browser stubs or fail confusingly. Move to `vitest.workspace.ts` or scope the condition per-test-file.
+4. **Scope `@types/node` to `src/integrations/` only.** Currently `tsconfig.json` has `"types": ["vitest/globals", "node"]` at the root, which leaks Node globals (`process`, `Buffer`, `__dirname`) into every Svelte/Astro file. Use a directory-local `tsconfig.json` or a triple-slash reference at the top of `validate-topics.ts`.
+5. **Pin `@types/node` to `^20`** to match the actual CI Node version (currently `^25` from default).
+6. **Consider `tsconfig.test.json` with project references.** Test files are currently excluded from `tsc --noEmit`, so type drift between tests and impl only surfaces at runtime. Not blocking but reduces type-coverage signal.
+
+**For M5 (polish / deployment):**
+
+7. **Re-introduce `hasMath` and use it.** The prop was dropped from `TopicLayout` in cleanup since nothing consumed it; M5 should add it back and gate KaTeX CSS injection (load only on math pages).
+8. **Use `import.meta.env.BASE_URL` for asset paths.** When `astro.config.mjs` `base: '/learn-vector-db/'` is set for GitHub Pages, the absolute `/favicon.svg` reference in `TopicLayout.astro` will 404. Same for the home anchor `/` and `/en/`.
+9. **Replace placeholder GitHub URL** in `TopicLayout.astro` footer (`<a href="https://github.com/">`) with the real repo URL.
+10. **Hide breadcrumb group label on home pages.** TH home currently renders "พื้นฐานคณิตศาสตร์ / Learn Vector DB", which is semantically wrong (the home isn't in the Math group). Either gate the label on `slug !== ''` or make `group`/`order`/`slug` optional in `TopicLayout` props.
+
+**Cosmetic / optional:**
+
+11. Squash duplicate commit message (`6111649` and `298addc` are both `feat: define topics content collection schema`) — only worth doing before a public push, and only if you care about commit-history hygiene.
+12. Delete `.vscode/launch.json` — leftover scaffold; low value since `pnpm dev` from the terminal works for everyone.
