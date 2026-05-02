@@ -1,5 +1,3 @@
-import { normalize } from './vec';
-
 /**
  * Mulberry32 PRNG: small, fast, good enough for visualization.
  * Returns a function that yields values in [0, 1).
@@ -26,11 +24,18 @@ function gaussian(rng: () => number): number {
 
 /**
  * Uniform-on-sphere sample: draw n iid Gaussians, then normalize.
+ * Falls back to e₀ = [1, 0, …] on the astronomically rare zero draw.
  */
 export function randomUnitVector(dim: number, rng: () => number): number[] {
   const raw: number[] = new Array(dim);
   for (let i = 0; i < dim; i++) raw[i] = gaussian(rng);
-  return normalize(raw);
+  const m = Math.sqrt(raw.reduce((s, x) => s + x * x, 0));
+  if (m === 0) {
+    const fallback = new Array(dim).fill(0);
+    fallback[0] = 1;
+    return fallback;
+  }
+  return raw.map((x) => x / m);
 }
 
 export function randomUnitVectors(n: number, dim: number, rng: () => number): number[][] {
