@@ -29,6 +29,9 @@ describe('cosineSimilarity', () => {
   it('returns 1 for identical direction', () => {
     expect(cosineSimilarity([1, 0], [2, 0])).toBeCloseTo(1, 10);
   });
+  it('returns 1 for identical non-axis-aligned vectors', () => {
+    expect(cosineSimilarity([1, 1], [1, 1])).toBeCloseTo(1, 10);
+  });
   it('returns 0 for orthogonal vectors', () => {
     expect(cosineSimilarity([1, 0], [0, 1])).toBeCloseTo(0, 10);
   });
