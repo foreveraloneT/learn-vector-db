@@ -1,0 +1,59 @@
+---
+title: Approximate nearest neighbor
+slug: ann
+group: vector-db
+order: 8
+locale: en
+summary: Trade a small bit of accuracy for huge speed gains — the trick that makes billion-scale vector search possible.
+hasInteractive: true
+interactiveComponent: AnnVisualizer
+hasMath: false
+---
+
+import AnnVisualizer from '../../../components/islands/AnnVisualizer.svelte';
+import TryYourself from '../../../components/mdx/TryYourself.astro';
+import Takeaways from '../../../components/mdx/Takeaways.astro';
+import Takeaway from '../../../components/mdx/Takeaway.astro';
+
+## Intuition
+
+The naive way to find the K nearest vectors is to compare your query against **every single vector** and keep the best K. That's called exact kNN. It's exactly correct, and it's exactly too slow once you have more than a few hundred thousand vectors.
+
+**Approximate nearest neighbor** (ANN) trades exactness for speed. The idea: if we accept that we'll occasionally miss the truly best neighbor and pick the second-best instead, we can use clever data structures to skip almost all of the comparisons. Instead of looking at a million vectors per query, we look at a few hundred. The result is usually within a hair's breadth of the exact answer, but the query runs hundreds or thousands of times faster.
+
+## How the simplest ANN works
+
+Many production systems use a graph-based ANN like HNSW. The teaching version below is much simpler:
+
+1. Build an index once: connect each vector to its nearest few neighbors (a "k-NN graph").
+2. To answer a query: pick a starting node, then **greedily** hop to the neighbor closest to the query. Keep hopping until no neighbor improves. Return the closest visited nodes.
+
+That's it. No promises that the path lands on the exact best — but in practice, it usually does or comes very close, after only a handful of hops.
+
+## Try it
+
+<AnnVisualizer client:visible />
+
+The blue rings mark the **exact** top-5; the amber dots mark what the **greedy** walk found; the amber line is the path the walk took. Move the query around the canvas. Watch the hop count change with the query's location, and watch the **accuracy** number — that's the overlap between exact and greedy. Most queries hit 1.0 (perfect overlap) in only a few hops; some land at 0.6 or 0.8 because the greedy walk got "stuck" on the wrong side of the cloud. That's the trade-off.
+
+## In the real world
+
+Modern vector databases ship with battle-tested ANN indexes — usually HNSW (hierarchical navigable small worlds), which adds a hierarchy of graphs to the simple version above. Recall (the fraction of true neighbors found) typically lands at 0.95–0.99 with query latencies in microseconds, even at billion-vector scale. The trade-off is always the same shape: tune for higher recall, get slower queries; tune for faster queries, accept a hair lower recall.
+
+<TryYourself>
+  Move the query to a sparsely populated corner of the canvas. Notice how the hop count goes up and
+  the accuracy might drop. Then move it near the center, where points are dense — the walk usually
+  finds the answer almost immediately. Why is density helpful?
+</TryYourself>
+
+<Takeaways>
+  <Takeaway>Exact kNN compares against every vector. ANN doesn't.</Takeaway>
+  <Takeaway>
+    Graph-based ANN walks a pre-built neighbor graph greedily — usually finds the true top-K in only
+    a few hops.
+  </Takeaway>
+  <Takeaway>
+    The trade-off is recall vs. latency, and production systems land at 95–99% recall with
+    microsecond queries.
+  </Takeaway>
+</Takeaways>
