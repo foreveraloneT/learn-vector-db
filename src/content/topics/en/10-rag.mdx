@@ -1,0 +1,61 @@
+---
+title: RAG (Retrieval-Augmented Generation)
+slug: rag
+group: real-world
+order: 10
+locale: en
+summary: Glue an LLM onto a vector database, and suddenly it can answer questions about your private docs without ever being trained on them.
+hasInteractive: true
+interactiveComponent: RagFlow
+hasMath: false
+---
+
+import RagFlow from '../../../components/islands/RagFlow.svelte';
+import TryYourself from '../../../components/mdx/TryYourself.astro';
+import Takeaways from '../../../components/mdx/Takeaways.astro';
+import Takeaway from '../../../components/mdx/Takeaway.astro';
+
+## Intuition
+
+LLMs (large language models) are trained on a fixed snapshot of the internet. They can write fluently about anything in that snapshot, but they have two huge limits: they don't know about your private documents, and they don't know about anything that happened after their training cutoff.
+
+**Retrieval-Augmented Generation** (RAG) bolts a vector database onto an LLM to fix both problems at once. The pipeline:
+
+1. **Question** — the user asks something.
+2. **Embed** — the question gets turned into a vector by an embedding model.
+3. **Retrieve** — that vector is used to fetch the top-K most-similar chunks from your private documents (which you embedded once, ahead of time).
+4. **Answer** — the question and the retrieved chunks are stuffed into an LLM prompt, and the LLM writes an answer grounded in your data.
+
+The LLM never gets re-trained. The vector database does the heavy lifting of "what should the model read to answer this?" Update your docs → re-embed those chunks → the model can answer questions about the new content tomorrow morning.
+
+## Try it
+
+<RagFlow client:visible />
+
+Pick a question and step through the four stages. The "Retrieve" step uses the same 50-sentence corpus you saw in the previous topic. The "Answer" step is canned — building a real LLM call into a static demo would require API keys and a backend, both out of scope here. Production RAG glues an LLM in at the same point.
+
+## In the real world
+
+RAG underpins a huge fraction of "AI assistant" features shipped over the last two years: support agents trained on customer-specific docs, code assistants that pull from your private codebase, internal "search-with-an-answer" tools. The hard parts are not the math:
+
+- **Chunking.** Splitting documents into the right size of retrievable units. Too small, and chunks lose context. Too large, and you waste LLM context window on irrelevant content.
+- **Citation.** Real systems show users which retrieved chunks the answer was based on, so people can verify rather than blindly trust.
+- **Cost control.** Every retrieval-and-answer call has a measurable LLM cost. Caching, smaller models for cheap routes, larger models only for hard questions — operations engineering as much as ML.
+
+<TryYourself>
+  Pick the "Best language for ML" run. Look at which sentences were retrieved. Could you write the
+  same answer just from those sentences? That's the point — a good retrieval makes the LLM's job
+  easy, and a bad retrieval makes it impossible.
+</TryYourself>
+
+<Takeaways>
+  <Takeaway>
+    RAG = retrieve relevant chunks from a vector DB, feed them to an LLM with the question.
+  </Takeaway>
+  <Takeaway>
+    The LLM stays static; you keep the system "current" by updating the documents you embed.
+  </Takeaway>
+  <Takeaway>
+    Hardest parts in production are chunking, citing sources, and cost — not the vector math.
+  </Takeaway>
+</Takeaways>

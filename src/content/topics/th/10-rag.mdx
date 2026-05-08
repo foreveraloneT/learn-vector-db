@@ -1,0 +1,57 @@
+---
+title: RAG (Retrieval-Augmented Generation)
+slug: rag
+group: real-world
+order: 10
+locale: th
+summary: ต่อ LLM เข้ากับฐานข้อมูลเวกเตอร์ แล้วจู่ๆ มันก็ตอบคำถามเกี่ยวกับเอกสารส่วนตัวได้ โดยไม่ต้องฝึกโมเดลใหม่
+hasInteractive: true
+interactiveComponent: RagFlow
+hasMath: false
+---
+
+import RagFlow from '../../../components/islands/RagFlow.svelte';
+import TryYourself from '../../../components/mdx/TryYourself.astro';
+import Takeaways from '../../../components/mdx/Takeaways.astro';
+import Takeaway from '../../../components/mdx/Takeaway.astro';
+
+## ทำความเข้าใจ
+
+LLM (large language models) ถูกฝึกบน snapshot คงที่ของอินเทอร์เน็ต พวกมันเขียนเรื่องอะไรก็ได้ที่อยู่ใน snapshot นั้นได้อย่างคล่องแคล่ว แต่มีข้อจำกัดใหญ่ 2 อย่าง: ไม่รู้จักเอกสารส่วนตัวของเรา และไม่รู้อะไรที่เกิดขึ้นหลังวันที่ตัด training data
+
+**Retrieval-Augmented Generation (RAG)** แก้ทั้งสองปัญหาด้วยการต่อ vector database เข้ากับ LLM Pipeline ทำงานดังนี้:
+
+1. **Question** — ผู้ใช้ถามอะไรบางอย่าง
+2. **Embed** — โมเดล embedding แปลงคำถามเป็นเวกเตอร์
+3. **Retrieve** — ใช้เวกเตอร์นั้นไปดึง top-K chunks ที่ใกล้เคียงที่สุดจากเอกสารของเรา (ที่ embed ไว้ล่วงหน้าแล้ว)
+4. **Answer** — เอาคำถาม + chunks ที่ดึงมาส่งให้ LLM ตอบคำถามโดยอ้างอิงจากข้อมูลเรา
+
+LLM ไม่ต้องถูกฝึกใหม่ vector database ทำหน้าที่หนัก "โมเดลควรอ่านอะไรเพื่อจะตอบคำถามนี้" อัปเดตเอกสาร → embed chunks ที่เปลี่ยน → พรุ่งนี้เช้าโมเดลก็ตอบคำถามเกี่ยวกับเนื้อหาใหม่ได้
+
+## ลองเล่นดู
+
+<RagFlow client:visible />
+
+เลือกคำถามและเดินดูผ่าน 4 ขั้นตอน ขั้น "Retrieve" ใช้ corpus 50 ประโยคเดียวกับหัวข้อก่อนหน้า ส่วนขั้น "Answer" เป็นข้อความที่เตรียมไว้ — การต่อ LLM จริงๆ เข้ามาในเดโม่แบบ static ต้องใช้ API key และ backend ซึ่งอยู่นอกขอบเขต production RAG ต่อ LLM เข้ามาที่จุดเดียวกัน
+
+## ในโลกจริง
+
+RAG เป็นพื้นฐานของฟีเจอร์ "AI assistant" ส่วนใหญ่ในรอบ 2 ปีที่ผ่านมา: support agent ที่เรียนจาก docs ของลูกค้า, code assistant ที่ดึงจาก codebase ส่วนตัว, ระบบ "ค้นพร้อมตอบ" ภายในองค์กร ส่วนยากๆ ไม่ใช่คณิตศาสตร์:
+
+- **Chunking** — ตัดเอกสารเป็นชิ้นขนาดเหมาะสม เล็กไปก็ขาดบริบท ใหญ่ไปก็เปลือง context window ของ LLM
+- **Citation** — ระบบจริงโชว์ให้ผู้ใช้เห็นว่าคำตอบมาจาก chunks ไหน เพื่อให้ตรวจสอบได้ ไม่ต้องเชื่อบอด
+- **Cost control** — การ retrieve-and-answer แต่ละครั้งมีต้นทุน LLM ที่วัดได้ การ cache, ใช้โมเดลเล็กกับคำถามง่าย, ใช้โมเดลใหญ่เฉพาะคำถามยาก — เป็น operations engineering ไม่แพ้ ML
+
+<TryYourself>
+  เลือก demo run "Best language for ML" ดูว่าประโยคไหนถูก retrieve มาบ้าง
+  คุณเขียนคำตอบเดียวกันได้จากประโยคเหล่านั้นไหม? นั่นคือประเด็น — retrieval ดี ทำให้ LLM ตอบง่าย
+  retrieval แย่ ทำให้ตอบไม่ได้
+</TryYourself>
+
+<Takeaways>
+  <Takeaway>RAG = ดึง chunks ที่เกี่ยวข้องจาก vector DB ส่งให้ LLM พร้อมกับคำถาม</Takeaway>
+  <Takeaway>LLM ไม่เปลี่ยน เราอัปเดตระบบโดยอัปเดตเอกสารที่ embed</Takeaway>
+  <Takeaway>
+    ส่วนยากใน production คือ chunking, การอ้างอิงแหล่งที่มา, และต้นทุน — ไม่ใช่คณิตศาสตร์ของเวกเตอร์
+  </Takeaway>
+</Takeaways>
