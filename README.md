@@ -19,15 +19,16 @@ pnpm dev          # http://localhost:4321
 
 ## Scripts
 
-| script              | what it does                |
-| ------------------- | --------------------------- |
-| `pnpm dev`          | start dev server            |
-| `pnpm build`        | static build to `dist/`     |
-| `pnpm preview`      | preview the static build    |
-| `pnpm test`         | run Vitest suite            |
-| `pnpm typecheck`    | astro check + tsc --noEmit  |
-| `pnpm format`       | format with Prettier        |
-| `pnpm format:check` | Prettier check (used in CI) |
+| script                | what it does                                         |
+| --------------------- | ---------------------------------------------------- |
+| `pnpm dev`            | start dev server                                     |
+| `pnpm build`          | static build to `dist/`                              |
+| `pnpm build:fixtures` | regenerate `src/lib/embeddings/words.json` (offline) |
+| `pnpm preview`        | preview the static build                             |
+| `pnpm test`           | run Vitest suite                                     |
+| `pnpm typecheck`      | astro check + tsc --noEmit                           |
+| `pnpm format`         | format with Prettier                                 |
+| `pnpm format:check`   | Prettier check (used in CI)                          |
 
 ## Adding a topic
 
@@ -42,6 +43,30 @@ pnpm dev          # http://localhost:4321
    import Takeaway from '../../../components/mdx/Takeaway.astro';
    ```
 6. The build will fail if a slug exists in only one locale or if two topics share the same `order`.
+
+## Rebuilding embedding fixtures
+
+The `EmbeddingMap` demo on the "Embeddings" topic page is driven by a committed JSON file at `src/lib/embeddings/words.json`. That file is produced offline by:
+
+```bash
+pnpm build:fixtures
+```
+
+Run it only when one of the following changes:
+
+- The curated word list in `scripts/embedding-words.ts`
+- The embedding model name in `scripts/build-fixtures.ts` (defaults to `Xenova/all-MiniLM-L6-v2`)
+- The number of pre-computed neighbors per word (`DEFAULT_K`)
+
+The first run downloads the model (~25 MB) into a local cache. Subsequent runs are fast. The pipeline is **not** wired into `pnpm build` — `astro build` always reads the committed JSON and never reaches the network.
+
+After regenerating, eyeball `meta` and the first few entries:
+
+```bash
+node -e "const f = require('./src/lib/embeddings/words.json'); console.log(f.meta); console.log(f.words.slice(0, 2));"
+```
+
+Commit `words.json` along with whatever change triggered the rebuild.
 
 ## Deployment
 
