@@ -161,203 +161,83 @@
   "queries": [
     {
       "text": "How do I make great steak at home",
-      "top": [
-        7,
-        1,
-        3,
-        6,
-        8
-      ]
+      "top": [7, 1, 3, 6, 8]
     },
     {
       "text": "What is the science behind sourdough",
-      "top": [
-        0,
-        8,
-        3,
-        30,
-        1
-      ]
+      "top": [0, 8, 3, 30, 1]
     },
     {
       "text": "Best oils for high heat cooking",
-      "top": [
-        2,
-        8,
-        1,
-        9,
-        27
-      ]
+      "top": [2, 8, 1, 9, 27]
     },
     {
       "text": "Best language for machine learning",
-      "top": [
-        10,
-        39,
-        18,
-        15,
-        13
-      ]
+      "top": [10, 39, 18, 15, 13]
     },
     {
       "text": "Memory-safe systems language",
-      "top": [
-        12,
-        13,
-        19,
-        16,
-        10
-      ]
+      "top": [12, 13, 19, 16, 10]
     },
     {
       "text": "Why use TypeScript over JavaScript",
-      "top": [
-        14,
-        11,
-        15,
-        13,
-        16
-      ]
+      "top": [14, 11, 15, 13, 16]
     },
     {
       "text": "How does version control help teams",
-      "top": [
-        16,
-        19,
-        45,
-        17,
-        42
-      ]
+      "top": [16, 19, 45, 17, 42]
     },
     {
       "text": "Where can I see the Northern Lights",
-      "top": [
-        21,
-        29,
-        31,
-        18,
-        25
-      ]
+      "top": [21, 29, 31, 18, 25]
     },
     {
       "text": "Famous places to visit in Japan",
-      "top": [
-        20,
-        24,
-        29,
-        28,
-        26
-      ]
+      "top": [20, 24, 29, 28, 26]
     },
     {
       "text": "Mountains and ruins in South America",
-      "top": [
-        26,
-        25,
-        34,
-        23,
-        27
-      ]
+      "top": [26, 25, 34, 23, 27]
     },
     {
       "text": "Volcanic islands with rice paddies",
-      "top": [
-        28,
-        25,
-        22,
-        3,
-        29
-      ]
+      "top": [28, 25, 22, 3, 29]
     },
     {
       "text": "How do plants make food from sunlight",
-      "top": [
-        30,
-        3,
-        38,
-        1,
-        0
-      ]
+      "top": [30, 3, 38, 1, 0]
     },
     {
       "text": "What are black holes made of",
-      "top": [
-        31,
-        46,
-        30,
-        3,
-        12
-      ]
+      "top": [31, 46, 30, 3, 12]
     },
     {
       "text": "How do vaccines work",
-      "top": [
-        37,
-        36,
-        32,
-        45,
-        1
-      ]
+      "top": [37, 36, 32, 45, 1]
     },
     {
       "text": "What is CRISPR used for",
-      "top": [
-        32,
-        1,
-        8,
-        9,
-        3
-      ]
+      "top": [32, 1, 8, 9, 3]
     },
     {
       "text": "How long is a marathon",
-      "top": [
-        40,
-        48,
-        5,
-        41,
-        7
-      ]
+      "top": [40, 48, 5, 41, 7]
     },
     {
       "text": "How does drafting help cyclists",
-      "top": [
-        42,
-        43,
-        49,
-        45,
-        39
-      ]
+      "top": [42, 43, 49, 45, 39]
     },
     {
       "text": "How is offside decided in soccer",
-      "top": [
-        44,
-        41,
-        45,
-        16,
-        48
-      ]
+      "top": [44, 41, 45, 16, 48]
     },
     {
       "text": "Why do climbers grade routes",
-      "top": [
-        43,
-        42,
-        34,
-        40,
-        23
-      ]
+      "top": [43, 42, 34, 40, 23]
     },
     {
       "text": "Best way to wax skis",
-      "top": [
-        47,
-        46,
-        21,
-        49,
-        0
-      ]
+      "top": [47, 46, 21, 49, 0]
     }
   ]
 }
