@@ -81,7 +81,7 @@
       step="1"
       bind:value={dim}
       class="w-16 rounded border border-brand-300 bg-transparent px-2 py-1"
-      aria-label="d"
+      aria-label="Dimension (numeric)"
     />
   </div>
 

@@ -154,7 +154,7 @@
           step="0.1"
           bind:value={k}
           class="w-20 rounded border border-brand-300 bg-transparent px-2 py-1"
-          aria-label="k"
+          aria-label="k value (scale factor)"
         />
       </div>
     {/if}
