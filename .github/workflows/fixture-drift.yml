@@ -1,0 +1,45 @@
+name: fixture-drift
+
+# Security note: this workflow operates only on repository-controlled content
+# (the committed embeddings JSON files and the rebuilt output of
+# `pnpm build:fixtures`). It does not consume any user-supplied event payload
+# fields (issue/PR titles or bodies, commit messages, refs, etc.) inside any
+# `run:` step. No injection surface.
+
+on:
+  schedule:
+    - cron: '0 14 * * 1' # Monday 14:00 UTC, weekly
+  workflow_dispatch:
+
+jobs:
+  rebuild-and-diff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Rebuild fixtures
+        run: pnpm build:fixtures
+
+      - name: Strip volatile builtAt and diff
+        run: |
+          for f in src/lib/embeddings/words.json src/lib/embeddings/sentences.json; do
+            git diff --no-color -- "$f" \
+              | grep -v '"builtAt"' \
+              | tee "drift-$(basename "$f").patch"
+          done
+          if find . -maxdepth 1 -name 'drift-*.patch' -size +0 | grep .; then
+            echo "::error::Fixture drift detected — commit the regenerated JSON or investigate the cause."
+            exit 1
+          fi
+          echo "No drift outside builtAt."
