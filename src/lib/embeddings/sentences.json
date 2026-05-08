@@ -1,0 +1,363 @@
+{
+  "meta": {
+    "model": "Xenova/all-MiniLM-L6-v2",
+    "dim": 384,
+    "sentenceCount": 50,
+    "queryCount": 20,
+    "builtAt": "2026-05-08T09:40:55.376Z"
+  },
+  "sentences": [
+    {
+      "text": "Sourdough bread relies on wild yeast captured from the air."
+    },
+    {
+      "text": "Searing meat develops flavor through the Maillard reaction."
+    },
+    {
+      "text": "Olive oil smokes at a lower temperature than peanut oil."
+    },
+    {
+      "text": "Sushi rice is seasoned with vinegar, sugar, and salt."
+    },
+    {
+      "text": "Pasta water should taste like the sea before the noodles go in."
+    },
+    {
+      "text": "Caramelizing onions takes at least 30 minutes of patience."
+    },
+    {
+      "text": "A dull knife is more dangerous than a sharp one in the kitchen."
+    },
+    {
+      "text": "Resting steak for five minutes lets the juices redistribute."
+    },
+    {
+      "text": "Baking is precise chemistry; cooking is forgiving improvisation."
+    },
+    {
+      "text": "Stocks should never boil — a gentle simmer keeps them clear."
+    },
+    {
+      "text": "Python is a popular language for data science and machine learning."
+    },
+    {
+      "text": "JavaScript runs in every modern web browser without a plugin."
+    },
+    {
+      "text": "Rust offers memory safety without a garbage collector."
+    },
+    {
+      "text": "Go was designed for fast compilation and concurrency primitives."
+    },
+    {
+      "text": "TypeScript adds optional static typing on top of JavaScript."
+    },
+    {
+      "text": "Functional programming favors pure functions and immutable data."
+    },
+    {
+      "text": "Version control lets teams collaborate without overwriting each other."
+    },
+    {
+      "text": "Unit tests catch regressions before they reach production."
+    },
+    {
+      "text": "A good API has small surface area and predictable behavior."
+    },
+    {
+      "text": "Caching is the source of half the bugs in distributed systems."
+    },
+    {
+      "text": "Kyoto is famous for its temples and traditional tea houses."
+    },
+    {
+      "text": "The Northern Lights appear best on cold, clear nights near the poles."
+    },
+    {
+      "text": "Iceland sits on the boundary of two tectonic plates."
+    },
+    {
+      "text": "Lisbon is built across seven hills overlooking the Atlantic."
+    },
+    {
+      "text": "Tokyo runs one of the largest subway systems in the world."
+    },
+    {
+      "text": "Patagonia stretches across both Argentina and Chile."
+    },
+    {
+      "text": "The Inca Trail leads to the cloud-shrouded ruins of Machu Picchu."
+    },
+    {
+      "text": "Marrakech is known for its souks and the High Atlas mountains beyond."
+    },
+    {
+      "text": "Bali combines volcanic landscapes with terraced rice paddies."
+    },
+    {
+      "text": "New Zealand is home to dramatic fjords and ancient kauri forests."
+    },
+    {
+      "text": "Photosynthesis converts sunlight into chemical energy stored in sugars."
+    },
+    {
+      "text": "Black holes warp spacetime so much that not even light escapes."
+    },
+    {
+      "text": "CRISPR enables precise edits to specific sequences of DNA."
+    },
+    {
+      "text": "The speed of light in a vacuum is a universal constant."
+    },
+    {
+      "text": "Plate tectonics explains how continents drift over geologic time."
+    },
+    {
+      "text": "Quantum particles behave as both waves and discrete bundles."
+    },
+    {
+      "text": "Antibiotics target bacterial cells but leave viruses unaffected."
+    },
+    {
+      "text": "Vaccines train the immune system without causing the underlying disease."
+    },
+    {
+      "text": "The carbon cycle moves carbon through air, ocean, soil, and life."
+    },
+    {
+      "text": "Neural networks learn by adjusting weights to minimize a loss function."
+    },
+    {
+      "text": "A marathon is just over 42 kilometers from start to finish."
+    },
+    {
+      "text": "Tennis matches are scored in games and sets, not points alone."
+    },
+    {
+      "text": "Cycling drafting saves a rider roughly 30 percent of their effort."
+    },
+    {
+      "text": "Climbing routes are graded by difficulty using regional scales."
+    },
+    {
+      "text": "Soccer offside is judged at the moment the ball is played."
+    },
+    {
+      "text": "Basketball shot clocks force quick decisions on offense."
+    },
+    {
+      "text": "Surfing waves break differently over reef versus sand bottoms."
+    },
+    {
+      "text": "Skiing wax is matched to the day's snow temperature."
+    },
+    {
+      "text": "Cricket innings can last hours or days depending on the format."
+    },
+    {
+      "text": "Olympic weightlifting features the snatch and the clean and jerk."
+    }
+  ],
+  "queries": [
+    {
+      "text": "How do I make great steak at home",
+      "top": [
+        7,
+        1,
+        3,
+        6,
+        8
+      ]
+    },
+    {
+      "text": "What is the science behind sourdough",
+      "top": [
+        0,
+        8,
+        3,
+        30,
+        1
+      ]
+    },
+    {
+      "text": "Best oils for high heat cooking",
+      "top": [
+        2,
+        8,
+        1,
+        9,
+        27
+      ]
+    },
+    {
+      "text": "Best language for machine learning",
+      "top": [
+        10,
+        39,
+        18,
+        15,
+        13
+      ]
+    },
+    {
+      "text": "Memory-safe systems language",
+      "top": [
+        12,
+        13,
+        19,
+        16,
+        10
+      ]
+    },
+    {
+      "text": "Why use TypeScript over JavaScript",
+      "top": [
+        14,
+        11,
+        15,
+        13,
+        16
+      ]
+    },
+    {
+      "text": "How does version control help teams",
+      "top": [
+        16,
+        19,
+        45,
+        17,
+        42
+      ]
+    },
+    {
+      "text": "Where can I see the Northern Lights",
+      "top": [
+        21,
+        29,
+        31,
+        18,
+        25
+      ]
+    },
+    {
+      "text": "Famous places to visit in Japan",
+      "top": [
+        20,
+        24,
+        29,
+        28,
+        26
+      ]
+    },
+    {
+      "text": "Mountains and ruins in South America",
+      "top": [
+        26,
+        25,
+        34,
+        23,
+        27
+      ]
+    },
+    {
+      "text": "Volcanic islands with rice paddies",
+      "top": [
+        28,
+        25,
+        22,
+        3,
+        29
+      ]
+    },
+    {
+      "text": "How do plants make food from sunlight",
+      "top": [
+        30,
+        3,
+        38,
+        1,
+        0
+      ]
+    },
+    {
+      "text": "What are black holes made of",
+      "top": [
+        31,
+        46,
+        30,
+        3,
+        12
+      ]
+    },
+    {
+      "text": "How do vaccines work",
+      "top": [
+        37,
+        36,
+        32,
+        45,
+        1
+      ]
+    },
+    {
+      "text": "What is CRISPR used for",
+      "top": [
+        32,
+        1,
+        8,
+        9,
+        3
+      ]
+    },
+    {
+      "text": "How long is a marathon",
+      "top": [
+        40,
+        48,
+        5,
+        41,
+        7
+      ]
+    },
+    {
+      "text": "How does drafting help cyclists",
+      "top": [
+        42,
+        43,
+        49,
+        45,
+        39
+      ]
+    },
+    {
+      "text": "How is offside decided in soccer",
+      "top": [
+        44,
+        41,
+        45,
+        16,
+        48
+      ]
+    },
+    {
+      "text": "Why do climbers grade routes",
+      "top": [
+        43,
+        42,
+        34,
+        40,
+        23
+      ]
+    },
+    {
+      "text": "Best way to wax skis",
+      "top": [
+        47,
+        46,
+        21,
+        49,
+        0
+      ]
+    }
+  ]
+}
