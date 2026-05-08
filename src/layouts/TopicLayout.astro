@@ -26,6 +26,33 @@ const { title, summary, locale, slug, group, order } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={summary} />
+
+    {/* Canonical URL */}
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site).toString()} />
+
+    {/* Open Graph */}
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={summary} />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site).toString()} />
+    <meta
+      property="og:image"
+      content={new URL(`/og/${locale}/${slug}.png`, Astro.site).toString()}
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={locale === 'th' ? 'th_TH' : 'en_US'} />
+    <meta property="og:site_name" content="Learn Vector DB" />
+
+    {/* Twitter */}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={summary} />
+    <meta
+      name="twitter:image"
+      content={new URL(`/og/${locale}/${slug}.png`, Astro.site).toString()}
+    />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script is:inline>
       // Apply theme before paint to avoid flash
