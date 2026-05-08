@@ -1,0 +1,34 @@
+{
+  "ci": {
+    "collect": {
+      "staticDistDir": "./dist",
+      "url": [
+        "http://localhost/",
+        "http://localhost/vector",
+        "http://localhost/embeddings",
+        "http://localhost/ann",
+        "http://localhost/semantic-search",
+        "http://localhost/rag",
+        "http://localhost/recommendations"
+      ],
+      "numberOfRuns": 3
+    },
+    "assert": {
+      "preset": "lighthouse:recommended",
+      "assertions": {
+        "categories:performance": ["error", { "minScore": 0.9 }],
+        "categories:accessibility": ["error", { "minScore": 0.95 }],
+        "categories:best-practices": ["warn", { "minScore": 0.9 }],
+        "categories:seo": ["warn", { "minScore": 0.9 }],
+        "largest-contentful-paint": ["error", { "maxNumericValue": 1500 }],
+        "cumulative-layout-shift": ["error", { "maxNumericValue": 0.05 }],
+        "uses-text-compression": "off",
+        "color-contrast": "off",
+        "is-crawlable": "off"
+      }
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    }
+  }
+}

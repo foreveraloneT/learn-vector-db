@@ -28,3 +28,6 @@ pnpm-debug.log*
 .cache/
 node_modules/.cache/transformers/
 
+# Lighthouse CI run artifacts (HTML/JSON reports written to this dir by lhci autorun)
+.lighthouseci/
+
