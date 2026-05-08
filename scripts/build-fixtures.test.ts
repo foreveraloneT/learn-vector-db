@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { assembleWordsFixture } from './build-fixtures';
+import { assembleWordsFixture, assembleSentencesFixture } from './build-fixtures';
 import { EMBEDDING_WORDS } from './embedding-words';
+import { SENTENCES, QUERIES } from './semantic-search-corpus';
 
 /**
  * Fake embedder: assigns each word a deterministic 4-dim vector so the
@@ -82,6 +83,105 @@ describe('assembleWordsFixture', () => {
     const a = await assembleWordsFixture(EMBEDDING_WORDS, fakeEmbedder(), { seed: 42 });
     const b = await assembleWordsFixture(EMBEDDING_WORDS, fakeEmbedder(), { seed: 42 });
     // builtAt may differ — strip it for comparison.
+    expect({ ...a, meta: { ...a.meta, builtAt: '' } }).toEqual({
+      ...b,
+      meta: { ...b.meta, builtAt: '' },
+    });
+  });
+});
+
+/**
+ * Fake embedder for sentences/queries: maps each text to a 4-dim one-hot-ish
+ * vector based on its position-derived "topic" so that intra-topic items
+ * cluster together and queries match their topic's sentences.
+ *
+ *   sentences index → topic = floor(i / 10)        (5 topics, 10 each)
+ *   queries  index  → topic = floor(j / 4)         (5 topics, 4 each)
+ */
+function fakeSentenceEmbedder(): (text: string) => number[] {
+  const dims = 5;
+  // Build a lookup so the same string always returns the same vector.
+  const map = new Map<string, number[]>();
+  SENTENCES.forEach((s, i) => {
+    const topic = Math.floor(i / 10);
+    const v = new Array(dims).fill(0);
+    v[topic] = 1;
+    v[(topic + 1) % dims] = (i % 10) * 0.005;
+    map.set(s, v);
+  });
+  QUERIES.forEach((q, j) => {
+    const topic = Math.floor(j / 4);
+    const v = new Array(dims).fill(0);
+    v[topic] = 1;
+    v[(topic + 1) % dims] = 0.001; // tiny jitter so queries are not bit-identical to sentences
+    map.set(q, v);
+  });
+  return (text: string) => {
+    const v = map.get(text);
+    if (!v) throw new Error(`Unknown text: ${text}`);
+    return v;
+  };
+}
+
+describe('assembleSentencesFixture', () => {
+  it('produces one entry per sentence and per query, in order', async () => {
+    const fixture = await assembleSentencesFixture(SENTENCES, QUERIES, fakeSentenceEmbedder(), {
+      seed: 1,
+    });
+    expect(fixture.sentences).toHaveLength(SENTENCES.length);
+    expect(fixture.queries).toHaveLength(QUERIES.length);
+    fixture.sentences.forEach((s, i) => expect(s.text).toBe(SENTENCES[i]));
+    fixture.queries.forEach((q, j) => expect(q.text).toBe(QUERIES[j]));
+  });
+
+  it('records meta: model, dim, sentence count, query count', async () => {
+    const fixture = await assembleSentencesFixture(SENTENCES, QUERIES, fakeSentenceEmbedder(), {
+      seed: 1,
+      modelName: 'fake-test-embedder',
+    });
+    expect(fixture.meta.model).toBe('fake-test-embedder');
+    expect(fixture.meta.dim).toBe(5);
+    expect(fixture.meta.sentenceCount).toBe(SENTENCES.length);
+    expect(fixture.meta.queryCount).toBe(QUERIES.length);
+  });
+
+  it('attaches top-K sentence indices to each query', async () => {
+    const K = 5;
+    const fixture = await assembleSentencesFixture(SENTENCES, QUERIES, fakeSentenceEmbedder(), {
+      seed: 1,
+      k: K,
+    });
+    fixture.queries.forEach((q) => {
+      expect(q.top).toHaveLength(K);
+      for (const idx of q.top) {
+        expect(idx).toBeGreaterThanOrEqual(0);
+        expect(idx).toBeLessThan(SENTENCES.length);
+      }
+      expect(new Set(q.top).size).toBe(K); // unique
+    });
+  });
+
+  it('matches each query to sentences in its own topic with the fake embedder', async () => {
+    const K = 5;
+    const fixture = await assembleSentencesFixture(SENTENCES, QUERIES, fakeSentenceEmbedder(), {
+      seed: 1,
+      k: K,
+    });
+    fixture.queries.forEach((q, j) => {
+      const queryTopic = Math.floor(j / 4);
+      for (const idx of q.top) {
+        expect(Math.floor(idx / 10)).toBe(queryTopic);
+      }
+    });
+  });
+
+  it('is deterministic for a given seed (modulo builtAt)', async () => {
+    const a = await assembleSentencesFixture(SENTENCES, QUERIES, fakeSentenceEmbedder(), {
+      seed: 42,
+    });
+    const b = await assembleSentencesFixture(SENTENCES, QUERIES, fakeSentenceEmbedder(), {
+      seed: 42,
+    });
     expect({ ...a, meta: { ...a.meta, builtAt: '' } }).toEqual({
       ...b,
       meta: { ...b.meta, builtAt: '' },
