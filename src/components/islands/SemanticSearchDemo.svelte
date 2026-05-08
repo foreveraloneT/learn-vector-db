@@ -24,13 +24,12 @@
       bind:value={userInput}
       placeholder="e.g. best language for machine learning"
       class="w-full rounded border border-brand-300 bg-transparent px-3 py-2 text-sm"
-      aria-describedby="matched-query"
     />
   </label>
 
   <p class="mt-3 text-sm" aria-live="polite">
     <span class="text-brand-500">Matched query:</span>
-    <span class="font-mono" data-testid="matched-query" id="matched-query">
+    <span class="font-mono" data-testid="matched-query">
       {#if userInput.trim().length === 0}
         — start typing to search
       {:else if matchedQuery}
