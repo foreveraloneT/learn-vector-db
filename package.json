@@ -16,7 +16,8 @@
     "typecheck": "astro check && tsc --noEmit",
     "format": "prettier --write .",
     "lint": "eslint . --ext .ts,.js,.cjs,.svelte,.astro --max-warnings 0",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "prepare": "husky"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
@@ -47,7 +48,9 @@
     "eslint-plugin-astro": "^1.7.0",
     "eslint-plugin-svelte": "^2.46.1",
     "gray-matter": "^4.0.3",
+    "husky": "^9.1.7",
     "jsdom": "^29.1.1",
+    "lint-staged": "^15.5.2",
     "prettier": "^3.8.3",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-svelte": "^3.5.1",
