@@ -86,10 +86,7 @@
     {/if}
 
     {#each wordsFixture.words as entry, i}
-      <g
-        class:opacity-30={selected !== null && !isHighlighted(i)}
-        class="transition-opacity"
-      >
+      <g class:opacity-30={selected !== null && !isHighlighted(i)} class="transition-opacity">
         <circle
           cx={layout.x(entry.x)}
           cy={layout.y(entry.y)}
