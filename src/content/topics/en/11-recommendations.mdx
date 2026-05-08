@@ -1,0 +1,59 @@
+---
+title: Recommendations
+slug: recommendations
+group: real-world
+order: 11
+locale: en
+summary: Why Netflix's "you might like" panel and your music app's daily mix both come down to the same cosine-similarity step.
+hasInteractive: true
+interactiveComponent: RecommendationsDemo
+hasMath: false
+---
+
+import RecommendationsDemo from '../../../components/islands/RecommendationsDemo.svelte';
+import TryYourself from '../../../components/mdx/TryYourself.astro';
+import Takeaways from '../../../components/mdx/Takeaways.astro';
+import Takeaway from '../../../components/mdx/Takeaway.astro';
+
+## Intuition
+
+The simplest recommender works like this: represent every user as a vector ("taste profile"), represent every item the same way ("what kind of thing this is"), and recommend whichever items have vectors most similar to the user's. That's it. Cosine similarity, applied to two sides of the same space.
+
+In practice the vectors come from a model trained on user behavior — clicks, watches, skips, dwell time. The model learns to embed users and items into a shared space such that "users tend to like items their vectors point toward."
+
+## Try it
+
+<RecommendationsDemo client:visible />
+
+We made up 20 users and 30 items. Each has a 4-dimensional taste profile over named axes — `adventurous`, `traditional`, `technical`, `artistic`. Pick a user, look at their bars, and check which items rise to the top. The numbers next to the items are cosine similarity scores; closer to 1.0 means closer to perfectly aligned with the user's taste.
+
+The taste vectors here are deliberately fake. In a production system, those four numbers would be hundreds — too many for humans to interpret directly, but interpretable enough for the model.
+
+## In the real world
+
+The recommendation engines you experience daily layer cleverness on top of this:
+
+- **Cold start.** New users have no behavior history, so their taste vector is close to the population average — not great. Systems handle this with onboarding questionnaires, content-based fallback recommendations, or "popular in your country" lists.
+- **Diversity.** Pure top-K cosine pushes similar items to the top; users get bored. Real systems mix in some exploration to surface things the user wouldn't have asked for.
+- **Negative feedback.** Items the user explicitly disliked feed back into their taste vector with negative weight. The model learns from "no" as well as "yes."
+- **Time decay.** Yesterday's binge matters more than last year's, so older signals are weighted down.
+
+But peel the onion and at the centre of every modern recommender, you'll find a vector store and a top-K cosine query.
+
+<TryYourself>
+  Pick the user whose `technical` bar is the longest. Are the recommended items the ones with the
+  longest `technical` bar of their own? Now pick a user whose taste is balanced across all four
+  axes. Is the top-K still a clean cluster, or is it more varied?
+</TryYourself>
+
+<Takeaways>
+  <Takeaway>Recommenders embed users and items in a shared space and rank by similarity.</Takeaway>
+  <Takeaway>
+    The taste vectors are learned from behavior, not hand-authored — the model figures out what the
+    axes "mean."
+  </Takeaway>
+  <Takeaway>
+    Production systems wrap the cosine step with cold-start, diversity, negative feedback, and time
+    decay — but the core math is what you just played with.
+  </Takeaway>
+</Takeaways>
