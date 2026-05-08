@@ -183,12 +183,16 @@ async function main(): Promise<void> {
   console.log(`[build-fixtures] Loading model ${modelName} (first run downloads ~25 MB) ...`);
   const embed = await buildXenovaEmbedder(modelName);
 
+  // Both fixtures land in the same directory; ensure it exists once up front
+  // so a path change to either output won't silently break the other write.
+  const fixturesDir = dirname(OUTPUT_PATH);
+  await mkdir(fixturesDir, { recursive: true });
+
   console.log(`[build-fixtures] Embedding ${EMBEDDING_WORDS.length} words ...`);
   const wordsFixture = await assembleWordsFixture(EMBEDDING_WORDS, embed, {
     seed: 1,
     modelName,
   });
-  await mkdir(dirname(OUTPUT_PATH), { recursive: true });
   await writeFile(OUTPUT_PATH, JSON.stringify(wordsFixture, null, 2) + '\n', 'utf-8');
   console.log(
     `[build-fixtures] Wrote ${OUTPUT_PATH} (${wordsFixture.words.length} words, ${wordsFixture.meta.dim}-dim)`,

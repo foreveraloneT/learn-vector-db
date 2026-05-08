@@ -91,12 +91,15 @@ describe('assembleWordsFixture', () => {
 });
 
 /**
- * Fake embedder for sentences/queries: maps each text to a 4-dim one-hot-ish
- * vector based on its position-derived "topic" so that intra-topic items
- * cluster together and queries match their topic's sentences.
+ * Fake embedder for sentences/queries: maps each text to a 5-dim one-hot-ish
+ * vector based on a synthetic topic assignment so intra-topic items cluster
+ * together and queries match their assigned topic's sentences.
  *
- *   sentences index → topic = floor(i / 10)        (5 topics, 10 each)
- *   queries  index  → topic = floor(j / 4)         (5 topics, 4 each)
+ *   sentences[i] → topic = floor(i / 10)         (matches the real 10-per-topic shape)
+ *   queries[j]   → topic = floor(j / 4)          (synthetic — does NOT match the real
+ *                                                 3/4/4/4/5 distribution; we only need
+ *                                                 the embedder + assertion to use the
+ *                                                 same mapping for the contract test)
  */
 function fakeSentenceEmbedder(): (text: string) => number[] {
   const dims = 5;
