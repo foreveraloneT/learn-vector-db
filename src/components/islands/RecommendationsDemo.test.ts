@@ -31,7 +31,7 @@ describe('RecommendationsDemo', () => {
     // Each list item should mention an Item NN and contain a score.
     for (const li of list.querySelectorAll('li')) {
       expect(li.textContent).toMatch(/Item \d{2}/);
-      expect(li.textContent).toMatch(/0\.\d{2}/);
+      expect(li.textContent).toMatch(/[01]\.\d{2}/);
     }
   });
 
@@ -50,7 +50,7 @@ describe('RecommendationsDemo', () => {
     const list = screen.getByTestId('rec-list');
     const scores: number[] = [];
     for (const li of list.querySelectorAll('li')) {
-      const m = li.textContent?.match(/0\.\d{2}/);
+      const m = li.textContent?.match(/[01]\.\d{2}/);
       if (m) scores.push(Number(m[0]));
     }
     for (let i = 1; i < scores.length; i++) {

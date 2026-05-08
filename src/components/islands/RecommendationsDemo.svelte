@@ -58,9 +58,7 @@
       {#each ranked as r}
         <li>
           <span class="font-mono">{r.item.name}</span>
-          <span class="ml-2 font-mono text-xs text-brand-500"
-            >{(Math.floor(r.score * 100) / 100).toFixed(2)}</span
-          >
+          <span class="ml-2 font-mono text-xs text-brand-500">{r.score.toFixed(2)}</span>
         </li>
       {/each}
     </ol>
