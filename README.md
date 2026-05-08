@@ -46,27 +46,28 @@ pnpm dev          # http://localhost:4321
 
 ## Rebuilding embedding fixtures
 
-The `EmbeddingMap` demo on the "Embeddings" topic page is driven by a committed JSON file at `src/lib/embeddings/words.json`. That file is produced offline by:
+The two committed fixture files at `src/lib/embeddings/words.json` and `src/lib/embeddings/sentences.json` drive the `EmbeddingMap`, `SemanticSearchDemo`, and `RagFlow` islands. Both are produced offline by:
 
 ```bash
 pnpm build:fixtures
 ```
 
-Run it only when one of the following changes:
+A single invocation loads the embedding model once and writes both fixtures. Run it when one of the following changes:
 
 - The curated word list in `scripts/embedding-words.ts`
+- The sentence corpus or canned queries in `scripts/semantic-search-corpus.ts`
 - The embedding model name in `scripts/build-fixtures.ts` (defaults to `Xenova/all-MiniLM-L6-v2`)
-- The number of pre-computed neighbors per word (`DEFAULT_K`)
+- The number of pre-computed neighbors / per-query top-K (`DEFAULT_K`, `DEFAULT_QUERY_K`)
 
 The first run downloads the model (~25 MB) into a local cache. Subsequent runs are fast. The pipeline is **not** wired into `pnpm build` — `astro build` always reads the committed JSON and never reaches the network.
 
-After regenerating, eyeball `meta` and the first few entries:
+After regenerating, eyeball both files:
 
 ```bash
-node -e "const f = require('./src/lib/embeddings/words.json'); console.log(f.meta); console.log(f.words.slice(0, 2));"
+node -e "const w = require('./src/lib/embeddings/words.json'); const s = require('./src/lib/embeddings/sentences.json'); console.log('words:', w.meta); console.log('sentences:', s.meta);"
 ```
 
-Commit `words.json` along with whatever change triggered the rebuild.
+Commit both `words.json` and `sentences.json` together with whatever change triggered the rebuild.
 
 ## Deployment
 
