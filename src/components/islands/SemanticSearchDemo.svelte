@@ -50,10 +50,4 @@
       <li>{r.text}</li>
     {/each}
   </ol>
-
-  {#if results.length === 0 && userInput.trim().length > 0 && !matchedQuery}
-    <p class="mt-2 text-xs text-brand-500">
-      Path A is offline-only — try one of the canned queries listed above each result block.
-    </p>
-  {/if}
 </div>
