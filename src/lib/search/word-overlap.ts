@@ -1,8 +1,45 @@
 const STOPWORDS = new Set([
-  'a', 'an', 'and', 'are', 'as', 'at', 'be', 'but', 'by', 'do', 'does',
-  'from', 'has', 'have', 'how', 'i', 'in', 'is', 'it', 'its', 'me',
-  'my', 'of', 'on', 'or', 'so', 'that', 'the', 'this', 'to', 'was', 'we',
-  'what', 'when', 'where', 'who', 'why', 'will', 'with', 'you', 'your',
+  'a',
+  'an',
+  'and',
+  'are',
+  'as',
+  'at',
+  'be',
+  'but',
+  'by',
+  'do',
+  'does',
+  'from',
+  'has',
+  'have',
+  'how',
+  'i',
+  'in',
+  'is',
+  'it',
+  'its',
+  'me',
+  'my',
+  'of',
+  'on',
+  'or',
+  'so',
+  'that',
+  'the',
+  'this',
+  'to',
+  'was',
+  'we',
+  'what',
+  'when',
+  'where',
+  'who',
+  'why',
+  'will',
+  'with',
+  'you',
+  'your',
 ]);
 
 /**
@@ -11,7 +48,10 @@ const STOPWORDS = new Set([
  * about tokenization stay readable.
  */
 export function tokenize(text: string): string[] {
-  const cleaned = text.toLowerCase().replace(/'\w+/g, '').replace(/[^\p{L}\p{N}\s]/gu, ' ');
+  const cleaned = text
+    .toLowerCase()
+    .replace(/'\w+/g, '')
+    .replace(/[^\p{L}\p{N}\s]/gu, ' ');
   const out: string[] = [];
   const seen = new Set<string>();
   for (const tok of cleaned.split(/\s+/)) {
