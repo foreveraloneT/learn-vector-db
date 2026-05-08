@@ -1,0 +1,55 @@
+---
+title: Semantic search
+slug: semantic-search
+group: real-world
+order: 9
+locale: en
+summary: When "find similar" beats "find with these exact words" — the search behind every modern docs site, FAQ, and product catalogue.
+hasInteractive: true
+interactiveComponent: SemanticSearchDemo
+hasMath: false
+---
+
+import SemanticSearchDemo from '../../../components/islands/SemanticSearchDemo.svelte';
+import TryYourself from '../../../components/mdx/TryYourself.astro';
+import Takeaways from '../../../components/mdx/Takeaways.astro';
+import Takeaway from '../../../components/mdx/Takeaway.astro';
+
+## Intuition
+
+Classic keyword search asks "which documents contain these words?" That works when you remember the exact phrasing. It falls apart when you don't: searching for "best language for AI" misses a perfectly relevant document that says "Python is widely used for machine learning" — different words, same idea.
+
+**Semantic search** asks "which documents _mean_ the closest thing to what I asked?" It works on the embedding from the previous topic: turn the query into a vector, turn each document into a vector, return the documents whose vectors are nearest to the query vector. Synonyms, paraphrases, and related-but-different wordings all just work, because the model already knows they live near each other in the embedding space.
+
+## Try it
+
+<SemanticSearchDemo client:visible />
+
+Type a question. We match your text to the closest of ~20 canned queries (this demo runs fully offline, so we can't embed your text live), then show the top-5 sentences from a 50-sentence corpus that the canned query was paired with. Try the same idea with different words: "best language for ML" and "language for machine learning" should land on the same canned query and the same results — that's the point.
+
+## In the real world
+
+Production semantic search runs every day on top of vector databases. Retrieval is rarely the only step:
+
+- **Hybrid search** combines semantic similarity with classic keyword matching to get the best of both — often via a learned re-ranker.
+- **Filters** ("documents updated in the last 30 days," "only this customer's content") apply on top of vector similarity, which is why the dedicated databases from Topic 7 are so useful.
+- **Re-ranking** with a heavier model can refine the top-50 returned by the vector index down to the top-5 a user actually sees.
+
+This pipeline is what powers most "ask a question" search bars on docs sites in 2026.
+
+<TryYourself>
+  Type "memory-safe systems language" and "rust safety". Did you land on the same canned query? Now
+  try "xyzzy plugh" — the demo should show "no match." Why?
+</TryYourself>
+
+<Takeaways>
+  <Takeaway>Semantic search retrieves by meaning, not keyword.</Takeaway>
+  <Takeaway>
+    The math is exactly what the previous topics taught: embed both sides, return the nearest by
+    cosine.
+  </Takeaway>
+  <Takeaway>
+    Production systems wrap retrieval with filters and re-rankers; raw nearest-neighbor is the core,
+    not the whole pipeline.
+  </Takeaway>
+</Takeaways>

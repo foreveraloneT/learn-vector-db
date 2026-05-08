@@ -1,0 +1,55 @@
+---
+title: ค้นหาเชิงความหมาย
+slug: semantic-search
+group: real-world
+order: 9
+locale: th
+summary: เมื่อ "หาสิ่งที่คล้ายกัน" ทำงานได้ดีกว่า "หาสิ่งที่มีคำเดียวกันเป๊ะ" — เทคนิคเบื้องหลังระบบค้นหาบนเว็บ docs, FAQ, และแคตตาล็อกสินค้ายุคใหม่
+hasInteractive: true
+interactiveComponent: SemanticSearchDemo
+hasMath: false
+---
+
+import SemanticSearchDemo from '../../../components/islands/SemanticSearchDemo.svelte';
+import TryYourself from '../../../components/mdx/TryYourself.astro';
+import Takeaways from '../../../components/mdx/Takeaways.astro';
+import Takeaway from '../../../components/mdx/Takeaway.astro';
+
+## ทำความเข้าใจ
+
+ระบบค้นหาแบบ keyword ถามว่า "เอกสารใดบ้างที่มีคำเหล่านี้" ใช้ได้ดีถ้าจำคำที่แม่นยำได้ แต่ถ้าจำไม่ได้ก็พัง: ค้น "ภาษาที่ดีที่สุดสำหรับ AI" จะพลาดเอกสารที่เขียนว่า "Python ถูกใช้กันแพร่หลายในงาน machine learning" — คนละคำ แต่หมายความเหมือนกัน
+
+**Semantic search** ถามว่า "เอกสารใดบ้างที่ _ความหมาย_ ใกล้เคียงกับสิ่งที่ฉันถามที่สุด" คำตอบมาจากการใช้ embedding ในหัวข้อที่แล้ว: แปลงคำค้นเป็นเวกเตอร์ แปลงเอกสารเป็นเวกเตอร์ แล้วคืนเอกสารที่เวกเตอร์อยู่ใกล้เวกเตอร์ของคำค้นที่สุด คำพ้องความหมาย, การเรียบเรียงใหม่, ทางเลือกการพูดที่ใกล้เคียง — ทุกอย่างทำงานเองโดยที่โมเดลรู้แล้วว่าคำเหล่านั้นอยู่ใกล้กันใน embedding space
+
+## ลองเล่นดู
+
+<SemanticSearchDemo client:visible />
+
+ลองพิมพ์คำถามดู เราจะจับคู่ข้อความของเรากับ canned query ที่ใกล้เคียงที่สุดจาก ~20 อัน (เดโม่นี้ทำงานออฟไลน์ทั้งหมด เราจึงไม่สามารถ embed ข้อความใหม่ๆ แบบ live ได้) แล้วแสดงประโยค 5 อันดับแรกจาก corpus 50 ประโยคที่ canned query นั้นถูกจับคู่ไว้ ลองพิมพ์ความหมายเดียวกันด้วยคำต่างกัน เช่น "best language for ML" กับ "language for machine learning" ควรจะตกที่ canned query เดียวกันและได้ผลเหมือนกัน — นั่นคือประเด็น
+
+## ในโลกจริง
+
+Production semantic search ทำงานบน vector database ทุกวัน Retrieval มักไม่ใช่ขั้นตอนเดียว:
+
+- **Hybrid search** ผสม semantic similarity กับการจับคู่ keyword แบบเดิมเพื่อให้ได้ผลลัพธ์ที่ดีที่สุดของทั้งสองแบบ — มักใช้ re-ranker ที่เรียนรู้
+- **Filters** ("เอกสารที่อัปเดตใน 30 วันล่าสุด", "เฉพาะเนื้อหาของลูกค้ารายนี้") ทำงานต่อจาก vector similarity ซึ่งเป็นเหตุผลที่ฐานข้อมูลเฉพาะทางจาก Topic 7 มีประโยชน์
+- **Re-ranking** ด้วยโมเดลที่หนักกว่า ใช้กรอง top-50 จาก vector index เหลือ top-5 ที่ผู้ใช้เห็นจริง
+
+ระบบนี้คือสิ่งที่ขับเคลื่อนช่อง "ถามคำถาม" บนเว็บ docs ส่วนใหญ่ในปี 2026
+
+<TryYourself>
+  พิมพ์ "memory-safe systems language" และ "rust safety" — ตกที่ canned query เดียวกันไหม? ลอง
+  "xyzzy plugh" ดู เดโม่จะขึ้นว่า "no match" ทำไม?
+</TryYourself>
+
+<Takeaways>
+  <Takeaway>Semantic search ค้นหาจากความหมาย ไม่ใช่จาก keyword</Takeaway>
+  <Takeaway>
+    คณิตศาสตร์เบื้องหลังคือสิ่งที่หัวข้อก่อนหน้าสอน: embed ทั้งสองฝั่ง คืนตัวที่ใกล้ที่สุดด้วย
+    cosine
+  </Takeaway>
+  <Takeaway>
+    ระบบจริงครอบ retrieval ด้วย filter และ re-ranker — nearest-neighbor เป็นแกนหลัก ไม่ใช่ทั้งหมดของ
+    pipeline
+  </Takeaway>
+</Takeaways>
