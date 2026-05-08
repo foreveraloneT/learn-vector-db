@@ -20,7 +20,9 @@ describe('HighDimIntuition', () => {
   it('mean cosine similarity stays near 0 at high dim', async () => {
     const user = userEvent.setup();
     render(HighDimIntuition);
-    const numInput = screen.getByRole('spinbutton', { name: /^d$/ }) as HTMLInputElement;
+    const numInput = screen.getByRole('spinbutton', {
+      name: /dimension.*numeric/i,
+    }) as HTMLInputElement;
     await user.clear(numInput);
     await user.type(numInput, '100');
     const meanText = screen.getByTestId('mean-cosine').textContent ?? '';
