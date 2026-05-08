@@ -5,6 +5,7 @@ import svelte from '@astrojs/svelte';
 import mdx from '@astrojs/mdx';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import sitemap from '@astrojs/sitemap';
 import { validateTopicsIntegration } from './src/integrations/validate-topics';
 
 export default defineConfig({
@@ -20,6 +21,12 @@ export default defineConfig({
     mdx({
       remarkPlugins: [remarkMath],
       rehypePlugins: [rehypeKatex],
+    }),
+    sitemap({
+      i18n: {
+        defaultLocale: 'th',
+        locales: { th: 'th-TH', en: 'en-US' },
+      },
     }),
     validateTopicsIntegration(),
   ],
