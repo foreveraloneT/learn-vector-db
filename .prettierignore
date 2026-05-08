@@ -9,3 +9,4 @@ docs/superpowers/specs/**
 # (2-space indent, multi-line arrays); Prettier would inline short arrays
 # and create noisy diffs on every rebuild.
 src/lib/embeddings/words.json
+src/lib/embeddings/sentences.json
