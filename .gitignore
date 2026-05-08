@@ -22,3 +22,9 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# @xenova/transformers downloads model files into ./.cache when running
+# scripts/build-fixtures.ts. The model is dev-only — never commit it.
+.cache/
+node_modules/.cache/transformers/
+
