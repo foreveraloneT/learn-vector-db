@@ -29,11 +29,11 @@ import Takeaway from '../../../components/mdx/Takeaway.astro';
 
 ## ในโลกจริง
 
-Production semantic search ทำงานบน vector database ทุกวัน Retrieval มักไม่ใช่ขั้นตอนเดียว:
+Production semantic search ทำงานบนฐานข้อมูลเวกเตอร์ทุกวัน Retrieval มักไม่ใช่ขั้นตอนเดียว:
 
 - **Hybrid search** ผสม semantic similarity กับการจับคู่ keyword แบบเดิมเพื่อให้ได้ผลลัพธ์ที่ดีที่สุดของทั้งสองแบบ — มักใช้ re-ranker ที่เรียนรู้
 - **Filters** ("เอกสารที่อัปเดตใน 30 วันล่าสุด", "เฉพาะเนื้อหาของลูกค้ารายนี้") ทำงานต่อจาก vector similarity ซึ่งเป็นเหตุผลที่ฐานข้อมูลเฉพาะทางจาก Topic 7 มีประโยชน์
-- **Re-ranking** ด้วยโมเดลที่หนักกว่า ใช้กรอง top-50 จาก vector index เหลือ top-5 ที่ผู้ใช้เห็นจริง
+- **Re-ranking** ด้วยโมเดลที่หนักกว่า ใช้กรอง top-50 จาก index ของฐานข้อมูลเวกเตอร์ เหลือ top-5 ที่ผู้ใช้เห็นจริง
 
 ระบบนี้คือสิ่งที่ขับเคลื่อนช่อง "ถามคำถาม" บนเว็บ docs ส่วนใหญ่ในปี 2026
 
