@@ -1,0 +1,46 @@
+---
+title: What is an embedding?
+slug: embeddings
+group: vector-db
+order: 6
+locale: en
+summary: Embeddings turn words, sentences, and images into vectors — and the geometry of that space carries meaning.
+hasInteractive: true
+interactiveComponent: EmbeddingMap
+hasMath: false
+---
+
+import EmbeddingMap from '../../../components/islands/EmbeddingMap.svelte';
+import TryYourself from '../../../components/mdx/TryYourself.astro';
+import Takeaways from '../../../components/mdx/Takeaways.astro';
+import Takeaway from '../../../components/mdx/Takeaway.astro';
+
+## Intuition
+
+So far we've treated vectors as abstract lists of numbers. An **embedding** is a vector with a job: it represents a piece of content — a word, a sentence, an image — in a way that geometry preserves meaning.
+
+The trick: the model that produces embeddings is trained so that "things that mean similar stuff" land close together. _Cat_ and _dog_ are near each other; _pizza_ and _laptop_ are far apart. You don't program this by hand. You train a model on a mountain of text (or images, or audio), and the geometry falls out.
+
+## Try it
+
+<EmbeddingMap client:visible />
+
+These 30 English words were embedded with a real model (`all-MiniLM-L6-v2`, 384 dimensions), then squashed down to 2D so we can draw them. Hover any word to see its actual top-5 nearest neighbors — note that those neighbors are computed in the **original 384-dim space**, not the 2D picture you're looking at. Sometimes the closest neighbors look far apart on the 2D chart; that's because flattening 384 dimensions into 2 throws information away.
+
+## In the real world
+
+Every modern semantic-search system, RAG pipeline, or recommendation engine starts here. You feed your content through an embedding model once, store the resulting vectors in a database, and then "search" reduces to "find the vectors closest to the query's vector." The math from earlier topics — distance, similarity, the dot product — is exactly what runs at query time.
+
+<TryYourself>
+  Hover `cat`. Are its top-5 neighbors all animals? Now hover `code`. Are its neighbors what you'd
+  expect? When the model surprises you, that's a hint about which texts it was trained on.
+</TryYourself>
+
+<Takeaways>
+  <Takeaway>An embedding is a vector that represents a piece of content.</Takeaway>
+  <Takeaway>
+    A good embedding model puts similar content near each other in the vector space — without anyone
+    hand-labeling "similar."
+  </Takeaway>
+  <Takeaway>2D visualizations are illustrative; the real geometry lives in hundreds of dimensions.</Takeaway>
+</Takeaways>
