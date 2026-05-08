@@ -9,8 +9,8 @@ import sitemap from '@astrojs/sitemap';
 import { validateTopicsIntegration } from './src/integrations/validate-topics';
 
 export default defineConfig({
-  site: 'https://example.github.io',
-  base: '/',
+  site: 'https://foreveralonet.github.io',
+  base: '/learn-vector-db/',
   i18n: {
     defaultLocale: 'th',
     locales: ['th', 'en'],

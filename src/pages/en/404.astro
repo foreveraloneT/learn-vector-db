@@ -1,5 +1,6 @@
 ---
 import '../../styles/global.css';
+import { buildTopicPath } from '../../lib/i18n';
 ---
 
 <!doctype html>
@@ -14,8 +15,9 @@ import '../../styles/global.css';
     <div class="text-center">
       <p class="text-sm text-brand-500">404</p>
       <h1 class="mt-2 text-2xl font-semibold">Page not found</h1>
-      <a href="/en/" class="mt-4 inline-block text-brand-700 underline dark:text-brand-300"
-        >Back home</a
+      <a
+        href={buildTopicPath('en', '')}
+        class="mt-4 inline-block text-brand-700 underline dark:text-brand-300">Back home</a
       >
     </div>
   </body>

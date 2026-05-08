@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { buildTopicPath } from '../lib/i18n';
 ---
 
 <!doctype html>
@@ -14,8 +15,9 @@ import '../styles/global.css';
     <div class="text-center">
       <p class="text-sm text-brand-500">404</p>
       <h1 class="mt-2 text-2xl font-semibold">ไม่พบหน้าที่ต้องการ</h1>
-      <a href="/" class="mt-4 inline-block text-brand-700 underline dark:text-brand-300"
-        >กลับหน้าแรก</a
+      <a
+        href={buildTopicPath('th', '')}
+        class="mt-4 inline-block text-brand-700 underline dark:text-brand-300">กลับหน้าแรก</a
       >
     </div>
   </body>

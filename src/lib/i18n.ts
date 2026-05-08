@@ -11,9 +11,14 @@ export function getOtherLocale(locale: Locale): Locale {
 }
 
 export function buildTopicPath(locale: Locale, slug: string): string {
+  // import.meta.env.BASE_URL ends with '/' in both Astro builds and Vitest.
+  // Strip the trailing slash so we can cleanly compose: '/learn-vector-db/'
+  // becomes '/learn-vector-db'; '/' becomes '' so root-domain deploys (and
+  // Vitest's default) emit the same paths as before.
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   const prefix = locale === 'th' ? '' : '/en';
-  if (!slug) return prefix === '' ? '/' : `${prefix}/`;
-  return `${prefix}/${slug}`;
+  if (!slug) return `${base}${prefix}/`;
+  return `${base}${prefix}/${slug}`;
 }
 
 export function getOtherLocaleUrl(currentLocale: Locale, slug: string): string {
