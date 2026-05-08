@@ -1,0 +1,54 @@
+---
+title: What is a vector database?
+slug: vector-database
+group: vector-db
+order: 7
+locale: en
+summary: A database that stores embeddings and answers "what's nearest?" — fast, even with billions of vectors.
+hasInteractive: false
+hasMath: false
+---
+
+import TryYourself from '../../../components/mdx/TryYourself.astro';
+import Takeaways from '../../../components/mdx/Takeaways.astro';
+import Takeaway from '../../../components/mdx/Takeaway.astro';
+
+## Intuition
+
+A normal database is great at "find the row where `id = 42`" or "every order placed last week." Those questions have exact, structured answers. Vector questions are different: "find the 10 documents most similar to this paragraph." There's no `WHERE` clause for that — you have to compute distances.
+
+A **vector database** is a database whose primary index is built for similarity search over vectors. You put vectors (with whatever metadata you want — title, source URL, timestamp) in. You ask "give me the K most similar to this query vector." It returns those K, fast, even when the dataset has hundreds of millions of entries.
+
+## What's actually inside
+
+Three pieces matter:
+
+- **Storage.** Just a flat list of vectors plus their metadata. Conceptually, an array.
+- **An index.** A data structure built once over the vectors so future queries don't have to compare against every single vector. The next topic (ANN) is all about this.
+- **A query API.** "Here is a vector. Give me the K nearest, with their metadata. Optionally filter by metadata first."
+
+That's the whole product. Every commercial vector database — Pinecone, Weaviate, Qdrant, Milvus, pgvector — is variations on these three pieces.
+
+## In the real world
+
+You don't build a vector DB just to do similarity search on 30 words. The reason these systems exist is **scale**. A semantic-search engine over 100 million product descriptions can't compare a query against all 100 million on every keystroke. The index is what makes the answer feel instant.
+
+Two practical reasons most teams reach for a dedicated vector DB instead of bolting one onto Postgres:
+
+- **Throughput.** Specialized indexes (HNSW, IVF, ScaNN) handle the per-query hot path in microseconds.
+- **Filtering with vectors.** "Find similar products, but only in the Electronics category, in stock, costing under $100." Combining metadata filters with vector search is harder than it sounds; the dedicated systems have invested in it.
+
+<TryYourself>
+  Imagine you're shipping a product-recommendation feature with 5 million items and 100 requests per
+  second. Sketch what storage costs (each vector is 384 floats ≈ 1.5 KB) and what query latency
+  needs to be for the experience to feel instant.
+</TryYourself>
+
+<Takeaways>
+  <Takeaway>A vector database stores embeddings and answers "what's nearest?"</Takeaway>
+  <Takeaway>The index is what makes the system fast at scale — not the storage.</Takeaway>
+  <Takeaway>
+    Filtering by metadata while doing vector search is one of the hard parts these systems solve for
+    you.
+  </Takeaway>
+</Takeaways>
